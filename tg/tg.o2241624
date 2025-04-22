@@ -1,0 +1,64 @@
+
+
+
+Vocabulary Information:
+==================================================================
+{' ': 0, '^': 1, '$': 2, 'H': 3, 'B': 4, 'c': 5, 'C': 6, 'n': 7, 'N': 8, 'o': 9, 'O': 10, 'p': 11, 'P': 12, 's': 13, 'S': 14, 'F': 15, 'Q': 16, 'W': 17, 'I': 18, '[': 19, ']': 20, '+': 21, 'Z': 22, 'X': 23, '-': 24, '=': 25, '#': 26, '.': 27, '(': 28, ')': 29, '1': 30, '2': 31, '3': 32, '4': 33, '5': 34, '6': 35, '7': 36, '@': 37, '/': 38, '\\': 39}
+
+
+Parameter Information:
+==================================================================
+POSITIVE_FILE            :   dataset/combined_fuel.csv
+NEGATIVE_FILE            :   res/generated_smiles_combined_fuel.csv
+G_PRETRAINED_MODEL       :   res/save_models/combined_fuel/TenGAN_0.5/rollout_8//batch_64/synthesizability/g_pretrained.pkl
+D_PRETRAINED_MODEL       :   res/save_models/combined_fuel/TenGAN_0.5/rollout_8//batch_64/synthesizability/d_pretrained.pkl
+PROPERTY_FILE            :   res/save_models/combined_fuel/TenGAN_0.5/rollout_8//batch_64/synthesizability/trained_results.csv
+BATCH_SIZE               :   64
+MAX_LEN                  :   120
+VOCAB_SIZE               :   40
+DEVICE                   :   cpu
+GPUS                     :   0
+
+
+GEN_PRETRAIN             :   True
+GENERATED_NUM            :   5000
+GEN_TRAIN_SIZE           :   9600
+GEN_NUM_ENCODER_LAYERS   :   4
+GEN_DIM_FEEDFORWARD      :   1024
+GEN_D_MODEL              :   128
+GEN_NUM_HEADS            :   4
+GEN_MAX_LR               :   0.0008
+GEN_DROPOUT              :   0.1
+GEN_EPOCHS               :   150
+
+
+DIS_PRETRAIN             :   True
+DIS_WGAN                 :   False
+DIS_MINIBATCH            :   False
+DIS_NUM_ENCODER_LAYERS   :   4
+DIS_D_MODEL              :   100
+DIS_NUM_HEADS            :   5
+DIS_MAX_LR               :   8e-07
+DIS_EPOCHS               :   10
+DIS_FEED_FORWARD         :   200
+DIS_DROPOUT              :   0.25
+
+
+ADVERSARIAL_TRAIN        :   True
+PROPERTIES               :   synthesizability
+DIS_LAMBDA               :   0.5
+MODEL_NAME               :   TenGAN_0.5
+UPDATE_RATE              :   0.8
+ADV_LR                   :   8e-05
+G_STEP                   :   1
+D_STEP                   :   1
+ADV_EPOCHS               :   100
+ROLL_NUM                 :   8
+==================================================================
+
+
+
+Start time is 2025-04-22 14:39:38
+
+
+

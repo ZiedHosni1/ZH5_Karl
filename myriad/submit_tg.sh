@@ -1,26 +1,26 @@
 #!/bin/bash
-#$ -cwd
+#$ -wd /home/ucaqkin/Scratch/nsci0017
 #$ -N tg_$JOB_ID
 #$ -l h_rt=24:00:00
 #$ -l mem=8G
 #$ -pe smp 4
-#$ -o /home/ucaqkin/Scratch/nsci0017/tg_jobs/$JOB_ID/out.txt
-#$ -e /home/ucaqkin/Scratch/nsci0017/tg_jobs/$JOB_ID/err.txt
 
 # 0) Load modules & activate conda env
+module purge
 module load default-modules
+module remove compilers mpi
 module load python/miniconda3/24.3.0-0
 
 # initialise conda
 source $UCL_CONDA_PATH/etc/profile.d/conda.sh
-
-# activate the central env (created once, see instructions below)
 conda activate py36tf
 
 # 1. unique run directory on Scratch
-RUN=/home/ucaqkin/Scratch/nsci0017/tg_jobs/$JOB_ID
+RUN=/tg_jobs/$JOB_ID
 mkdir -p $RUN
-cp -r /home/ucaqkin/Scratch/nsci0017/code/tg $RUN/code
+exec >"$RUN/out.txt" 2>"$RUN/err.txt"
+
+cp -r /code/tg $RUN/code
 cd $RUN/code
 
 # 2. reproducibility metadata
@@ -41,7 +41,7 @@ python main.py \
     --adv_epochs 120 \
     --batch_size 64 \
     --max_len 120 \
-    --pos_file Scratch/nsci0017/data/combined_fuel.csv \
+    --pos_file $HOME/Scratch/nsci0017/data/combined_fuel.csv \
     --save_dir $RUN/results \
     --lightning_logs_dir $RUN/results/lightning_logs
 

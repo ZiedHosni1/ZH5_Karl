@@ -1,0 +1,6 @@
+/var/opt/sge/node-d00a-229/job_scripts/2241605: line 9: module: command not found
+/var/opt/sge/node-d00a-229/job_scripts/2241605: line 10: module: command not found
+/var/opt/sge/node-d00a-229/job_scripts/2241605: line 11: module: command not found
+/var/opt/sge/node-d00a-229/job_scripts/2241605: line 12: module: command not found
+/var/opt/sge/node-d00a-229/job_scripts/2241605: line 15: /etc/profile.d/conda.sh: No such file or directory
+/var/opt/sge/node-d00a-229/job_scripts/2241605: line 16: conda: command not found

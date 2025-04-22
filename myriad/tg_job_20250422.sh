@@ -3,9 +3,9 @@
 #$ -l h_rt=24:00:00
 #$ -l mem=4G
 #$ -l tmpfs=10G
-#$ -N tg_combined_20250421
+#$ -N tg
 #$ -pe smp 4
-#$ -wd /home/ucaqkin/Scratch/TenGAN
+#$ -wd /home/ucaqkin/Scratch/nsci0017/code/tg/
 
 # Load required modules.
 # module purge
@@ -22,7 +22,7 @@ conda activate py36tf
 
 # Full training incl. gen and dis pretrain, and followed by adv train
 python main.py \
-        --dataset_name combined_fuel \
+        --dataset_name comb_1 \
         --properties synthesizability \
         --max_len 120 \
         --batch_size 64 \
