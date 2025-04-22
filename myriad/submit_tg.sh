@@ -4,8 +4,8 @@
 #$ -l h_rt=24:00:00
 #$ -l mem=8G
 #$ -pe smp 4
-#$ -o $HOME/Scratch/nsci0017/tg_jobs/${JOB_ID}/out.txt
-#$ -e $HOME/Scratch/nsci0017/tg_jobs/${JOB_ID}/err.txt
+#$ -o /home/ucaqkin/Scratch/nsci0017/tg_jobs/$JOB_ID/out.txt
+#$ -e /home/ucaqkin/Scratch/nsci0017/tg_jobs/$JOB_ID/err.txt
 
 # 0) Load modules & activate conda env
 module load default-modules
@@ -18,9 +18,9 @@ source $UCL_CONDA_PATH/etc/profile.d/conda.sh
 conda activate py36tf
 
 # 1. unique run directory on Scratch
-RUN=$HOME/Scratch/nsci0017/tg_jobs/${JOB_ID}
+RUN=/home/ucaqkin/Scratch/nsci0017/tg_jobs/$JOB_ID
 mkdir -p $RUN
-cp -r Scratch/nsci0017/code/tg $RUN/code
+cp -r /home/ucaqkin/Scratch/nsci0017/code/tg $RUN/code
 cd $RUN/code
 
 # 2. reproducibility metadata
@@ -37,7 +37,7 @@ python main.py \
     --dataset_name comb_1 \
     --properties synthesizability \
     --gen_pretrain --dis_pretrain --adversarial_train \
-    --dis_lambda $DIS_LAMBDA \
+    --dis_lambda 0.5 \
     --adv_epochs 120 \
     --batch_size 64 \
     --max_len 120 \
