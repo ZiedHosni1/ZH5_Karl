@@ -33,6 +33,8 @@ parser.add_argument('--max_len', type=int, default=70,
                     help='the max length of SMILES data: 60 for QM9, 70 for ZINC')
 parser.add_argument('--batch_size', type=int, default=64,
                     help='the batch size for both generator and discriminator')
+parser.add_argument('--output_dir', type=str, required=True,
+                    help='unique directory to save all outputs for this specific run')
 
 # ===========================
 # Generator
@@ -100,10 +102,17 @@ args = parser.parse_known_args()[0]
 
 # ===========================
 # Other model paths
+PATHS = args.output_dir
+if not os.path.exists(PATHS):
+    os.makedirs(PATHS)  # Create the unique directory
+
 POSITIVE_FILE = 'dataset/' + args.dataset_name + \
     '.csv'  # Save the real / original SMILES data
-NEGATIVE_FILE = 'res/generated_smiles_' + args.dataset_name + \
-    '.csv'  # Save the generated SMILES data
+# NEGATIVE_FILE = 'res/generated_smiles_' + args.dataset_name + \
+#     '.csv'  # Save the generated SMILES data
+NEGATIVE_FILE = os.path.join(
+    PATHS, 'generated_smiles_' + args.dataset_name + '.csv')
+
 
 if args.dis_lambda == 0:
     MODEL_NAME = 'Naive'
@@ -135,9 +144,15 @@ if not os.path.exists(PATHS):
     os.makedirs(PATHS)
 
 # Save the pre-trained generator and discriminator
-G_PRETRAINED_MODEL = PATHS + '/g_pretrained.pkl'
-D_PRETRAINED_MODEL = PATHS + '/d_pretrained.pkl'
-PROPERTY_FILE = PATHS + '/trained_results.csv'
+# G_PRETRAINED_MODEL = PATHS + '/g_pretrained.pkl'
+# D_PRETRAINED_MODEL = PATHS + '/d_pretrained.pkl'
+# PROPERTY_FILE = PATHS + '/trained_results.csv'
+
+G_PRETRAINED_MODEL = os.path.join(PATHS, 'g_pretrained.pkl')
+D_PRETRAINED_MODEL = os.path.join(PATHS, 'd_pretrained.pkl')
+PROPERTY_FILE = os.path.join(PATHS, 'trained_results.csv')
+HYPERPARAMETER_FILE = os.path.join(
+    PATHS, 'hyperparameters.csv')  # Define explicitly for clarity
 
 # Save adversarial training information
 if args.adversarial_train:
@@ -158,13 +173,14 @@ tokenizer.build_vocab()
 print(tokenizer.char_to_int)
 
 # Save all hyperparameters
-with open(PATHS+'/hyperparameters.csv', 'a+') as hp:
+with open(HYPERPARAMETER_FILE, 'w') as hp:
     # Clean the hyperparameters file
     hp.truncate(0)
 
     params = {}
     print('\n\nParameter Information:')
     print('==================================================================')
+    params['OUTPUT_DIR'] = PATHS
     params['POSITIVE_FILE'] = POSITIVE_FILE
     params['NEGATIVE_FILE'] = NEGATIVE_FILE
     params['G_PRETRAINED_MODEL'] = G_PRETRAINED_MODEL
@@ -351,6 +367,9 @@ def main():
     gen_trainer = pytorch_lightning.Trainer(
         max_epochs=args.gen_epochs,
         gpus=GPUS,
+        default_root_dir=PATHS,
+        logger=pytorch_lightning.loggers.CSVLogger(
+            save_dir=PATHS, name="gen_logs"),
         weights_summary=None,
         progress_bar_refresh_rate=5,
         gradient_clip_val=5.0,
@@ -364,11 +383,11 @@ def main():
         print('Generator Pre-train Time:\033[1;35m {:.2f}\033[0m hours'.format(
             (time.time() - start_time) / 3600.))
         # Save the pre-trained generator model into file
-        torch.save(gen.state_dict(), G_PRETRAINED_MODEL)
+        torch.save(gen.state_dict(), G_PRETRAINED_MODEL_PATH)
     else:
         # Load the pre-trained generator
         print("\n\nLoad Pre-trained Generator.")
-        gen.load_state_dict(torch.load(G_PRETRAINED_MODEL))
+        gen.load_state_dict(torch.load(G_PRETRAINED_MODEL_PATH))
     gen.to(DEVICE)
     # Sample the generated data
     print('Generating {} samples...'.format(args.generated_num))
@@ -376,7 +395,7 @@ def main():
                          args.batch_size, args.max_len)
     generated_smiles = sampler.sample_multi(args.generated_num, NEGATIVE_FILE)
     validity, uniqueness, novelty, diversity = evaluation(
-        generated_smiles, gen_data_loader)
+        generated_smiles, gen_data_loader, output_dir=PATHS, properties=args.properties)
 
     # ===========================
     # Discriminator objects definition
@@ -398,6 +417,9 @@ def main():
     dis_trainer = pytorch_lightning.Trainer(
         max_epochs=args.dis_epochs,
         gpus=GPUS,
+        default_root_dir=PATHS,
+        logger=pytorch_lightning.loggers.CSVLogger(
+            save_dir=PATHS, name="dis_logs"),
         weights_summary=None,
         gradient_clip_val=1.0,
         gradient_clip_algorithm='value')
@@ -410,11 +432,11 @@ def main():
         print('Discriminator Pre-train Time:\033[1;35m {:.2f}\033[0m hours'.format(
             (time.time() - start_time) / 3600.))
         # Save the pre-trained discriminator model into file
-        torch.save(dis.state_dict(), D_PRETRAINED_MODEL)
+        torch.save(dis.state_dict(), D_PRETRAINED_MODEL_PATH)
     else:
         # Load the pre-trained discirminator
         print("\n\nLoad Pre-trained Discriminator.")
-        dis.load_state_dict(torch.load(D_PRETRAINED_MODEL))
+        dis.load_state_dict(torch.load(D_PRETRAINED_MODEL_PATH))
     dis.to(DEVICE)
 
     # ===========================
@@ -439,6 +461,9 @@ def main():
     adv_trainer = pytorch_lightning.Trainer(
         max_epochs=D_STEP,
         gpus=GPUS,
+        default_root_dir=PATHS,
+        logger=pytorch_lightning.loggers.CSVLogger(
+            save_dir=PATHS, name="adv_dis_logs"),
         weights_summary=None,
         progress_bar_refresh_rate=0)
     pg_optimizer = torch.optim.Adam(params=gen.parameters(), lr=args.adv_lr)
@@ -536,7 +561,8 @@ def main():
         print('Generated dataset does NOT exist!\n')
     else:
         print('Top-12 Molecules of [{}]:'.format(args.properties))
-        top_mols = top_mols_show(NEGATIVE_FILE, args.properties)
+        top_mols = top_mols_show(
+            NEGATIVE_FILE, args.properties, output_dir=PATHS)
         img = Draw.MolsToGridImage(top_mols[:], molsPerRow=3, subImgSize=(
             1000, 1000), legends=['' for x in top_mols])
         if args.dis_wgan:
@@ -550,7 +576,8 @@ def main():
     print('\n\nFile names for drawing distributions:', all_files)
     # Notice: Add '_w.csv' to the name of WGAN file
     if len(all_files) == 2:
-        distribution(POSITIVE_FILE, all_files[0], all_files[1])
+        distribution(
+            POSITIVE_FILE, all_files[0], all_files[1], output_dir=PATHS)
     else:
         print('Distributions are not generated.')
     print('*'*80)
