@@ -1,29 +1,48 @@
 #!/bin/bash
-#$ -cwd
-#$ -N g16_$JOB_ID
-#$ -l h_rt=12:00:00
+#$ -N g16
+#$ -l h_rt=24:00:00
 #$ -l h_vmem=8G
 #$ -pe smp 4
-#$ -o Scratch/nsci0017/g16_jobs/${JOB_ID}/out.txt
-#$ -e Scratch/nsci0017/g16_jobs/${JOB_ID}/err.txt
+#$ -wd /home/ucaqkin/Scratch/nsci0017
 
-###############################################################################
-# 1) define absolute scratch path
-RUN=$HOME/Scratch/nsci0017/tg_jobs/${JOB_ID}
-mkdir -p "$RUN"
+module load gaussian/g16-c01/pgi-2018.10
+source "$g16root/g16/bsd/g16.profile"
+module load vmd/1.9.3/text-only
 
-# 2) copy code & move in
-cp -r $HOME/Scratch/nsci0017/code/tg "$RUN/code"
-cd "$RUN/code"
+RUN_ROOT=/home/ucaqkin/Scratch/nsci0017/g16_jobs
+RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${JOB_ID}"
+mkdir -p "$RUN_DIR"
 
-cp $1 $RUN/input.gjf # first arg: path/to.gjf
-cd $RUN
-export GAUSS_SCRDIR=$RUN/chk
+cp "$SGE_O_WORKDIR/G6.gjf" "$RUN_DIR/"
+cd "$RUN_DIR"
 
-g16 <input.gjf >output.log
+export GAUSS_SCRDIR="$TMPDIR"
 
-# crude xyz extraction
-awk 'BEGIN{nat=0} /Standard orientation/{getline;getline;getline;getline}
-     NF==6 {print $2,$4,$5,$6}' output.log >output.xyz
+INPUT="g16"
+
+g16 $INPUT.gjf
+formchk -3 -a "$INPUT.chk" "$INPUT.fchk"
+cubegen MO=HOMO "$INPUT.fchk" HOMO.cube 0 h
+cubegen MO=LUMO "$INPUT.fchk" LUMO.cube 0 h
+cubegen potential=SCF "$INPUT.fchk" ESP.cube 0 h
+cubegen density=ELF "$INPUT.fchk" ELF.cube 0 h
+
+for prop in HOMO LUMO ESP ELF; do
+    cat >vmd_$prop.tcl <<'EOF'
+mol new {{PROP}}.cube type cube waitfor all
+mol delrep 0 top
+mol representation Isosurface 0.03 0 0 1 1  ;# 0.03 isovalue — adjust if needed
+mol color Name
+mol addrep top
+display projection Orthographic
+render TachyonInternal {{PROP}}.eps
+quit
+EOF
+    sed -i "s/{{PROP}}/$prop/g" vmd_$prop.tcl
+    vmd -dispdev text -e vmd_$prop.tcl >/dev/null # :contentReference[oaicite:5]{index=5}
+    # Convert lightweight EPS → PDF & SVG
+    gs -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=${prop}.pdf ${prop}.eps >/dev/null
+    gs -dBATCH -dNOPAUSE -sDEVICE=svg -sOutputFile=${prop}.svg ${prop}.eps >/dev/null
+done
 
 rsync -av --exclude='chk/' $RUN AFCS/nsci0017/backups_g16/
