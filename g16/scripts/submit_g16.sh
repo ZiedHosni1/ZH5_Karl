@@ -19,13 +19,14 @@ cd "$RUN_DIR"
 export GAUSS_SCRDIR="$TMPDIR"
 
 INPUT="g16"
+NPROC=4
 
 g16 $INPUT.gjf
 formchk -3 -a "$INPUT.chk" "$INPUT.fchk"
-cubegen MO=HOMO "$INPUT.fchk" HOMO.cube 0 h
-cubegen MO=LUMO "$INPUT.fchk" LUMO.cube 0 h
-cubegen potential=SCF "$INPUT.fchk" ESP.cube 0 h
-cubegen density=ELF "$INPUT.fchk" ELF.cube 0 h
+cubegen $NPROC MO=HOMO "$INPUT.fchk" HOMO.cube 0 h
+cubegen $NPROC MO=LUMO "$INPUT.fchk" LUMO.cube 0 h
+cubegen $NPROC potential=SCF "$INPUT.fchk" ESP.cube 0 h
+cubegen $NPROC density=ELF "$INPUT.fchk" ELF.cube 0 h
 
 for prop in HOMO LUMO ESP ELF; do
     cat >vmd_$prop.tcl <<'EOF'
