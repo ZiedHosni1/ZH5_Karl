@@ -3,18 +3,11 @@
 #$ -l h_rt=24:00:00
 #$ -l mem=8G
 #$ -pe smp 4
-#$ -wd /home/ucaqkin/Scratch/nsci0017
+#$ -wd /home/ucaqkin/Scratch/nsci0017/code/g16/scripts
 
 module load gaussian/g16-c01/pgi-2018.10
 source $g16root/g16/bsd/g16.profile
 module load vmd/1.9.3/text-only
-
-RUN_ROOT=/home/ucaqkin/Scratch/nsci0017/g16_jobs
-RUN_DIR="${RUN_ROOT}/${JOB_NAME}_${JOB_ID}"
-mkdir -p "$RUN_DIR"
-
-cp "$SGE_O_WORKDIR/g16.gjf" "$RUN_DIR/"
-cd "$RUN_DIR"
 
 INPUT="g16"
 NPROC=4
@@ -43,5 +36,3 @@ EOF
     gs -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=${prop}.pdf ${prop}.eps >/dev/null
     gs -dBATCH -dNOPAUSE -sDEVICE=svg -sOutputFile=${prop}.svg ${prop}.eps >/dev/null
 done
-
-rsync -av --exclude='chk/' $RUN AFCS/nsci0017/backups_g16/
