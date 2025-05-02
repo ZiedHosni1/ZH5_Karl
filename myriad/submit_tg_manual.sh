@@ -8,6 +8,21 @@
 #$ -wd /home/ucaqkin/Scratch/nsci0017/tg_jobs
 
 
+# --- Function to copy results ---
+cleanup_and_copy() {
+    echo "--- TRAP: Job ending signal received or script finished ($1). Copying results ---"
+    # Use rsync for robustness, copy only the 'res' directory within tg
+    # Add --ignore-errors in case some files are problematic during termination
+    # Make sure the target directory exists
+    mkdir -p "$TASK_RESULT_DIR/res/" # Ensure target subdir exists
+    rsync -av --ignore-errors "$TMPDIR/tg/res/" "$TASK_RESULT_DIR/res/"
+    # Also copy SGE output/error files for reference if they exist
+    if [ -f "$SGE_STDOUT_PATH" ]; then cp "$SGE_STDOUT_PATH" "$TASK_RESULT_DIR/"; fi
+    if [ -f "$SGE_STDERR_PATH" ]; then cp "$SGE_STDERR_PATH" "$TASK_RESULT_DIR/"; fi
+    echo "--- TRAP: Copy attempt finished ---"
+}
+
+
 # --- Setup ---
 
 echo "Job started on $(hostname) at $(date)"
@@ -46,6 +61,12 @@ source $UCL_CONDA_PATH/etc/profile.d/conda.sh
 conda activate py36tf
 
 
+# --- Set Trap ---
+# This command will run the 'cleanup_and_copy' function when the script exits for any reason (EXIT)
+# or receives common termination signals (TERM, INT, HUP, XCPU).
+trap 'cleanup_and_copy $?' EXIT TERM INT HUP XCPU
+
+
 echo "Starting TenGAN training..."
 # Construct the python command with manually set parameters
 python main.py \
@@ -60,7 +81,10 @@ python main.py \
     --roll_num 8 \
     --adv_epochs 100 \
     --gen_train_size 3236 \
-    --generated_num 3500
+    --generated_num 3600
+
+# Store the exit status of the python script
+PYTHON_EXIT_STATUS=$?
 
 # Check if python script executed successfully
 if [ $? -ne 0 ]; then
@@ -86,6 +110,10 @@ rsync -av "$TMPDIR/tg/" "$TASK_RESULT_DIR/"
 # Also copy the SGE output/error files for reference
 cp "$SGE_STDOUT_PATH" "$TASK_RESULT_DIR/"
 cp "$SGE_STDERR_PATH" "$TASK_RESULT_DIR/"
+
+# --- Unset Trap ---
+# Unset the trap explicitly before exiting normally.
+trap - EXIT TERM INT HUP XCPU
 
 echo "Job finished at $(date)"
 

@@ -8,6 +8,20 @@
 #$ -N tg_hpo_array
 #$ -wd /home/ucaqkin/Scratch/nsci0017/tg_jobs
 
+# --- Function to copy results ---
+cleanup_and_copy() {
+    echo "--- TRAP: Job ending signal received or script finished ($1). Copying results ---"
+    # Use rsync for robustness, copy only the 'res' directory within tg
+    # Add --ignore-errors in case some files are problematic during termination
+    # Make sure the target directory exists
+    mkdir -p "$TASK_RESULT_DIR/res" # Ensure target subdir exists
+    rsync -av --ignore-errors "$TMPDIR/tg/res/" "$TASK_RESULT_DIR/res/"
+    # Also copy SGE output/error files for reference if they exist
+    if [ -f "$SGE_STDOUT_PATH" ]; then cp "$SGE_STDOUT_PATH" "$TASK_RESULT_DIR/"; fi
+    if [ -f "$SGE_STDERR_PATH" ]; then cp "$SGE_STDERR_PATH" "$TASK_RESULT_DIR/"; fi
+    echo "--- TRAP: Copy attempt finished ---"
+}
+
 
 # --- Setup ---
 
@@ -46,6 +60,13 @@ source $UCL_CONDA_PATH/etc/profile.d/conda.sh
 
 # Activate the conda environment.
 conda activate py36tf
+
+
+# --- Set Trap ---
+# This command will run the 'cleanup_and_copy' function when the script exits for any reason (EXIT)
+# or receives common termination signals (TERM, INT, HUP, XCPU).
+# Pass the signal name ($?) to the function for logging.
+trap 'cleanup_and_copy $?' EXIT TERM INT HUP XCPU
 
 
 # --- Parameter Extraction ---
@@ -106,7 +127,7 @@ echo "Starting TenGAN training..."
 python main.py \
     --dataset_name comb_1 \
     --properties synthesizability \
-    --max_len 110 \
+    --max_len 100 \
     --batch_size "$BATCH_SIZE" \
     --gen_pretrain \
     --dis_pretrain \
@@ -118,9 +139,12 @@ python main.py \
     --gen_num_encoder_layers "$GEN_NUM_ENCODER_LAYERS" \
     --roll_num "$ROLL_NUM" \
     --gen_dropout "$GEN_DROPOUT" \
-    --adv_epochs 150 \
+    --adv_epochs 100 \
     --gen_train_size 3236 \
-    --generated_num 2000
+    --generated_num 3600
+
+# Store the exit status of the python script
+PYTHON_EXIT_STATUS=$?
 
 # Check if python script executed successfully
 if [ $? -ne 0 ]; then
@@ -144,6 +168,10 @@ rsync -av "$TMPDIR/tg/" "$TASK_RESULT_DIR/"
 # Also copy the SGE output/error files for reference
 cp "$SGE_STDOUT_PATH" "$TASK_RESULT_DIR/"
 cp "$SGE_STDERR_PATH" "$TASK_RESULT_DIR/"
+
+# --- Unset Trap ---
+# Unset the trap explicitly before exiting normally.
+trap - EXIT TERM INT HUP XCPU
 
 echo "Job finished at $(date)"
 
