@@ -6,12 +6,12 @@ This file pre-optimises the structure using UFF and generates a Gaussian input (
 Example usage: python3 smiles2gjf.py -s "C1=CC=CC=C1" -o benzene.gjf
 """
 
-import sys
 import argparse
 import os
+import sys
+
 from rdkit import Chem
 from rdkit.Chem import AllChem
-
 
 # Dictionary of custom headers. Once my workflow is more clear, I can write a few options here.
 CUSTOM_HEADERS = {
@@ -23,7 +23,7 @@ CUSTOM_HEADERS = {
         "0 1\n"
     ),
     "advanced": (
-        "%NProcShared=8\n"
+        "%NProcShared=4\n"
         "%Mem=8GB\n"
         "#P B3LYP/6-311+G(d,p) Opt Freq\n\n"
         "Advanced B3LYP calculation\n\n"
@@ -61,8 +61,7 @@ def smiles_to_gjf(smiles, filename="output.gjf", header="default"):
     mol = Chem.AddHs(mol)
     result = AllChem.EmbedMolecule(mol)
     if result != 0:
-        raise RuntimeError(
-            "Embedding molecule failed. Please check the SMILES string.")
+        raise RuntimeError("Embedding molecule failed. Please check the SMILES string.")
 
     result = AllChem.UFFOptimizeMolecule(mol)
     if result != 0:
