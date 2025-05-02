@@ -111,6 +111,12 @@ rsync -av "$TMPDIR/tg/" "$TASK_RESULT_DIR/"
 cp "$SGE_STDOUT_PATH" "$TASK_RESULT_DIR/"
 cp "$SGE_STDERR_PATH" "$TASK_RESULT_DIR/"
 
+
+# --- Generate Loss Plots ---
+echo "Generating loss plots..."
+python "$TMPDIR/tg/plot_losses.py" --log_dir "$TASK_RESULT_DIR"
+
+
 # --- Unset Trap ---
 # Unset the trap explicitly before exiting normally.
 trap - EXIT TERM INT HUP XCPU
