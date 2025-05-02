@@ -113,12 +113,15 @@ class GeneratorModel(LightningModule):
     def training_step(self, batch, batch_idx):
         self.train()
         loss = self.step(batch)
+	# Log training loss per epoch
+        self.log('gen_pre_train_loss', loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
         return loss
     
     def validation_step(self, batch, batch_idx):
         self.eval()
         loss = self.step(batch)
-        self.log('val_loss', loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
+        # Log validation loss per epoch
+        self.log('gen_pre_val_loss', loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
         return loss
 
 

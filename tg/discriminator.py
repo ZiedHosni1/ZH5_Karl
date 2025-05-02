@@ -178,13 +178,13 @@ class DiscriminatorModel(LightningModule):
     def training_step(self, batch, batch_idx):
         self.train()
         loss, acc = self.step(batch)
-        self.log('train_loss', loss, on_step=False, on_epoch=True, prog_bar=True)
-        self.log('train_acc', acc, on_step=False, on_epoch=True, prog_bar=True)
+        self.log('dis_pre_train_loss', loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
+        self.log('dis_pre_train_acc', acc, on_step=False, on_epoch=True, prog_bar=True, logger=True)
         return loss
     
     def validation_step(self, batch, batch_idx):
         self.eval()
         loss, acc = self.step(batch)
-        self.log('val_loss', loss, on_step=False, on_epoch=True, prog_bar=True)
-        self.log('val_acc', acc, on_step=False, on_epoch=True, prog_bar=True)
+        self.log('dis_pre_val_loss', loss, on_step=False, on_epoch=True, prog_bar=True, logger=True)
+        self.log('dis_pre_val_acc', acc, on_step=False, on_epoch=True, prog_bar=True, logger=True)
         return loss

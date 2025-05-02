@@ -13,6 +13,7 @@ import pandas as pd
 from utils import *
 from rdkit import Chem
 import pytorch_lightning
+from pytorch_lightning.loggers import CSVLogger
 from rdkit import rdBase
 from mol_metrics import *
 from rdkit.Chem import Draw
@@ -334,6 +335,13 @@ def main():
     torch.manual_seed(0)
     torch.cuda.manual_seed(0)
 
+
+    # Define CSV logger paths *within* the main results path (PATHS)
+    # This keeps logs organized with other results for each run configuration
+    gen_log_dir = os.path.join(PATHS, "gen_pretrain_logs")
+    dis_log_dir = os.path.join(PATHS, "dis_pretrain_logs")
+    adv_log_file = os.path.join(PATHS, "adversarial_losses.csv") # For manual logging
+
     # ===========================
     # Generator objects definition
     gen_data_loader = GenDataLoader(
@@ -348,9 +356,14 @@ def main():
         dropout=args.gen_dropout,
         epochs=args.gen_epochs,
         max_lr=args.gen_max_lr)
+
+    # Instantiate CSVLogger for Generator Pre-training
+    gen_logger = CSVLogger(save_dir=gen_log_dir, name="", version="gen") # Use specific version name
+
     gen_trainer = pytorch_lightning.Trainer(
         max_epochs=args.gen_epochs,
         gpus=GPUS,
+        logger=gen_logger,
         weights_summary=None,
         progress_bar_refresh_rate=5,
         gradient_clip_val=5.0,
@@ -360,6 +373,7 @@ def main():
     if args.gen_pretrain:
         print("\n\nPre-train Generator...")
         gen_trainer.fit(gen, gen_data_loader)
+        print(f"Generator pre-training logs saved in: {gen_logger.log_dir}")
         # Pre-train time cost
         print('Generator Pre-train Time:\033[1;35m {:.2f}\033[0m hours'.format(
             (time.time() - start_time) / 3600.))
@@ -395,9 +409,14 @@ def main():
         pad_token=tokenizer.char_to_int[tokenizer.pad],
         dis_wgan=args.dis_wgan,
         minibatch=args.dis_minibatch)
+
+    # Instantiate CSVLogger for Discriminator Pre-training
+    dis_logger = CSVLogger(save_dir=dis_log_dir, name="", version="dis")
+
     dis_trainer = pytorch_lightning.Trainer(
         max_epochs=args.dis_epochs,
         gpus=GPUS,
+        logger=dis_logger,
         weights_summary=None,
         gradient_clip_val=1.0,
         gradient_clip_algorithm='value')
@@ -406,6 +425,7 @@ def main():
     if args.dis_pretrain:
         print("\n\nPre-train Discriminator...")
         dis_trainer.fit(dis, dis_data_loader)
+        print(f"Discriminator pre-training logs saved in: {dis_logger.log_dir}")
         # Pre-train time cost
         print('Discriminator Pre-train Time:\033[1;35m {:.2f}\033[0m hours'.format(
             (time.time() - start_time) / 3600.))
@@ -439,15 +459,26 @@ def main():
     adv_trainer = pytorch_lightning.Trainer(
         max_epochs=D_STEP,
         gpus=GPUS,
+        logger=False,
+        enable_checkpointing=False,
         weights_summary=None,
         progress_bar_refresh_rate=0)
+    
     pg_optimizer = torch.optim.Adam(params=gen.parameters(), lr=args.adv_lr)
     rollout = Rollout(gen, roll_own_model, tokenizer, args.update_rate, DEVICE)
 
     # Adversarial training
     if args.adversarial_train:
         print("\n\nAdversarial Training...")
+        adv_epoch_list = []
+        adv_gen_loss_list = []
+        # Initialize/Clear the adversarial log file
+        with open(adv_log_file, 'w', newline='') as f:
+             writer = csv.writer(f)
+             writer.writerow(['epoch', 'gen_pg_loss']) # Write header
+
         for epoch in range(args.adv_epochs):
+            epoch_gen_losses = []
             rollsampler = GenSampler(
                 rollout.own_model, gen_data_loader.tokenizer, args.batch_size, args.max_len)
             for g_step in range(G_STEP):
@@ -473,13 +504,26 @@ def main():
                 rewards = torch.tensor(rewards).to(DEVICE)
                 # Compute policy gradient loss
                 loss = pg_loss(gen_pred, targets, rewards)
+                epoch_gen_losses.append(loss.item())
                 print('\n\n\n\033[1;35mEpoch {}\033[0m / {}, G_STEP {} / {}, PG_Loss: {:.3f}'.format(
-                    epoch+1, args.adv_epochs, g_step+1, G_STEP, loss))
+                    epoch+1, args.adv_epochs, g_step+1, G_STEP, loss.item()))
                 pg_optimizer.zero_grad()
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(
                     gen.parameters(), 5, norm_type=2)
                 pg_optimizer.step()
+
+            # Log the average generator loss for this epoch
+            avg_epoch_gen_loss = np.mean(epoch_gen_losses) if epoch_gen_losses else float('nan')
+            adv_epoch_list.append(epoch + 1)
+            adv_gen_loss_list.append(avg_epoch_gen_loss)
+            print(f"\033[1;34mEpoch {epoch + 1} Average Generator PG Loss: {avg_epoch_gen_loss:.3f}\033[0m")
+
+            # Append loss to the manual CSV log file
+            with open(adv_log_file, 'a', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow([epoch + 1, avg_epoch_gen_loss])
+
             # Update models
             rollout.update_params()
             # Save models
@@ -554,6 +598,19 @@ def main():
     else:
         print('Distributions are not generated.')
     print('*'*80)
+
+    print("\n--- Generating Loss Plots ---")
+    try:
+        plot_script = os.path.join(os.path.dirname(__file__), "plot_losses.py")
+        # Pass the directory containing the log files/subdirs
+        log_parent_dir = PATHS
+        plot_cmd = f"python {plot_script} --log_dir \"{log_parent_dir}\""
+        print(f"Executing: {plot_cmd}")
+        os.system(plot_cmd)
+        print("--- Plot generation complete ---")
+    except Exception as e:
+        print(f"ERROR: Failed to generate plots: {e}")
+
 
 
 # ============================================================================
