@@ -8,10 +8,8 @@
 #$ -wd /home/ucaqkin/Scratch/nsci0017/code/tg/
 
 # Load required modules.
-# module purge
 module load default-modules
 module remove compilers mpi
-# module load python/3.7.0
 module load python/miniconda3/24.3.0-0
 
 # Initialise conda.
@@ -25,10 +23,9 @@ python main.py \
         --dataset_name comb_1 \
         --properties synthesizability \
         --max_len 120 \
-        --batch_size 64 \
+        --batch_size 32 \
+	--roll_num 4 \
         --gen_pretrain \
         --dis_pretrain \
-        --adversarial_train \
-        --dis_lambda 0.5 \
-        --adv_epochs 100 \
+        --dis_lambda 0.3 \
         --generated_num 5000
