@@ -4,7 +4,7 @@ import scienceplots
 import argparse
 import os
 import glob
-plt.style.use('science')
+plt.style.use(['science','no-latex'])
 
 # --- Argument Parsing ---
 parser = argparse.ArgumentParser(description="Plot training losses from log files.")
@@ -76,7 +76,7 @@ if gen_metrics_file and os.path.exists(gen_metrics_file):
         gen_df = pd.read_csv(gen_metrics_file)
         # Check if required columns exist
         if 'gen_pre_train_loss' in gen_df.columns and 'gen_pre_val_loss' in gen_df.columns:
-             plot_losses(gen_df, 'gen_pre_train_loss', 'gen_pre_val_loss', 'Generator Pre-training Loss', 'gen_pretrain_loss.png')
+             plot_losses(gen_df, 'gen_pre_train_loss', 'gen_pre_val_loss', 'Generator Pre-training Loss', 'gen_pretrain_loss.pdf')
         else:
              print("Generator pre-training loss columns not found in metrics.csv.")
     except pd.errors.EmptyDataError:
@@ -92,7 +92,7 @@ if dis_metrics_file and os.path.exists(dis_metrics_file):
         dis_df = pd.read_csv(dis_metrics_file)
         # Check if required columns exist
         if 'dis_pre_train_loss' in dis_df.columns and 'dis_pre_val_loss' in dis_df.columns:
-            plot_losses(dis_df, 'dis_pre_train_loss', 'dis_pre_val_loss', 'Discriminator Pre-training Loss', 'dis_pretrain_loss.png')
+            plot_losses(dis_df, 'dis_pre_train_loss', 'dis_pre_val_loss', 'Discriminator Pre-training Loss', 'dis_pretrain_loss.pdf')
         else:
             print("Discriminator pre-training loss columns not found in metrics.csv.")
     except pd.errors.EmptyDataError:
@@ -121,7 +121,7 @@ if os.path.exists(adv_log_file):
                         ax.legend()
                         ax.autoscale(tight=True)
                         fig.tight_layout()
-                        plot_path = os.path.join(LOG_DIR, 'adv_gen_loss.png')
+                        plot_path = os.path.join(LOG_DIR, 'adv_gen_loss.pdf')
                         fig.savefig(plot_path)
                         print(f"Saved plot to {plot_path}")
                         plt.close(fig) # Close the figure

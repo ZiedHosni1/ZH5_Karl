@@ -32,19 +32,26 @@ def top_mols_show(filename, properties):
     
     flag = 0
     top_mols= []
+    top_scores = []
     for i in range(len(dic)):
         if flag < 12:
+            mol_obj = Chem.MolFromSmiles(dic[i][0]) # <-- Get Mol object once
+            if mol_obj is None: continue # Skip if SMILES is invalid
             if properties == 'synthesizability':
                 if dic[i][0] not in top_mols and dic[i][1] > 0.95 and QED.default(Chem.MolFromSmiles(dic[i][0])) >= 0.5:
                     flag += 1
                     top_mols.append(Chem.MolFromSmiles(dic[i][0]))
-                    print(dic[i][0], '\t %.3f' %dic[i][1])
+                    score_str = f"{dic[i][1]:.3f}"
+                    top_scores.append(score_str)
+                    print(dic[i][0], '\t %.3f' %dic[i][1], score_str)
             else:
                  if dic[i][0] not in top_mols:
                     flag += 1
                     top_mols.append(Chem.MolFromSmiles(dic[i][0]))
-                    print(dic[i][0], '\t %.3f' %dic[i][1])                    
-    return top_mols
+                    score_str = f"{dic[i][1]:.3f}"
+                    top_scores.append(score_str)
+                    print(dic[i][0], '\t %.3f' %dic[i][1], score_str)                    
+    return top_mols, top_scores
 
 
 # Figure out the distributions

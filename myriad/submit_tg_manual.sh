@@ -72,14 +72,14 @@ echo "Starting TenGAN training..."
 python main.py \
     --dataset_name comb_1 \
     --properties synthesizability \
-    --max_len 100 \
+    --max_len 80 \
     --batch_size 64 \
     --gen_pretrain \
+    --gen_epochs 70 \
     --dis_pretrain \
-    --adversarial_train \
-    --dis_lambda 0.5 \
-    --roll_num 8 \
-    --adv_epochs 100 \
+    --dis_epochs 30 \
+    --dis_lambda 0.75 \
+    --roll_num 6 \
     --gen_train_size 3236 \
     --generated_num 3600
 

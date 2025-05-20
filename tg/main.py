@@ -460,7 +460,6 @@ def main():
         max_epochs=D_STEP,
         gpus=GPUS,
         logger=False,
-        enable_checkpointing=False,
         weights_summary=None,
         progress_bar_refresh_rate=0)
     
@@ -580,9 +579,9 @@ def main():
         print('Generated dataset does NOT exist!\n')
     else:
         print('Top-12 Molecules of [{}]:'.format(args.properties))
-        top_mols = top_mols_show(NEGATIVE_FILE, args.properties)
+        top_mols, top_scores = top_mols_show(NEGATIVE_FILE, args.properties)
         img = Draw.MolsToGridImage(top_mols[:], molsPerRow=3, subImgSize=(
-            1000, 1000), legends=['' for x in top_mols])
+            1000, 1000), legends=top_scores[:])
         if args.dis_wgan:
             img.save('res/top_12_w.pdf')
         else:

@@ -1,10 +1,10 @@
 #!/bin/bash -l
 
 #$ -l h_rt=48:00:00
-#$ -l mem=6G
+#$ -l mem=4G
 #$ -l tmpfs=10G
 #$ -pe smp 4
-#$ -t 1-5                       # Set up a job array with tasks numbered 1 to 15
+#$ -t 73-83
 #$ -N tg_hpo_array
 #$ -wd /home/ucaqkin/Scratch/nsci0017/tg_jobs
 
@@ -14,8 +14,8 @@ cleanup_and_copy() {
     # Use rsync for robustness, copy only the 'res' directory within tg
     # Add --ignore-errors in case some files are problematic during termination
     # Make sure the target directory exists
-    mkdir -p "$TASK_RESULT_DIR/res" # Ensure target subdir exists
-    rsync -av --ignore-errors "$TMPDIR/tg/res/" "$TASK_RESULT_DIR/res/"
+    mkdir -p "$TASK_RESULT_DIR" # Ensure target subdir exists
+    rsync -av --ignore-errors "$TMPDIR/tg/" "$TASK_RESULT_DIR/"
     # Also copy SGE output/error files for reference if they exist
     if [ -f "$SGE_STDOUT_PATH" ]; then cp "$SGE_STDOUT_PATH" "$TASK_RESULT_DIR/"; fi
     if [ -f "$SGE_STDERR_PATH" ]; then cp "$SGE_STDERR_PATH" "$TASK_RESULT_DIR/"; fi
@@ -127,7 +127,7 @@ echo "Starting TenGAN training..."
 python main.py \
     --dataset_name comb_1 \
     --properties synthesizability \
-    --max_len 100 \
+    --max_len 80 \
     --batch_size "$BATCH_SIZE" \
     --gen_pretrain \
     --dis_pretrain \
@@ -136,12 +136,14 @@ python main.py \
     --adv_lr "$ADV_LR" \
     --gen_d_model "$GEN_D_MODEL" \
     --dis_d_model "$DIS_D_MODEL" \
+    --dis_wgan \
+    --dis_minibatch \
     --gen_num_encoder_layers "$GEN_NUM_ENCODER_LAYERS" \
     --roll_num "$ROLL_NUM" \
     --gen_dropout "$GEN_DROPOUT" \
     --adv_epochs 100 \
     --gen_train_size 3236 \
-    --generated_num 3600
+    --generated_num 4000
 
 # Store the exit status of the python script
 PYTHON_EXIT_STATUS=$?
