@@ -4,8 +4,10 @@
 #$ -l mem=4G
 #$ -l tmpfs=10G
 #$ -pe smp 4
-#$ -t 161
-#$ -N tg_hpo_array
+#$ -t 1-200
+# NOTE: ideally call the array job numbers as qsub arguments, taking away the need to change this file constantly. Example: qsub -t 1-50 submit_tg_array.sh (or -t 3 or -t 1,3,7)
+
+#$ -N tg_arrayJob
 #$ -wd /home/ucaqkin/Scratch/nsci0017/tg_jobs
 
 # --- Function to copy results ---
@@ -29,7 +31,7 @@ echo "Job started on $(hostname) at $(date)"
 echo "Job ID: $JOB_ID, Task ID: $SGE_TASK_ID"
 
 # Define paths
-PARAM_FILE="/home/ucaqkin/Scratch/nsci0017/code/myriad/HPO_init_randomSearch.csv"
+PARAM_FILE="/home/ucaqkin/Scratch/nsci0017/code/myriad/TG_jobList.csv"
 SOURCE_CODE_DIR="/home/ucaqkin/Scratch/nsci0017/code/tg"
 # Base directory for storing results in Scratch
 RESULTS_BASE_DIR="/home/ucaqkin/Scratch/nsci0017/tg_jobs"
@@ -52,7 +54,6 @@ echo "Loading modules..."
 module purge
 module load default-modules
 module remove compilers mpi
-# module load python/3.7.0
 module load python/miniconda3/24.3.0-0
 
 # Initialise conda.
@@ -106,28 +107,35 @@ GEN_NUM_ENCODER_LAYERS=$(get_param "gen_num_encoder_layers")
 ROLL_NUM=$(get_param "roll_num")
 GEN_DROPOUT=$(get_param "gen_dropout")
 BATCH_SIZE=$(get_param "batch_size")
+DATASET=$(get_param "dataset_name")
+PROPERTIES=$(get_param "properties")
+MAX_LEN=$(get_param "max_len")
+DIS_EPOCHS=$(get_param "dis_epochs")
+GEN_EPOCHS=$(get_param "gen_epochs")
+ADV_EPOCHS=$(get_param "adv_epochs")
+DIS_WGAN=$(get_param "dis_wgan")
+DIS_MINIBATCH=$(get_param "dis_minibatch")
 
-# Check if parameters were extracted successfully
-if [ -z "$ADV_LR" ] || [ -z "$DIS_LAMBDA" ] || [ -z "$BATCH_SIZE" ]; then
-    echo "ERROR: Failed to extract one or more parameters from $PARAM_FILE for task $SGE_TASK_ID."
-    exit 1
+# We can't take the values from the csv for WGAN and minibatch with teh same logic. Instead, we will check if True in csv, and then add the flag to the python script call later
+EXTRA_FLAGS=""
+if [ "$DIS_WGAN" == "True" ]; then
+    echo "Adding --dis_wgan flag"
+    EXTRA_FLAGS="$EXTRA_FLAGS --dis_wgan"
 fi
-
-echo "Parameters for Task $SGE_TASK_ID:"
-echo "  adv_lr: $ADV_LR"
-echo "  dis_lambda: $DIS_LAMBDA"
-echo "  batch_size: $BATCH_SIZE"
-
+if [ "$DIS_MINIBATCH" == "True" ]; then
+    echo "Adding --dis_minibatch flag"
+    EXTRA_FLAGS="$EXTRA_FLAGS --dis_minibatch"
+fi
 
 # --- Run TenGAN ---
 
 echo "Starting TenGAN training..."
 # Construct the python command with extracted parameters
-# Add all necessary flags based on HPO_init_randomSearch.csv and main.py requirements
+# Add all necessary flags based on TG_jobList.csv and main.py requirements
 python main.py \
-    --dataset_name comb_1 \
-    --properties safscore \
-    --max_len 80 \
+    --dataset_name "$DATASET" \
+    --properties "$PROPERTIES" \
+    --max_len "$MAX_LEN" \
     --batch_size "$BATCH_SIZE" \
     --gen_pretrain \
     --gen_epochs 50 \
@@ -144,6 +152,7 @@ python main.py \
     --adv_epochs 60 \
     --gen_train_size 3236 \
     --generated_num 4000
+    $EXTRA_FLAGS
 
 # Store the exit status of the python script
 PYTHON_EXIT_STATUS=$?

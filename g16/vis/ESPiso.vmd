@@ -12,12 +12,14 @@ display aoambient 0.35
 display aodirect  0.65
 color   Display Background white
 axes    location Off
+display nearclip set 0
 light 2 on
 light 3 on
+
 material change transmode EdgyGlass 1.0
 material change specular EdgyGlass 0.15
 material change shininess EdgyGlass 0.95
-material change opacity EdgyGlass 0.7
+material change opacity EdgyGlass 0.55
 material change outlinewidth EdgyGlass 0.9
 material change outline EdgyGlass 0.5
 material change outline Glossy 1.5

@@ -4,7 +4,7 @@
 #$ -l mem=6G
 #$ -l tmpfs=10G
 #$ -pe smp 4
-#$ -N tg_manual
+#$ -N tg_manualJob
 #$ -wd /home/ucaqkin/Scratch/nsci0017/tg_jobs
 
 
@@ -22,14 +22,9 @@ cleanup_and_copy() {
     echo "--- TRAP: Copy attempt finished ---"
 }
 
-
 # --- Setup ---
 
-echo "Job started on $(hostname) at $(date)"
-echo "Job ID: $JOB_ID, Task ID: $SGE_TASK_ID"
-
 # Define paths
-PARAM_FILE="/home/ucaqkin/Scratch/nsci0017/code/myriad/HPO_init_randomSearch.csv"
 SOURCE_CODE_DIR="/home/ucaqkin/Scratch/nsci0017/code/tg"
 # Base directory for storing results in Scratch
 RESULTS_BASE_DIR="/home/ucaqkin/Scratch/nsci0017/tg_jobs"
@@ -48,7 +43,6 @@ echo "Changed working directory to $PWD"
 
 
 # Load required modules.
-echo "Loading modules..."
 module purge
 module load default-modules
 module remove compilers mpi
@@ -67,7 +61,6 @@ conda activate py36tf
 trap 'cleanup_and_copy $?' EXIT TERM INT HUP XCPU
 
 
-echo "Starting TenGAN training..."
 # Construct the python command with manually set parameters
 python main.py \
     --dataset_name comb_1 \

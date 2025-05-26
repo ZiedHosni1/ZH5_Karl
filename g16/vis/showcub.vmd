@@ -16,6 +16,7 @@ proc set_cylview_display {} {
     display aodirect  0.65
     color   Display Background white
     axes    location Off
+    display nearclip set 0
 }
 
 
