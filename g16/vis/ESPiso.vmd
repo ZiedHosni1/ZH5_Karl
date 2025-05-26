@@ -1,0 +1,52 @@
+#This script is used to draw ESP colored molecular vdW surface (rho=0.001)
+#density1.cub, ESP1.cub, density2.cub, ESP2.cub ... should be presented in current folder
+
+color scale method BWR
+display resize 3840 2160
+display projection orthographic
+display depthcue  off
+display rendermode GLSL
+display shadows   on
+display ambientocclusion on
+display aoambient 0.35
+display aodirect  0.65
+color   Display Background white
+axes    location Off
+light 2 on
+light 3 on
+material change transmode EdgyGlass 1.0
+material change specular EdgyGlass 0.15
+material change shininess EdgyGlass 0.95
+material change opacity EdgyGlass 0.7
+material change outlinewidth EdgyGlass 0.9
+material change outline EdgyGlass 0.5
+material change outline Glossy 1.5
+material change outlinewidth Glossy 0.3
+
+#The maximum number of systems to be loaded
+set nsystem 1
+#Lower and upper limit of color scale of ESP (a.u.)
+set colorlow -0.03
+set colorhigh 0.03
+#eV as unit
+#set colorlow -0.8
+#set colorhigh 0.8
+
+    color Name C tan
+    color change rgb tan 0.50 0.50 0.50   ;# medium grey for carbon
+
+    color Name H silver
+    color change rgb silver 0.80 0.80 0.80 ;# light grey for hydrogen
+
+    color Name O orange                   ;# default orange for oxygen
+
+mol new density.cub
+mol addfile totesp.cub
+mol modstyle 0 0 CPK 1.000000 0.300000 22.000000 22.000000
+mol modmaterial 0 top Glossy
+mol addrep 0
+mol modstyle 1 0 Isosurface 0.001000 0 0 0 1 1
+mol modmaterial 1 0 EdgyGlass
+mol modcolor 1 0 Volume 1
+mol scaleminmax 0 1 $colorlow $colorhigh
+

@@ -1,0 +1,138 @@
+# CylView-style visualisation of Multiwfn cube files
+# Derived from original showcub.vmd by Tian Lu (2019‑05‑18)
+# Modified 22 May 2025 to emulate CylView look (orthographic view, CPK greys, AO shadows, blue/yellow orbitals)
+
+# ---------------------------------------------------------------------------
+# Utility procedure: apply global visual settings
+# ---------------------------------------------------------------------------
+proc set_cylview_display {} {
+    display resize 3840 2160
+    display projection orthographic
+    display depthcue  off
+    display rendermode GLSL
+    display shadows   on
+    display ambientocclusion on
+    display aoambient 0.35
+    display aodirect  0.65
+    color   Display Background white
+    axes    location Off
+}
+
+
+# ---------------------------------------------------------------------------
+# Utility procedure: define colours and materials
+# ---------------------------------------------------------------------------
+proc set_cylview_colours {} {
+    # Atom colours (CPK greys + orange O)
+    color Name C tan
+    color change rgb tan 0.50 0.50 0.50   ;# medium grey for carbon
+
+    color Name H silver
+    color change rgb silver 0.80 0.80 0.80 ;# light grey for hydrogen
+
+    color Name O orange                   ;# default orange for oxygen
+
+    # Orbitals – blue (positive) & yellow (negative)
+    color change rgb 12 0.05 0.30 0.90    ;# vivid blue
+    color change rgb 22 1.00 0.88 0.05    ;# saturated yellow
+}
+
+# ---------------------------------------------------------------------------
+# Utility procedure: semi‑transparent glossy material for isosurfaces
+# ---------------------------------------------------------------------------
+proc set_cylview_material {} {
+    set m AOShiny
+    material change ambient   $m 0.05
+    material change diffuse   $m 0.90
+    material change specular  $m 0.80
+    material change shininess $m 60
+    material change opacity   $m 0.55
+    material change outline AOShiny 1.5
+    material change outlinewidth AOShiny 0.3
+    material change outline Glossy 1.5
+    material change outlinewidth Glossy 0.3
+    return $m
+}
+
+# ---------------------------------------------------------------------------
+# Main routine for a single cube (e.g. an orbital)
+# ---------------------------------------------------------------------------
+proc cub {filename {isoval 0.05}} {
+    set_cylview_display
+    set_cylview_colours
+    set mater [set_cylview_material]
+
+    # Clear previous molecules
+    foreach i [molinfo list] { mol delete $i }
+
+    # Load cube file
+    mol new $filename.cub
+
+    # CPK representation for atoms/bonds
+    mol modstyle 0 top CPK 0.80 0.30 22.0 22.0
+    mol modmaterial 0 top Glossy
+
+    # Positive isosurface – blue
+    mol addrep top
+    mol modstyle    1 top Isosurface  $isoval 0 0 0 1 1
+    mol modcolor    1 top ColorID 12
+    mol modmaterial 1 top $mater
+
+    # Negative isosurface – yellow
+    mol addrep top
+    mol modstyle    2 top Isosurface -$isoval 0 0 0 1 1
+    mol modcolor    2 top ColorID 22
+    mol modmaterial 2 top $mater
+
+    # Mimic CylView camera distance
+    display distance -8.0
+    display height   10
+}
+
+# ---------------------------------------------------------------------------
+# Helper: interactively update the isovalue for a single cube
+# ---------------------------------------------------------------------------
+proc cubiso {isoval} {
+    mol modstyle 1 top Isosurface  $isoval 0 0 0 1 1
+    mol modstyle 2 top Isosurface -$isoval 0 0 0 1 1
+}
+
+# ---------------------------------------------------------------------------
+# Routine for two cubes (e.g. HOMO & LUMO)
+# ---------------------------------------------------------------------------
+proc cub2 {filename1 filename2 {isoval 0.05}} {
+    set_cylview_display
+    set_cylview_colours
+    set mater [set_cylview_material]
+
+    foreach i [molinfo list] { mol delete $i }
+
+    # First cube (blue)
+    mol new $filename1.cub
+    mol modstyle 0 top CPK 0.80 0.30 22.0 22.0
+    mol addrep   top
+    mol modstyle    1 top Isosurface  $isoval 0 0 0 1 1
+    mol modcolor    1 top ColorID 12
+    mol modmaterial 1 top $mater
+
+    # Second cube (yellow)
+    mol new $filename2.cub
+    mol modstyle 0 top CPK 0.80 0.30 22.0 22.0
+    mol addrep   top
+    mol modstyle    1 top Isosurface  $isoval 0 0 0 1 1
+    mol modcolor    1 top ColorID 22
+    mol modmaterial 1 top $mater
+
+    display distance -8.0
+    display height   10
+}
+
+# ---------------------------------------------------------------------------
+# Helper: update isovalue for both molecules in cub2
+# ---------------------------------------------------------------------------
+proc cub2iso {isoval} {
+    foreach i [molinfo list] {
+        mol modstyle 1 $i Isosurface $isoval 0 0 0 1 1
+    }
+}
+
