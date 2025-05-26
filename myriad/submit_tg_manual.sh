@@ -71,15 +71,17 @@ echo "Starting TenGAN training..."
 # Construct the python command with manually set parameters
 python main.py \
     --dataset_name comb_1 \
-    --properties synthesizability \
+    --properties safscore \
     --max_len 80 \
     --batch_size 64 \
     --gen_pretrain \
-    --gen_epochs 70 \
+    --gen_epochs 50 \
     --dis_pretrain \
-    --dis_epochs 30 \
-    --dis_lambda 0.75 \
-    --roll_num 6 \
+    --dis_epochs 20 \
+    --adversarial_train \
+    --adv_epochs 70 \
+    --dis_lambda 0.5 \
+    --roll_num 8 \
     --gen_train_size 3236 \
     --generated_num 3600
 

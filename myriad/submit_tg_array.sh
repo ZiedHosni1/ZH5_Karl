@@ -4,7 +4,7 @@
 #$ -l mem=4G
 #$ -l tmpfs=10G
 #$ -pe smp 4
-#$ -t 73-83
+#$ -t 161
 #$ -N tg_hpo_array
 #$ -wd /home/ucaqkin/Scratch/nsci0017/tg_jobs
 
@@ -126,22 +126,22 @@ echo "Starting TenGAN training..."
 # Add all necessary flags based on HPO_init_randomSearch.csv and main.py requirements
 python main.py \
     --dataset_name comb_1 \
-    --properties synthesizability \
+    --properties safscore \
     --max_len 80 \
     --batch_size "$BATCH_SIZE" \
     --gen_pretrain \
+    --gen_epochs 50 \
     --dis_pretrain \
+    --dis_epochs 20 \
     --adversarial_train \
     --dis_lambda "$DIS_LAMBDA" \
     --adv_lr "$ADV_LR" \
     --gen_d_model "$GEN_D_MODEL" \
     --dis_d_model "$DIS_D_MODEL" \
-    --dis_wgan \
-    --dis_minibatch \
     --gen_num_encoder_layers "$GEN_NUM_ENCODER_LAYERS" \
     --roll_num "$ROLL_NUM" \
     --gen_dropout "$GEN_DROPOUT" \
-    --adv_epochs 100 \
+    --adv_epochs 60 \
     --gen_train_size 3236 \
     --generated_num 4000
 

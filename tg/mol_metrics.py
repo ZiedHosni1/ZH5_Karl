@@ -13,7 +13,12 @@ from rdkit.Chem import QED
 from rdkit import DataStructs
 from rdkit.Chem import PandasTools, Crippen, Descriptors
 from rdkit.Chem.rdMolDescriptors import GetMorganFingerprintAsBitVect
+import importlib
 rdBase.DisableLog('rdApp.error')
+LATENT_H2O = 2.442      # MJ kg-1   latent heat of H₂O (g) at 25 °C
+H2O_PER_H  = 9.0        # kg H₂O produced per kg elemental hydrogen
+FP_SPEC    = 38.0      # °C  flash-point limit for Jet-A/Jet-A1
+
 # ============================================================================
 # Build the vocabulary for SMILES. Besides, definite vectorize function (atoms -> numerics) and devectorize function (numerics -> atoms)
 class Tokenizer():
@@ -88,6 +93,10 @@ def reward_fn(properties, generated_smiles):
         vals = batch_solubility(generated_smiles)
     elif properties == 'synthesizability':
         vals = batch_SA(generated_smiles)   
+    elif properties == 'molar_nhoc':
+        vals = batch_molar_nhoc(generated_smiles)
+    elif properties =='safscore':
+        vals = batch_safscore(generated_smiles)
     return vals
 
 # Diversity
@@ -393,3 +402,141 @@ def batch_SA(smiles):
         else:
             vals.append(0.0)
     return vals
+
+
+#  Fast elemental-analysis thermochemistry + carbon-window penalty
+#  HHV  (MJ kg-1) = 0.3491 C + 1.1783 H + 0.1005 S − 0.1034 O − 0.0151 N
+#  LHV  (DIN 51900)  = HHV − 2.442 × 9 × w_H
+#  Molar ΔH_comb     = LHV × M_w / 1000   (MJ mol-1)
+
+def _atom_mass(sym):
+    return Chem.GetPeriodicTable().GetAtomicWeight(sym)
+
+def _wt_fracs(mol):
+    cnt = {e: 0 for e in "CHONS"}
+    for a in mol.GetAtoms():
+        s = a.GetSymbol()
+        if s in cnt:
+            cnt[s] += 1
+    mw = Descriptors.ExactMolWt(mol)
+    return {e: cnt[e] * _atom_mass(e) / mw for e in cnt}, mw
+
+def _lhv_cp(mol):
+    w, _ = _wt_fracs(mol)
+    C, H, O, N, S = (w[e] * 100 for e in "CHONS")
+    hhv = 0.3491*C + 1.1783*H + 0.1005*S - 0.1034*O - 0.0151*N
+    return hhv - LATENT_H2O * H2O_PER_H * w["H"]
+
+# --- carbon-window penalty (jet-fuel: C8–C16) -------------------------
+def _carbon_window_penalty(mol, low=8, high=16):
+    nC = sum(1 for a in mol.GetAtoms() if a.GetSymbol() == "C")
+    if nC < low:
+        return (nC / low) ** 2          # strong penalty for too small
+    if nC > high:
+        return (high / nC) ** 2         # penalty for too large
+    return 1.0                          # inside window
+
+def _molar_comb_energy(mol):
+    lhv = _lhv_cp(mol)
+    _, mw = _wt_fracs(mol)
+    return lhv * mw / 1000.0            # MJ mol-1
+
+def batch_molar_nhoc(smiles):
+    """
+    Reward = (ΔH_comb,m / 10 MJ mol-1) * carbon_window_penalty,
+    clipped to [0, 1] for stable RL gradients.
+    """
+    rewards = []
+    for sm in smiles:
+        mol = Chem.MolFromSmiles(sm)
+        if mol is None:
+            rewards.append(0.0)
+            continue
+        e_molar = _molar_comb_energy(mol)          # MJ mol-1
+        penalty = _carbon_window_penalty(mol)
+        score = np.clip((e_molar / 10.0) * penalty, 0.0, 1.0)
+        rewards.append(score)
+    return rewards
+
+
+# ============================================================
+# ——— ECNet (PyTorch) YSI, with silent fallback ————————————————
+def _ysi_ecnet(smiles_list):
+    try:
+        ec = importlib.import_module("ecnet")
+        model = ec.load_pretrained("yield_sooting_index")
+        return model.predict(smiles_list)           # list[float]
+    except Exception:
+        return None
+
+def _ysi_fast(mol):                                # St-John linear QSAR
+    nC  = sum(a.GetSymbol()=="C" for a in mol.GetAtoms())
+    nAr = sum(a.GetIsAromatic() and a.GetSymbol()=="C" for a in mol.GetAtoms())
+    nH  = mol.GetNumAtoms() - nC
+    dbe = nC - nH/2 + 1
+    return 3.0*dbe + 20.0*(nAr/max(1,nC))
+
+def batch_ysi(smiles):
+    ec_pred = _ysi_ecnet(smiles)
+    vals=[]
+    for i,sm in enumerate(smiles):
+        mol = Chem.MolFromSmiles(sm)
+        if not mol: vals.append(0.0); continue
+        y = ec_pred[i] if ec_pred else _ysi_fast(mol)
+        vals.append(np.clip(1 - y/100, 0, 1))       # higher = cleaner
+    return vals
+
+# ——— Flash-point soft gate (Joback) ————————————————————————
+try:
+    from thermo.group_contribution.joback import TbrJoback
+    _have_thermo = True
+except ImportError:
+    _have_thermo = False
+
+def _flash_gate(mol):
+    if not _have_thermo: return 1.0
+    Tb = TbrJoback(Chem.MolToSmiles(mol))           # K
+    fp = -46.4 + 0.644*(Tb-273.15)                  # °C
+    return np.clip(fp/FP_SPEC, 0.0, 1.0)
+
+def batch_flashgate(smiles):
+    return [_flash_gate(Chem.MolFromSmiles(s) or Chem.MolFromSmiles("C"))
+            for s in smiles]
+
+# Molar net heat of combustion (MJ mol⁻¹) 
+def _atom_mass(sym): return Chem.GetPeriodicTable().GetAtomicWeight(sym)
+
+def _wt_fractions(mol):
+    cnt={e:0 for e in "CHONS"}
+    for a in mol.GetAtoms():
+        s=a.GetSymbol()
+        if s in cnt: cnt[s]+=1
+    mw=Descriptors.ExactMolWt(mol)
+    return {e:cnt[e]*_atom_mass(e)/mw for e in cnt}, mw
+
+def _lhv_cp(mol):
+    w,_=_wt_fractions(mol)
+    C,H,O,N,S=(w[e]*100 for e in "CHONS")
+    hhv=0.3491*C + 1.1783*H + 0.1005*S - 0.1034*O - 0.0151*N
+    return hhv - LATENT_H2O*H2O_PER_H*w["H"]
+
+def _molar_comb_energy(mol):
+    lhv=_lhv_cp(mol); _,mw=_wt_fractions(mol)
+    return lhv*mw/1000.0                              # MJ mol⁻¹
+
+def batch_molar_nhoc(smiles):
+    out=[]
+    for sm in smiles:
+        mol=Chem.MolFromSmiles(sm)
+        out.append(0.0 if mol is None else np.clip(_molar_comb_energy(mol)/10,0,1))
+    return out
+
+# ——— Composite single-scalar SAF reward ————————————————
+def batch_safscore(smiles):
+    e   = batch_molar_nhoc(smiles)
+    ysi = batch_ysi(smiles)
+    fp  = batch_flashgate(smiles)
+    return [e[i]*ysi[i]*fp[i] for i in range(len(smiles))]
+
+
+
