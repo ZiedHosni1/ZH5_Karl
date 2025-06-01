@@ -33,3 +33,12 @@ lightning_logs/
 #*.chk
 #*.fchk
 
+# Latex junk files (does this work?)
+/writing/manuscript/*.gz
+/writing/manuscript/*.pdf
+/writing/manuscript/*.log
+/writing/manuscript/*.fls
+/writing/manuscript/*.fdb_latexmk
+/writing/manuscript/*.blg
+/writing/manuscript/*.bbl
+/writing/manuscript/*.aux
