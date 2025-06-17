@@ -42,3 +42,12 @@ lightning_logs/
 /writing/manuscript/*.blg
 /writing/manuscript/*.bbl
 /writing/manuscript/*.aux
+
+/writing/dissertation/*.gz
+/writing/dissertation/*.pdf
+/writing/dissertation/*.log
+/writing/dissertation/*.fls
+/writing/dissertation/*.fdb_latexmk
+/writing/dissertation/*.blg
+/writing/dissertation/*.bbl
+/writing/dissertation/*.aux
