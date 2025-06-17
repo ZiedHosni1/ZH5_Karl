@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="950"
+   height="650"
+   font-family="Arial, Helvetica, sans-serif"
+   version="1.1"
+   id="svg16"
+   sodipodi:docname="saf_tengan_architecture_fixed.svg"
+   inkscape:version="1.4.2 (2aeb623e1d, 2025-05-12)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview16"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.7"
+     inkscape:cx="477.14286"
+     inkscape:cy="325"
+     inkscape:window-width="1280"
+     inkscape:window-height="656"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg16" />
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="powerstroke"
+       message=""
+       id="path-effect27"
+       is_visible="true"
+       lpeversion="1.3"
+       scale_width="1"
+       interpolator_type="CubicBezierJohan"
+       interpolator_beta="0.2"
+       start_linecap_type="zerowidth"
+       end_linecap_type="zerowidth"
+       offset_points="4,18.867925"
+       linejoin_type="extrp_arc"
+       miter_limit="4"
+       not_jump="false"
+       sort_points="true" />
+    <inkscape:path-effect
+       effect="powerstroke"
+       message=""
+       id="path-effect25"
+       is_visible="true"
+       lpeversion="1.3"
+       scale_width="1"
+       interpolator_type="CubicBezierJohan"
+       interpolator_beta="0.2"
+       start_linecap_type="zerowidth"
+       end_linecap_type="zerowidth"
+       offset_points="18,18.867925"
+       linejoin_type="extrp_arc"
+       miter_limit="4"
+       not_jump="false"
+       sort_points="true" />
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect24"
+       is_visible="true"
+       lpeversion="1" />
+    <!-- Arrow marker -->
+    <marker
+       id="arrow"
+       markerWidth="10"
+       markerHeight="10"
+       refX="10"
+       refY="5"
+       orient="auto"
+       markerUnits="strokeWidth">
+      <path
+         d="M0,0 L10,5 L0,10 z"
+         fill="#000"
+         id="path1" />
+    </marker>
+    <!-- Block styles -->
+    <style
+       id="style1"><![CDATA[
+      .block { stroke:#000; stroke-width:1.5; rx:10; ry:10; }
+      .title { font-size:15px; font-weight:bold; text-anchor:middle; }
+      .subtitle { font-size:12px; text-anchor:middle; }
+    ]]></style>
+    <marker
+       id="arrow-0"
+       markerWidth="10"
+       markerHeight="10"
+       refX="10"
+       refY="5"
+       orient="auto"
+       markerUnits="strokeWidth">
+      <path
+         d="M 0,0 10,5 0,10 Z"
+         fill="#000000"
+         id="path1-9" />
+    </marker>
+    <inkscape:path-effect
+       effect="fill_between_many"
+       method="bsplinespiro"
+       autoreverse="false"
+       close="false"
+       join="false"
+       linkedpaths="#path24,0,1"
+       id="path-effect26" />
+    <inkscape:path-effect
+       effect="fill_between_many"
+       method="bsplinespiro"
+       autoreverse="false"
+       close="false"
+       join="false"
+       linkedpaths="#path26,0,1"
+       id="path-effect28" />
+  </defs>
+  <!-- Seed / starter molecules hopper -->
+  <polygon
+     points="60,230 120,260 120,200 "
+     fill="#d8e8ff"
+     stroke="#000000"
+     stroke-width="1.5"
+     id="polygon1"
+     transform="translate(-4.2857143,-51.428571)" />
+  <text
+     x="77.167946"
+     y="179.20361"
+     font-size="11"
+     font-weight="bold"
+     transform="rotate(0.93184497)"
+     id="text1"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3077px;font-family:'Monaspace Argon';-inkscape-font-specification:'Monaspace Argon, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"><tspan
+       sodipodi:role="line"
+       id="tspan24"
+       x="77.167946"
+       y="179.20361">Noise</tspan></text>
+  <!-- Generator -->
+  <rect
+     x="180"
+     y="120"
+     width="200"
+     height="100"
+     fill="#e9ddff"
+     class="block"
+     id="rect1" />
+  <text
+     x="280"
+     y="155"
+     class="title"
+     id="text2"
+     style="-inkscape-font-specification:'Monaspace Argon, Bold';font-family:'Monaspace Argon';font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:13.30769253px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Generator</text>
+  <text
+     x="280"
+     y="180"
+     class="subtitle"
+     id="text3"
+     style="-inkscape-font-specification:'Monaspace Argon, Normal';font-family:'Monaspace Argon';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:13.3077px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle"><tspan
+       sodipodi:role="line"
+       id="tspan19">2× Transformer Encoder</tspan></text>
+  <!-- Monte Carlo Search -->
+  <rect
+     x="530"
+     y="120"
+     width="220"
+     height="100"
+     fill="#fff4cc"
+     class="block"
+     id="rect4" />
+  <text
+     x="640"
+     y="160"
+     class="title"
+     id="text5"
+     style="-inkscape-font-specification:'Monaspace Argon, Bold';font-family:'Monaspace Argon';font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:13.30769253px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Monte-Carlo-Tree-Search</text>
+  <text
+     x="642.85712"
+     y="192.14285"
+     class="subtitle"
+     id="text6"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3077px;font-family:'Monaspace Argon';-inkscape-font-specification:'Monaspace Argon, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle"><tspan
+       sodipodi:role="line"
+       id="tspan1"
+       x="642.85712"
+       y="192.14285">SMILES augmentation</tspan></text>
+  <!-- RL Property head -->
+  <rect
+     x="530"
+     y="330"
+     width="220"
+     height="100"
+     fill="#d9f9d9"
+     class="block"
+     id="rect6" />
+  <text
+     x="640"
+     y="365"
+     class="title"
+     id="text7"
+     style="-inkscape-font-specification:'Monaspace Argon, Bold';font-family:'Monaspace Argon';font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:13.30769253px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle"><tspan
+       sodipodi:role="line"
+       id="tspan21">RL Property Calculation</tspan></text>
+  <text
+     x="640"
+     y="390"
+     class="subtitle"
+     id="text8"
+     style="-inkscape-font-specification:'Monaspace Argon, Normal';font-family:'Monaspace Argon';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:13.3077px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle"><tspan
+       sodipodi:role="line"
+       id="tspan22">SAF Score (SAFS)</tspan></text>
+  <!-- Discriminator -->
+  <rect
+     x="180"
+     y="330"
+     width="200"
+     height="100"
+     fill="#ffdede"
+     class="block"
+     id="rect8" />
+  <text
+     x="280"
+     y="365"
+     class="title"
+     id="text9"
+     style="-inkscape-font-specification:'Monaspace Argon, Bold';font-family:'Monaspace Argon';font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:13.30769253px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Discriminator</text>
+  <text
+     x="280"
+     y="390"
+     class="subtitle"
+     id="text10"
+     style="-inkscape-font-specification:'Monaspace Argon, Normal';font-family:'Monaspace Argon';font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:13.3077px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle"><tspan
+       sodipodi:role="line"
+       id="tspan23">2× Transformer Encoder</tspan></text>
+  <!-- Combined Reward ellipse -->
+  <ellipse
+     cx="460"
+     cy="500"
+     rx="140"
+     ry="50"
+     fill="#dcecff"
+     stroke="#000000"
+     stroke-width="1.5"
+     id="ellipse10" />
+  <text
+     x="455.71429"
+     y="490"
+     class="title"
+     id="text11"
+     style="-inkscape-font-specification:'Monaspace Argon, Bold';font-family:'Monaspace Argon';font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:13.30769253px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Combined Reward</text>
+  <text
+     x="461.38055"
+     y="508.91943"
+     class="subtitle"
+     id="text12"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Monaspace Argon';-inkscape-font-specification:'Monaspace Argon, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle"><tspan
+       sodipodi:role="line"
+       id="tspan28"
+       x="461.38055"
+       y="508.91943">[add simplified reward function here]</tspan></text>
+  <!-- Arrows -->
+  <!-- Seed to Generator -->
+  <line
+     x1="119.03057"
+     y1="176.17226"
+     x2="180.96944"
+     y2="175.25916"
+     stroke="#000000"
+     stroke-width="1.19896"
+     marker-end="url(#arrow)"
+     id="line12" />
+  <!-- Generator to MC Search -->
+  <line
+     x1="380"
+     y1="170"
+     x2="530"
+     y2="170"
+     stroke="#000"
+     stroke-width="1.4"
+     marker-end="url(#arrow)"
+     id="line13" />
+  <!-- MC Search to RL Property -->
+  <line
+     x1="640"
+     y1="220"
+     x2="640"
+     y2="330"
+     stroke="#000"
+     stroke-width="1.4"
+     marker-end="url(#arrow)"
+     id="line14" />
+  <line
+     x1="529.8891"
+     y1="220.18384"
+     x2="381.38611"
+     y2="328.17346"
+     stroke="#000000"
+     stroke-width="2.43465"
+     marker-end="url(#arrow-0)"
+     id="line14-6"
+     style="marker-end:url(#arrow-0)" />
+  <!-- RL Property to Combined Reward -->
+  <line
+     x1="640"
+     y1="430"
+     x2="600"
+     y2="500"
+     stroke="#000000"
+     stroke-width="1.4"
+     marker-end="url(#arrow)"
+     id="line15" />
+  <!-- Discriminator to Combined Reward -->
+  <line
+     x1="280"
+     y1="430"
+     x2="320"
+     y2="500"
+     stroke="#000"
+     stroke-width="1.4"
+     marker-end="url(#arrow)"
+     id="line16" />
+  <!-- Feedback loop to Generator -->
+  <path
+     d="m 351.39155,531.43959 c 0,120.64408 -204.29065,98.45399 -204.29065,-311.73586"
+     fill="none"
+     stroke="#000000"
+     stroke-width="2.62866"
+     marker-end="url(#arrow)"
+     id="path16"
+     style="stroke-width:2.99105;stroke-dasharray:none"
+     sodipodi:nodetypes="cc" />
+  <!-- Feedback label -->
+  <text
+     x="118.57143"
+     y="518.57141"
+     font-size="12px"
+     text-anchor="middle"
+     font-style="italic"
+     id="text16"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:'Monaspace Argon';-inkscape-font-specification:'Monaspace Argon, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle">Policy gradient update</text>
+  <text
+     x="645.71429"
+     y="179.28571"
+     class="subtitle"
+     id="text4"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.3077px;font-family:'Monaspace Argon';-inkscape-font-specification:'Monaspace Argon, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle"><tspan
+       sodipodi:role="line"
+       id="tspan4"
+       x="645.71429"
+       y="179.28571">Roll‑out / completion</tspan></text>
+</svg>
