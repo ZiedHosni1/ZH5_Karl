@@ -1,9 +1,9 @@
 #!/bin/bash -l
 #$ -N g16_base
 #$ -l h_rt=48:00:00
-#$ -l mem=8G
-#$ -pe smp 4
-#$ -l tmpfs=10G
+#$ -l mem=12G
+#$ -pe smp 8
+#$ -l tmpfs=1000G
 
 # Submit as `qsub submit_g16_base.sh my_molecule`, make sure not to include .gjf!
 
@@ -19,12 +19,8 @@ mkdir -p "$JOB_RESULT_DIR"
 echo "Results will be saved to: $JOB_RESULT_DIR"
 
 # Load necessary modules
-echo "Loading modules..."
-module purge
-module load default-modules
 module load gaussian/g16-c01/pgi-2018.10
 source $g16root/g16/bsd/g16.profile # Source Gaussian profile
-
 
 # --- Job Execution ---
 
@@ -49,6 +45,8 @@ cp "$SGE_O_WORKDIR/${INPUT_NAME}.gjf" .
 # Run Gaussian 16, explicitly asking for the formatted checkpoint file
 echo "Starting Gaussian 16 calculation..."
 g16 -fchk="${INPUT_NAME}.fchk" "${INPUT_NAME}.gjf"
+
+# formchk "${INPUT_NAME}.chk" "${INPUT_NAME}.fchk"
 
 # Check if Gaussian finished successfully
 if [ $? -ne 0 ]; then

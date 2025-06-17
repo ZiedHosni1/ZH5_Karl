@@ -138,9 +138,9 @@ python main.py \
     --max_len "$MAX_LEN" \
     --batch_size "$BATCH_SIZE" \
     --gen_pretrain \
-    --gen_epochs 50 \
+    --gen_epochs "$GEN_EPOCHS" \
     --dis_pretrain \
-    --dis_epochs 20 \
+    --dis_epochs "$DIS_EPOCHS" \
     --adversarial_train \
     --dis_lambda "$DIS_LAMBDA" \
     --adv_lr "$ADV_LR" \
@@ -149,7 +149,7 @@ python main.py \
     --gen_num_encoder_layers "$GEN_NUM_ENCODER_LAYERS" \
     --roll_num "$ROLL_NUM" \
     --gen_dropout "$GEN_DROPOUT" \
-    --adv_epochs 60 \
+    --adv_epochs "$ADV_EPOCHS" \
     --gen_train_size 3236 \
     --generated_num 4000
     $EXTRA_FLAGS
