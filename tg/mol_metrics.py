@@ -1,3 +1,4 @@
+from rdkit.Chem import rdMolDescriptors, Descriptors
 import gzip
 import importlib
 import math
@@ -100,23 +101,10 @@ def reward_fn(properties, generated_smiles):
         vals = batch_molar_nhoc(generated_smiles)
     elif properties == "safscore":
         vals = batch_safscore(generated_smiles)
-    return vals
-
-
-# Diversity
-def batch_diversity(smiles):
-    scores = []
-    df = pd.DataFrame({"smiles": smiles})
-    PandasTools.AddMoleculeColumnToFrame(df, "smiles", "mol")
-    fps = [
-        GetMorganFingerprintAsBitVect(m, 4, nBits=2048)
-        for m in df["mol"]
-        if m is not None
-    ]
-    for i in range(1, len(fps)):
-        scores.extend(
-            DataStructs.BulkTanimotoSimilarity(fps[i], fps[:i], returnDistance=True)
-        )
+    elif properties == "high_density":
+        vals = batch_high_density(generated_smiles)
+    elif properties == "balanced_fuel":
+        vals = batch_balanced_fuel(generated_smiles)
     return np.mean(scores)
 
 
@@ -545,7 +533,8 @@ def batch_SA(smiles):
             score1 /= nf
             # features score
             nAtoms = mol.GetNumAtoms()
-            nChiralCenters = len(Chem.FindMolChiralCenters(mol, includeUnassigned=True))
+            nChiralCenters = len(Chem.FindMolChiralCenters(
+                mol, includeUnassigned=True))
             ri = mol.GetRingInfo()
             nSpiro = Chem.AllChem.CalcNumSpiroAtoms(mol)
             nBridgeheads = Chem.AllChem.CalcNumBridgeheadAtoms(mol)
@@ -663,7 +652,8 @@ def _ysi_ecnet(smiles_list):
 
 def _ysi_fast(mol):  # St-John linear QSAR
     nC = sum(a.GetSymbol() == "C" for a in mol.GetAtoms())
-    nAr = sum(a.GetIsAromatic() and a.GetSymbol() == "C" for a in mol.GetAtoms())
+    nAr = sum(a.GetIsAromatic() and a.GetSymbol()
+              == "C" for a in mol.GetAtoms())
     nH = mol.GetNumAtoms() - nC
     dbe = nC - nH / 2 + 1
     return 3.0 * dbe + 20.0 * (nAr / max(1, nC))
@@ -686,7 +676,7 @@ def batch_ysi(smiles):
 try:
     from thermo.group_contribution.joback import TbrJoback
 
-    _have_thermo = True
+   _have_thermo = True
 except ImportError:
     _have_thermo = False
 
@@ -737,7 +727,8 @@ def batch_molar_nhoc(smiles):
     out = []
     for sm in smiles:
         mol = Chem.MolFromSmiles(sm)
-        out.append(0.0 if mol is None else np.clip(_molar_comb_energy(mol) / 10, 0, 1))
+        out.append(0.0 if mol is None else np.clip(
+            _molar_comb_energy(mol) / 10, 0, 1))
     return out
 
 
@@ -747,3 +738,99 @@ def batch_safscore(smiles):
     ysi = batch_ysi(smiles)
     fp = batch_flashgate(smiles)
     return [e[i] * ysi[i] * fp[i] for i in range(len(smiles))]
+
+
+
+def high_density_reward(m):
+    # Validity Gate: Accept only molecules containing only C, H, O and with heavy atoms between 8 and 20.
+    valid = True
+    for atom in m.GetAtoms():
+        if atom.GetSymbol() not in {"C", "H", "O"}:
+            valid = False
+            break
+    n_heavy = m.GetNumHeavyAtoms()
+    if n_heavy < 8 or n_heavy > 20:
+        valid = False
+    validity_gate = 1 if valid else 0
+
+    # If valid, compute the reward components.
+    if validity_gate:
+        n_bridgehead = rdMolDescriptors.CalcNumBridgeheadAtoms(m)
+        n_spiro = rdMolDescriptors.CalcNumSpiroAtoms(m)
+        n_rings = m.GetRingInfo().NumRings()
+        S_score = math.log(1 + n_bridgehead + 2 * n_spiro + n_rings)
+        n_rot_bonds = Descriptors.NumRotatableBonds(m)
+        F_penalty = max(0, 1 - (n_rot_bonds / n_heavy))
+    else:
+        S_score = 0
+        F_penalty = 0
+
+    reward = validity_gate * (0.7 * S_score + 0.3 * F_penalty)
+    return {"validity_gate": validity_gate, "S_score": S_score, "F_penalty": F_penalty, "reward": reward}
+
+def batch_high_density(smiles):
+    """
+    Computes the high-density reward for a batch of SMILES strings.
+    Returns a list of rewards, where each reward is between 0 and 1.
+    """
+    rewards = []
+    for smi in smiles:
+        mol = Chem.MolFromSmiles(smi)
+        if mol is None:
+            rewards.append(0.0)
+        else:
+            res = high_density_reward(mol)
+            rewards.append(res["reward"])
+    return rewards
+
+
+def balanced_fuel_reward(mol, smi):
+    # Validity Gate: C8–C20, <=1 O, only C/H/O
+    atom_counts = {"C": 0, "H": 0, "O": 0}
+    valid = True
+    for atom in mol.GetAtoms():
+        sym = atom.GetSymbol()
+        if sym not in atom_counts:
+            valid = False
+            break
+        atom_counts[sym] += 1
+    nC = atom_counts["C"]
+    nO = atom_counts["O"]
+    n_heavy = mol.GetNumHeavyAtoms()
+    if not (8 <= nC <= 20) or nO > 1:
+        valid = False
+    validity_gate = 1 if valid else 0
+
+    # Property Score
+    energy = _molar_comb_energy(mol) / 10.0  # normalized
+    ring_atoms = rdMolDescriptors.CalcNumRingAtoms(mol)
+    ring_frac = ring_atoms / n_heavy if n_heavy > 0 else 0
+    P_score = 0.6 * energy + 0.4 * ring_frac
+
+    # SA Penalty (Gaussian centered at 5)
+    sa = batch_SA([smi])[0] * 10  # scale to [1,10]
+    target_sa = 5.0
+    SA_penalty = math.exp(-((sa - target_sa) ** 2) / 8)
+
+    reward = validity_gate * P_score * SA_penalty
+    return {
+        "validity_gate": validity_gate,
+        "energy": energy,
+        "ring_frac": ring_frac,
+        "P_score": P_score,
+        "sa": sa,
+        "SA_penalty": SA_penalty,
+        "reward": reward,
+    }
+
+
+def batch_balanced_fuel(smiles):
+    vals = []
+    for smi in smiles:
+        mol = Chem.MolFromSmiles(smi)
+        if mol is None:
+            vals.append(0.0)
+        else:
+            res = balanced_fuel_reward(mol, smi)
+            vals.append(res["reward"])
+    return vals
