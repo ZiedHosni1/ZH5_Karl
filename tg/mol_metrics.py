@@ -27,16 +27,23 @@ class Tokenizer:
 
     def build_vocab(self):
         chars = []
-        # atoms (carbon)
-        chars = chars + ["H", "c", "C", "o", "O"]
-        # hydrogens: H2 to Z, H3 to X
+        chars = chars + [
+            "H",
+            "c",
+            "C",
+            "n",
+            "N",
+            "o",
+            "O",
+        ]
+        # hidrogens: H2 to Z, H3 to X
         chars = chars + ["[", "]", "+", "Z", "X"]
         # bounding
         chars = chars + ["-", "=", "#", "."]
         # branches
         chars = chars + ["(", ")"]
         # cycles
-        chars = chars + ["1", "2", "3", "4", "5", "6", "7"]
+        chars = chars + ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
         # anit/clockwise
         chars = chars + ["@"]
         # directional bonds
@@ -583,7 +590,6 @@ def batch_SA(smiles):
     return vals
 
 
-#  Fast elemental-analysis thermochemistry + carbon-window penalty
 #  HHV  (MJ kg-1) = 0.3491 C + 1.1783 H + 0.1005 S − 0.1034 O − 0.0151 N
 #  LHV  (DIN 51900)  = HHV − 2.442 × 9 × w_H
 #  Molar ΔH_comb     = LHV × M_w / 1000   (MJ mol-1)
