@@ -1,4 +1,3 @@
-from rdkit.Chem import rdMolDescriptors, Descriptors
 import gzip
 import importlib
 import math
@@ -9,13 +8,13 @@ from math import exp, log
 import numpy as np
 import pandas as pd
 from rdkit import Chem, DataStructs, rdBase
-from rdkit.Chem import Crippen, Descriptors, PandasTools
+from rdkit.Chem import Crippen, Descriptors, PandasTools, rdMolDescriptors
 from rdkit.Chem.rdMolDescriptors import GetMorganFingerprintAsBitVect
 
 rdBase.DisableLog("rdApp.error")
-LATENT_H2O = 2.442  # MJ kg-1   latent heat of H₂O (g) at 25 °C
-H2O_PER_H = 9.0  # kg H₂O produced per kg elemental hydrogen
-FP_SPEC = 38.0  # °C  flash-point limit for Jet-A/Jet-A1
+LATENT_H2O = 2.442  # MJ kg-1   latent heat of H2O (g) at 25 C
+H2O_PER_H = 9.0  # kg H2O produced per kg elemental hydrogen
+FP_SPEC = 38.0  # C  flash-point limit for Jet-A/Jet-A1
 
 
 # ============================================================================
@@ -28,14 +27,24 @@ class Tokenizer:
 
     def build_vocab(self):
         chars = []
+        # atoms (carbon), replace Cl for Q and Br for W
         chars = chars + [
             "H",
+            "B",
             "c",
             "C",
             "n",
             "N",
             "o",
             "O",
+            "p",
+            "P",
+            "s",
+            "S",
+            "F",
+            "Q",
+            "W",
+            "I",
         ]
         # hidrogens: H2 to Z, H3 to X
         chars = chars + ["[", "]", "+", "Z", "X"]
@@ -65,6 +74,8 @@ class Tokenizer:
 
     def encode(self, smi):
         encoded = []
+        smi = smi.replace("Cl", "Q")
+        smi = smi.replace("Br", "W")
         # hydrogens
         smi = smi.replace("H2", "Z")
         smi = smi.replace("H3", "X")
@@ -80,6 +91,9 @@ class Tokenizer:
         # hydrogens
         smi = smi.replace("Z", "H2")
         smi = smi.replace("X", "H3")
+        # replace proxy atoms for double char atoms symbols
+        smi = smi.replace("Q", "Cl")
+        smi = smi.replace("W", "Br")
 
         return smi
 
@@ -105,6 +119,23 @@ def reward_fn(properties, generated_smiles):
         vals = batch_high_density(generated_smiles)
     elif properties == "balanced_fuel":
         vals = batch_balanced_fuel(generated_smiles)
+    return vals
+
+
+# Diversity
+def batch_diversity(smiles):
+    scores = []
+    df = pd.DataFrame({"smiles": smiles})
+    PandasTools.AddMoleculeColumnToFrame(df, "smiles", "mol")
+    fps = [
+        GetMorganFingerprintAsBitVect(m, 4, nBits=2048)
+        for m in df["mol"]
+        if m is not None
+    ]
+    for i in range(1, len(fps)):
+        scores.extend(
+            DataStructs.BulkTanimotoSimilarity(fps[i], fps[:i], returnDistance=True)
+        )
     return np.mean(scores)
 
 
@@ -533,8 +564,7 @@ def batch_SA(smiles):
             score1 /= nf
             # features score
             nAtoms = mol.GetNumAtoms()
-            nChiralCenters = len(Chem.FindMolChiralCenters(
-                mol, includeUnassigned=True))
+            nChiralCenters = len(Chem.FindMolChiralCenters(mol, includeUnassigned=True))
             ri = mol.GetRingInfo()
             nSpiro = Chem.AllChem.CalcNumSpiroAtoms(mol)
             nBridgeheads = Chem.AllChem.CalcNumBridgeheadAtoms(mol)
@@ -579,9 +609,9 @@ def batch_SA(smiles):
     return vals
 
 
-#  HHV  (MJ kg-1) = 0.3491 C + 1.1783 H + 0.1005 S − 0.1034 O − 0.0151 N
-#  LHV  (DIN 51900)  = HHV − 2.442 × 9 × w_H
-#  Molar ΔH_comb     = LHV × M_w / 1000   (MJ mol-1)
+#  HHV  (MJ kg-1) = 0.3491 C + 1.1783 H + 0.1005 S - 0.1034 O - 0.0151 N
+#  LHV  (DIN 51900)  = HHV - 2.442 × 9 × w_H
+#  Molar dH_comb     = LHV * M_w / 1000   (MJ mol-1)
 
 
 def _atom_mass(sym):
@@ -623,7 +653,7 @@ def _molar_comb_energy(mol):
 
 def batch_molar_nhoc(smiles):
     """
-    Reward = (ΔH_comb,m / 10 MJ mol-1) * carbon_window_penalty,
+    Reward = (dH_comb,m / 10 MJ mol-1) * carbon_window_penalty,
     clipped to [0, 1] for stable RL gradients.
     """
     rewards = []
@@ -652,8 +682,7 @@ def _ysi_ecnet(smiles_list):
 
 def _ysi_fast(mol):  # St-John linear QSAR
     nC = sum(a.GetSymbol() == "C" for a in mol.GetAtoms())
-    nAr = sum(a.GetIsAromatic() and a.GetSymbol()
-              == "C" for a in mol.GetAtoms())
+    nAr = sum(a.GetIsAromatic() and a.GetSymbol() == "C" for a in mol.GetAtoms())
     nH = mol.GetNumAtoms() - nC
     dbe = nC - nH / 2 + 1
     return 3.0 * dbe + 20.0 * (nAr / max(1, nC))
@@ -672,20 +701,15 @@ def batch_ysi(smiles):
     return vals
 
 
-# --- Flash-point soft gate (Joback) -------------
-try:
-    from thermo.group_contribution.joback import TbrJoback
-
-   _have_thermo = True
-except ImportError:
-    _have_thermo = False
+# Flash-point soft gate (Joback GC)
+from thermo.group_contribution.joback import TbrJoback
 
 
 def _flash_gate(mol):
     if not _have_thermo:
         return 1.0
     Tb = TbrJoback(Chem.MolToSmiles(mol))  # K
-    fp = -46.4 + 0.644 * (Tb - 273.15)  # °C
+    fp = -46.4 + 0.644 * (Tb - 273.15)  # C
     return np.clip(fp / FP_SPEC, 0.0, 1.0)
 
 
@@ -695,7 +719,7 @@ def batch_flashgate(smiles):
     ]
 
 
-# Molar net heat of combustion (MJ mol⁻¹)
+# Molar net heat of combustion (MJ mol-1)
 def _atom_mass(sym):
     return Chem.GetPeriodicTable().GetAtomicWeight(sym)
 
@@ -720,25 +744,23 @@ def _lhv_cp(mol):
 def _molar_comb_energy(mol):
     lhv = _lhv_cp(mol)
     _, mw = _wt_fractions(mol)
-    return lhv * mw / 1000.0  # MJ mol⁻¹
+    return lhv * mw / 1000.0  # MJ mol-1
 
 
 def batch_molar_nhoc(smiles):
     out = []
     for sm in smiles:
         mol = Chem.MolFromSmiles(sm)
-        out.append(0.0 if mol is None else np.clip(
-            _molar_comb_energy(mol) / 10, 0, 1))
+        out.append(0.0 if mol is None else np.clip(_molar_comb_energy(mol) / 10, 0, 1))
     return out
 
 
-# ——— Composite single-scalar SAF reward ————————————————
+# Composite single-scalar SAF reward
 def batch_safscore(smiles):
     e = batch_molar_nhoc(smiles)
     ysi = batch_ysi(smiles)
     fp = batch_flashgate(smiles)
     return [e[i] * ysi[i] * fp[i] for i in range(len(smiles))]
-
 
 
 def high_density_reward(m):
@@ -766,7 +788,13 @@ def high_density_reward(m):
         F_penalty = 0
 
     reward = validity_gate * (0.7 * S_score + 0.3 * F_penalty)
-    return {"validity_gate": validity_gate, "S_score": S_score, "F_penalty": F_penalty, "reward": reward}
+    return {
+        "validity_gate": validity_gate,
+        "S_score": S_score,
+        "F_penalty": F_penalty,
+        "reward": reward,
+    }
+
 
 def batch_high_density(smiles):
     """
@@ -785,7 +813,7 @@ def batch_high_density(smiles):
 
 
 def balanced_fuel_reward(mol, smi):
-    # Validity Gate: C8–C20, <=1 O, only C/H/O
+    # Validity Gate: C8-C20, <=1 O, only C/H/O
     atom_counts = {"C": 0, "H": 0, "O": 0}
     valid = True
     for atom in mol.GetAtoms():
@@ -802,7 +830,7 @@ def balanced_fuel_reward(mol, smi):
     validity_gate = 1 if valid else 0
 
     # Property Score
-    energy = _molar_comb_energy(mol) / 10.0  # normalized
+    energy = _molar_comb_energy(mol) / 10.0  # normalised
     ring_atoms = rdMolDescriptors.CalcNumRingAtoms(mol)
     ring_frac = ring_atoms / n_heavy if n_heavy > 0 else 0
     P_score = 0.6 * energy + 0.4 * ring_frac

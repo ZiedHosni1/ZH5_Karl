@@ -17,7 +17,7 @@ Thumbs.db
 .idea/
 .vscode/
 
-#  Virtual‑/Conda environments created locally or on the cluster
+#  Virtual/Conda environments created locally or on the cluster
 venv/
 .venv/
 /envs/                     # envs/ under $SCRATCH/tengan_runs (HPC)
@@ -51,3 +51,9 @@ lightning_logs/
 /writing/dissertation/*.blg
 /writing/dissertation/*.bbl
 /writing/dissertation/*.aux
+
+# Myriad jobscript files (some contain my WandB API keys). I believe all .sh files are jobscripts in this repo
+*.sh
+
+# No need for ruff cache in git repo
+.ruff_cache/

@@ -1,6 +1,5 @@
 import argparse
 import copy
-import csv
 import glob
 import os
 import time
@@ -9,21 +8,25 @@ import warnings
 import numpy as np
 import pytorch_lightning
 import torch
+import wandb
 from data_iter import DisDataLoader, GenDataLoader
 from discriminator import DiscriminatorModel
 from generator import GeneratorModel, GenSampler
 from mol_metrics import *
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
-from pytorch_lightning.loggers import CSVLogger
-from rdkit import Chem, rdBase
+from pytorch_lightning.loggers import WandbLogger
+from rdkit import rdBase
 from rdkit.Chem import Draw
 from rollout import OwnModel, Rollout
 from utils import *
+from utils import evaluation
 
 rdBase.DisableLog("rdApp.error")
 warnings.filterwarnings("ignore")
 
 # ===========================
+# TODO: after completing experiments with TenGAN for my project, change the defaults to the best one from HPO
+
 # Default settings
 parser = argparse.ArgumentParser()
 # General hyperparameters
@@ -189,6 +192,7 @@ else:
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # cuda:0,1,2,3
 GPUS = 0
+# TODO: Add an argument for GPUs instead, not good to have to modify the scripts like that to move between CPU-only and GPU runs.
 
 if args.dis_wgan:
     DIS_MAX_LR = 8e-4
@@ -274,7 +278,7 @@ with open(PATHS + "/hyperparameters.csv", "a+") as hp:
     for param in params:
         string = param + " " * (25 - len(param))
         print("{}:   {}".format(string, params[param]))
-        hp.write("{}\t{}\n".format(str(param), str(params[param])))
+        pass
     print("\n")
 
     params = {}
@@ -291,7 +295,7 @@ with open(PATHS + "/hyperparameters.csv", "a+") as hp:
     for param in params:
         string = param + " " * (25 - len(param))
         print("{}:   {}".format(string, params[param]))
-        hp.write("{}\t{}\n".format(str(param), str(params[param])))
+        pass
     print("\n")
 
     params = {}
@@ -308,7 +312,7 @@ with open(PATHS + "/hyperparameters.csv", "a+") as hp:
     for param in params:
         string = param + " " * (25 - len(param))
         print("{}:   {}".format(string, params[param]))
-        hp.write("{}\t{}\n".format(str(param), str(params[param])))
+        pass
     print("\n")
 
     params = {}
@@ -325,99 +329,8 @@ with open(PATHS + "/hyperparameters.csv", "a+") as hp:
     for param in params:
         string = param + " " * (25 - len(param))
         print("{}:   {}".format(string, params[param]))
-        hp.write("{}\t{}\n".format(str(param), str(params[param])))
+        pass
     print("==================================================================")
-
-# ============================================================================
-
-
-def evaluation(generated_smiles, gen_data_loader, time=None, epoch=None):
-    generated_mols = np.array(
-        [Chem.MolFromSmiles(s) for s in generated_smiles if len(s.strip())]
-    )
-    if len(generated_mols) == 0:
-        print("No SMILES data is generated, please pre-train the generator again!")
-        return
-    else:
-        valid_smiles = []
-        for mol in generated_mols:
-            if mol != None and mol.GetNumAtoms() > 1 and Chem.MolToSmiles(mol) != " ":
-                valid_smiles.append(Chem.MolToSmiles(mol))
-        unique_smiles = list(set(valid_smiles))
-        novel_smiles = []
-        # Keep the unique order for the POSITIVE dataset
-        train_smiles = [
-            Chem.MolToSmiles(Chem.MolFromSmiles(sm))
-            for sm in gen_data_loader.train_data
-        ]
-        for smile in unique_smiles:
-            if smile not in train_smiles:
-                novel_smiles.append(smile)
-
-        validity = len(valid_smiles) / len(generated_mols)
-        if len(valid_smiles) == 0:
-            valid_smiles.append("c1ccccc1")
-        if len(unique_smiles) == 0:
-            unique_smiles.append("c1ccccc1")
-        uniqueness = len(unique_smiles) / len(valid_smiles)
-        novelty = len(novel_smiles) / len(unique_smiles)
-        # Diversity results
-        diversity = batch_diversity(novel_smiles)
-
-        print("\nResults Report:")
-        print("*" * 80)
-        print("Total Mols:   {}".format(len(generated_mols)))
-        print("Validity:     {}    ({:.2f}%)".format(len(valid_smiles), validity * 100))
-        print(
-            "Uniqueness:   {}    ({:.2f}%)".format(len(unique_smiles), uniqueness * 100)
-        )
-        print("Novelty:      {}    ({:.2f}%)".format(len(novel_smiles), novelty * 100))
-        print("Diversity:    {:.2f}".format(diversity))
-        print("\n")
-        print("Samples of Novel SMILES:")
-        if len(novel_smiles) >= 5:
-            for i in range(5):
-                print(novel_smiles[i])
-        else:
-            for i in range(len(novel_smiles)):
-                print(novel_smiles[i])
-        print("\n")
-        # Compute the property scores of novel smiles
-        if len(novel_smiles):
-            vals = reward_fn(args.properties, novel_smiles)
-            mean_s, std_s, min_s, max_s = (
-                np.mean(vals),
-                np.std(vals),
-                np.min(vals),
-                np.max(vals),
-            )
-            print(
-                "[{}]: [Mean: {:.3f}   STD: {:.3f}   MIN: {:.3f}   MAX: {:.3f}]".format(
-                    args.properties, mean_s, std_s, min_s, max_s
-                )
-            )
-            # Write the property scores into file
-            if epoch is not None and time is not None:
-                with open(PROPERTY_FILE, "a+") as wf:
-                    wf.write(
-                        "{},{:.3f},{:.3f},{:.3f},{:.3f},{:.5f},{:.5f},{:.5f},{:.5f},{:.1f}\n".format(
-                            epoch + 1,
-                            mean_s,
-                            std_s,
-                            min_s,
-                            max_s,
-                            validity,
-                            uniqueness,
-                            novelty,
-                            diversity,
-                            time,
-                        )
-                    )
-        else:
-            print("No novel SMILES generated!")
-        print("*" * 80)
-        print("\n")
-    return validity, uniqueness, novelty, diversity
 
 
 def pg_loss(probs, targets, rewards):
@@ -430,8 +343,9 @@ def pg_loss(probs, targets, rewards):
         DEVICE
     )  # [batch_size * max_len, vocab_size] with all 'False'
     # Set 1 for the token (vocab_size) of each row of one_hot
-    # [batch_size * max_len, vocab_size]
-    one_hot.scatter_(1, targets.data.view(-1, 1), 1)
+    one_hot.scatter_(
+        1, targets.data.view(-1, 1), 1
+    )  # [batch_size * max_len, vocab_size]
     # Select the values in probs according to one_hot
     loss = torch.masked_select(probs, one_hot)  # [batch_size * max_len]
     loss = loss * rewards.contiguous().view(-1)  # [batch_size * max_len]
@@ -452,15 +366,33 @@ def main():
         )
     )
     # Apply the seed to reproduct the results
-    np.random.seed(0)
-    torch.manual_seed(0)
-    torch.cuda.manual_seed(0)
+    np.random.seed(27)
+    torch.manual_seed(27)
+    torch.cuda.manual_seed(27)
 
-    # Define CSV logger paths *within* the main results path (PATHS)
-    # This keeps logs organized with other results for each run configuration
-    gen_log_dir = os.path.join(PATHS, "gen_pretrain_logs")
-    dis_log_dir = os.path.join(PATHS, "dis_pretrain_logs")
-    adv_log_file = os.path.join(PATHS, "adversarial_losses.csv")  # For manual logging
+    wandb.init(
+        project="TenGAN-SAF",  # A project to group your runs
+        config=args,  # Save all argparse hyperparameters
+        name=f"{MODEL_NAME}_{args.properties}_roll{args.roll_num}",  # Optional: give the run a name
+    )
+    # Use the config object from wandb to access hyperparameters
+    # This ensures consistency if you use WandB sweeps later.
+    config = wandb.config
+    hyper_csv = os.path.join(PATHS, "hyperparameters.csv")
+    if os.path.isfile(hyper_csv):  # safety check
+        param_art = wandb.Artifact("hyperparameters", type="metadata")
+        param_art.add_file(hyper_csv)
+        wandb.log_artifact(param_art, aliases=["latest"])
+
+    wandb.define_metric(
+        "epoch"
+    )  # defining both as for some its more clear to log per epoch, for others per step
+    wandb.define_metric("global_step")
+    wandb.define_metric("*", step_metric="epoch")
+    global_step = 0
+
+    run_logger = WandbLogger(experiment=wandb.run)
+
     early_stop_callback = EarlyStopping(
         monitor="gen_pre_val_loss",  # The metric to monitor
         patience=5,  # Number of epochs with no improvement after which training will be stopped
@@ -483,15 +415,10 @@ def main():
         max_lr=args.gen_max_lr,
     )
 
-    # Instantiate CSVLogger for Generator Pre-training
-    gen_logger = CSVLogger(
-        save_dir=gen_log_dir, name="", version="gen"
-    )  # Use specific version name
-
     gen_trainer = pytorch_lightning.Trainer(
         max_epochs=args.gen_epochs,
         gpus=GPUS,
-        logger=gen_logger,
+        logger=run_logger,
         callbacks=[early_stop_callback],
         weights_summary=None,
         progress_bar_refresh_rate=5,
@@ -503,7 +430,6 @@ def main():
     if args.gen_pretrain:
         print("\n\nPre-train Generator...")
         gen_trainer.fit(gen, gen_data_loader)
-        print(f"Generator pre-training logs saved in: {gen_logger.log_dir}")
         # Pre-train time cost
         print(
             "Generator Pre-train Time:\033[1;35m {:.2f}\033[0m hours".format(
@@ -512,6 +438,9 @@ def main():
         )
         # Save the pre-trained generator model into file
         torch.save(gen.state_dict(), G_PRETRAINED_MODEL)
+        artifact = wandb.Artifact(f"generator-{wandb.run.id}", type="model")
+        artifact.add_file(G_PRETRAINED_MODEL)
+        wandb.log_artifact(artifact)
     else:
         # Load the pre-trained generator
         print("\n\nLoad Pre-trained Generator.")
@@ -522,7 +451,11 @@ def main():
     sampler = GenSampler(gen, gen_data_loader.tokenizer, args.batch_size, args.max_len)
     generated_smiles = sampler.sample_multi(args.generated_num, NEGATIVE_FILE)
     validity, uniqueness, novelty, diversity = evaluation(
-        generated_smiles, gen_data_loader
+        generated_smiles,
+        gen_data_loader,
+        args.properties,  # property_name
+        logger=run_logger,  # WandbLogger created earlier
+        step=global_step,  # keep curves on one x-axis
     )
 
     # ===========================
@@ -543,9 +476,6 @@ def main():
         minibatch=args.dis_minibatch,
     )
 
-    # Instantiate CSVLogger for Discriminator Pre-training
-    dis_logger = CSVLogger(save_dir=dis_log_dir, name="", version="dis")
-
     dis_early_stop_callback = EarlyStopping(
         monitor="dis_pre_val_loss", patience=5, verbose=True, mode="min"
     )
@@ -553,7 +483,7 @@ def main():
     dis_trainer = pytorch_lightning.Trainer(
         max_epochs=args.dis_epochs,
         gpus=GPUS,
-        logger=dis_logger,
+        logger=run_logger,
         callbacks=[dis_early_stop_callback],
         weights_summary=None,
         gradient_clip_val=1.0,
@@ -564,7 +494,6 @@ def main():
     if args.dis_pretrain:
         print("\n\nPre-train Discriminator...")
         dis_trainer.fit(dis, dis_data_loader)
-        print(f"Discriminator pre-training logs saved in: {dis_logger.log_dir}")
         # Pre-train time cost
         print(
             "Discriminator Pre-train Time:\033[1;35m {:.2f}\033[0m hours".format(
@@ -573,11 +502,17 @@ def main():
         )
         # Save the pre-trained discriminator model into file
         torch.save(dis.state_dict(), D_PRETRAINED_MODEL)
+        artifact = wandb.Artifact(f"discriminator-{wandb.run.id}", type="model")
+        artifact.add_file(D_PRETRAINED_MODEL)
+        wandb.log_artifact(artifact)
     else:
         # Load the pre-trained discirminator
         print("\n\nLoad Pre-trained Discriminator.")
         dis.load_state_dict(torch.load(D_PRETRAINED_MODEL))
     dis.to(DEVICE)
+
+    # define wandb watcher
+    wandb.watch(models=[gen, dis], log="all", log_freq=100)
 
     # ===========================
     # Adversarial objects definition
@@ -602,7 +537,7 @@ def main():
     adv_trainer = pytorch_lightning.Trainer(
         max_epochs=D_STEP,
         gpus=GPUS,
-        logger=False,
+        logger=run_logger,
         weights_summary=None,
         progress_bar_refresh_rate=0,
     )
@@ -613,36 +548,31 @@ def main():
     # Adversarial training
     if args.adversarial_train:
         print("\n\nAdversarial Training...")
-        adv_epoch_list = []
-        adv_gen_loss_list = []
-        # Initialize/Clear the adversarial log file
-        with open(adv_log_file, "w", newline="") as f:
-            writer = csv.writer(f)
-            writer.writerow(["epoch", "gen_pg_loss"])  # Write header
 
+        # --- Define Optimizer and LR Scheduler ---
+        pg_optimizer = torch.optim.Adam(params=gen.parameters(), lr=args.adv_lr)
+        adv_scheduler = torch.optim.lr_scheduler.StepLR(
+            pg_optimizer, step_size=20, gamma=0.9
+        )
+
+        rollout = Rollout(gen, roll_own_model, tokenizer, args.update_rate, DEVICE)
+
+        # --- Loop through adversarial epochs ---
         for epoch in range(args.adv_epochs):
-            epoch_gen_losses = []
-            rollsampler = GenSampler(
-                rollout.own_model,
-                gen_data_loader.tokenizer,
-                args.batch_size,
-                args.max_len,
-            )
             for g_step in range(G_STEP):
                 # Sampling a batch of samples
                 samples = sampler.sample()
-                # Within the start and end token
+
+                # Encode the generated samples
                 encoded = [torch.tensor(tokenizer.encode(s)) for s in samples]
-                encoded = (
-                    torch.nn.utils.rnn.pad_sequence(encoded).squeeze().to(DEVICE)
-                )  # [max_len, batch_size]
-                # [max_len, batch_size, vocab_size]
+                encoded = torch.nn.utils.rnn.pad_sequence(encoded).squeeze().to(DEVICE)
+
+                # Forward pass through generator
                 gen_pred = gen.forward(encoded[:-1])
-                # [batch_size, max_len, vocab_size]
                 gen_pred = gen_pred.transpose(0, 1)
-                # [batch_size * max_len, vocab_size]
                 gen_pred = gen_pred.contiguous().view(-1, gen_pred.size(-1))
                 gen_pred = torch.nn.functional.log_softmax(gen_pred, dim=1)
+
                 targets = (
                     encoded[1:]
                     .transpose(0, 1)
@@ -650,103 +580,112 @@ def main():
                     .view(
                         -1,
                     )
-                )  # [batch_size * max_len]
-                # Calculate the rewards of each token in a batch
-                # [batch_size, seq_len-init]
+                )
+
+                # Calculate rewards using rollout
                 rewards = rollout.get_reward(
                     samples,
-                    rollsampler,
+                    sampler,
                     args.roll_num,
                     dis,
                     args.dis_lambda,
                     args.properties,
                 )
                 rewards = torch.tensor(rewards).to(DEVICE)
-                # Compute policy gradient loss
+
+                # Compute and backpropagate policy gradient loss
                 loss = pg_loss(gen_pred, targets, rewards)
-                epoch_gen_losses.append(loss.item())
+
                 print(
                     "\n\n\n\033[1;35mEpoch {}\033[0m / {}, G_STEP {} / {}, PG_Loss: {:.3f}".format(
                         epoch + 1, args.adv_epochs, g_step + 1, G_STEP, loss.item()
                     )
                 )
+
                 pg_optimizer.zero_grad()
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(gen.parameters(), 5, norm_type=2)
                 pg_optimizer.step()
 
-            # Log the average generator loss for this epoch
-            avg_epoch_gen_loss = (
-                np.mean(epoch_gen_losses) if epoch_gen_losses else float("nan")
-            )
-            adv_epoch_list.append(epoch + 1)
-            adv_gen_loss_list.append(avg_epoch_gen_loss)
-            print(
-                f"\033[1;34mEpoch {epoch + 1} Average Generator PG Loss: {avg_epoch_gen_loss:.3f}\033[0m"
-            )
+                global_step += 1
+                wandb.log(
+                    {
+                        "adv_gen_pg_loss": loss.item(),
+                        "epoch": epoch + 1,
+                        "global_step": global_step,
+                    },
+                    commit=True,
+                )
+                batch_size = encoded.size(1)
+                disc_inputs = encoded  # [n_valid, seq_len]
+                disc_labels = torch.zeros(
+                    disc_inputs.size(0), dtype=torch.long, device=DEVICE
+                )
+                disc_loss, disc_acc = dis.step((disc_inputs, disc_labels))
+                wandb.log(
+                    {
+                        "adv_dis_loss": disc_loss.item(),
+                        "adv_dis_acc": disc_acc.item(),
+                    },
+                    step=global_step,
+                    commit=False,  # groups with previous log
+                )
 
-            # Append loss to the manual CSV log file
-            with open(adv_log_file, "a", newline="") as f:
-                writer = csv.writer(f)
-                writer.writerow([epoch + 1, avg_epoch_gen_loss])
+            adv_scheduler.step()
 
             # Update models
             rollout.update_params()
-            # Save models
-            torch.save(
-                gen.state_dict(), PATHS + "/Epoch_" + str(epoch + 1) + "_gen.pkl"
-            )
-            if args.dis_lambda:
-                torch.save(
-                    dis.state_dict(), PATHS + "/Epoch_" + str(epoch + 1) + "_dis.pkl"
+
+            if (epoch + 1) % 5 == 0 or (epoch + 1) == args.adv_epochs:
+                g_model_path = os.path.join(PATHS, f"Epoch_{epoch + 1}_gen.pkl")
+                torch.save(gen.state_dict(), g_model_path)
+
+                adv_artifact = wandb.Artifact(
+                    f"{wandb.run.name}-checkpoint", type="model"
                 )
-            # Generate Samples
-            print("Generating {} samples...".format(args.generated_num))
-            sampler = GenSampler(
-                gen, gen_data_loader.tokenizer, args.batch_size, args.max_len
-            )
+                adv_artifact.add_file(g_model_path, name=f"gen_epoch_{epoch + 1}.pkl")
+
+                if args.dis_lambda > 0:
+                    d_model_path = os.path.join(PATHS, f"Epoch_{epoch + 1}_dis.pkl")
+                    torch.save(dis.state_dict(), d_model_path)
+                    adv_artifact.add_file(
+                        d_model_path, name=f"dis_epoch_{epoch + 1}.pkl"
+                    )
+
+                wandb.log_artifact(adv_artifact)
+
+            # Generate and Evaluate Samples
+            print("Generating {} samples for evaluation...".format(args.generated_num))
             generated_smiles = sampler.sample_multi(args.generated_num, NEGATIVE_FILE)
+
+            smiles_artifact = wandb.Artifact(
+                f"generated_smiles_epoch_{epoch + 1}", type="dataset"
+            )
+            smiles_artifact.add_file(NEGATIVE_FILE)
+            wandb.log_artifact(smiles_artifact, aliases=[f"epoch_{epoch + 1}"])
+
             current_time = (time.time() - start_time) / 3600.0
             print(
                 "\nTotal Computational Time: \033[1;35m {:.2f} \033[0m hours.".format(
                     current_time
                 )
             )
-            validity, uniqueness, novelty, diversity = evaluation(
-                generated_smiles, gen_data_loader, current_time, epoch
-            )
-            # Train discriminator
-            if args.dis_lambda:
-                for i in range(D_STEP):
-                    # Update the dis_data_loader
-                    dis_data_loader.setup()
-                    adv_trainer.fit(dis, dis_data_loader)
-    else:
-        # Load the trained TenGAN
-        if not os.path.exists(TenGAN_G_MODEL):
-            print("\n\nTenGAN Generator path does NOT exist: " + TenGAN_G_MODEL)
-            return
-        else:
-            print("\n\nLoad TenGAN Generator: {}".format(TenGAN_G_MODEL))
-            gen.load_state_dict(torch.load(TenGAN_G_MODEL))
-            gen.to(DEVICE)
-            print("\n\nGenerating {} samples...".format(args.generated_num))
-            sampler = GenSampler(
-                gen, gen_data_loader.tokenizer, args.batch_size, args.max_len
-            )
-            generated_smiles = sampler.sample_multi(args.generated_num, NEGATIVE_FILE)
-            validity, uniqueness, novelty, diversity = evaluation(
-                generated_smiles, gen_data_loader
+
+            evaluation(
+                generated_smiles,
+                gen_data_loader,
+                args.properties,  # property_name
+                logger=run_logger,  # WandbLogger
+                step=global_step,
+                time=current_time,
+                epoch=epoch,
             )
 
-        if args.dis_lambda:
-            if not os.path.exists(TenGAN_D_MODEL):
-                print("\n\nTenGAN Discriminator path does NOT exist: " + TenGAN_D_MODEL)
-                return
-            else:
-                print("Load TenGAN Discriminator: {}\n\n".format(TenGAN_D_MODEL))
-                dis.load_state_dict(torch.load(TenGAN_D_MODEL))
-                dis.to(DEVICE)
+            # Train discriminator
+            if args.dis_lambda > 0:
+                print("Updating Discriminator...")
+                dis_data_loader.setup()
+                adv_trainer.fit(dis, dis_data_loader)
 
     # Show Top-12 molecules
     if not os.path.isfile(NEGATIVE_FILE):
@@ -766,7 +705,7 @@ def main():
     # Figure out distributions
     all_files = glob.glob("res/*.csv")
     print("\n\nFile names for drawing distributions:", all_files)
-    # Notice: Add '_w.csv' to the name of WGAN file
+    # NOTE: Add '_w.csv' to the name of WGAN file
     if len(all_files) == 2:
         distribution(POSITIVE_FILE, all_files[0], all_files[1])
     else:
@@ -784,6 +723,8 @@ def main():
         print("--- Plot generation complete ---")
     except Exception as e:
         print(f"ERROR: Failed to generate plots: {e}")
+
+    wandb.finish()
 
 
 # ============================================================================
