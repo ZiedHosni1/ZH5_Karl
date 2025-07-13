@@ -668,8 +668,8 @@ def volumetric_nhoc(smiles: str) -> float:
 # First, defing expected min and max values for scaling, and deifining scaling function
 _NHOC_MIN, _NHOC_MAX = 30.0, 50.0  # MJ kg^-1
 _VNHOC_MIN, _VNHOC_MAX = 30.0, 42.0  # MJ L^-1
-_VNHOC_MID = 38.0  # logistic midpoint mu
-_VNHOC_WIDTH = 5.0
+_VNHOC_MID = 36.0  # logistic midpoint mu
+_VNHOC_WIDTH = 8.0
 
 
 def _scale_minmax(x: float, lo: float, hi: float) -> float:

@@ -196,8 +196,6 @@ NEGATIVE_FILE = (
 
 if args.seed >= 0:  # allow opt-out with -1
     import random
-    import numpy as np
-    import torch
 
     random.seed(args.seed)
     np.random.seed(args.seed)
@@ -476,7 +474,6 @@ def main():
         gen_data_loader,
         args.properties,  # property_name
         logger=run_logger,  # WandbLogger created earlier
-        step=global_step,  # keep curves on one x-axis
     )
 
     # ===========================
