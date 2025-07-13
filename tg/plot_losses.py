@@ -22,6 +22,10 @@ print(f"Reading logs from: {LOG_DIR}")
 gen_log_subdir = os.path.join(LOG_DIR, "gen_pretrain_logs", "gen")
 dis_log_subdir = os.path.join(LOG_DIR, "dis_pretrain_logs", "dis")
 adv_log_file = os.path.join(LOG_DIR, "adversarial_losses.csv")
+adv_log_subdir = os.path.join(LOG_DIR, "adv_train_logs")
+adv_metrics_files = glob.glob(os.path.join(adv_log_subdir, "version_*/metrics.csv"))
+adv_metrics_file = adv_metrics_files[0] if adv_metrics_files else None
+
 
 gen_metrics_files = glob.glob(os.path.join(gen_log_subdir, "version_*/metrics.csv"))
 dis_metrics_files = glob.glob(os.path.join(dis_log_subdir, "version_*/metrics.csv"))
@@ -38,7 +42,8 @@ def plot_losses(df, train_loss_col, val_loss_col, title, filename):
 
     # Filter out rows where epoch is NaN (might happen with lightning logging)
     df = df.dropna(subset=["epoch"])
-    df["epoch"] = df["epoch"].astype(int)  # Ensure epoch is integer for plotting
+    # Ensure epoch is integer for plotting
+    df["epoch"] = df["epoch"].astype(int)
 
     # Filter data for the specific columns, dropping NaNs for each series individually
     train_data = df[["epoch", train_loss_col]].dropna()
@@ -144,17 +149,17 @@ if dis_metrics_file and os.path.exists(dis_metrics_file):
 else:
     print("Discriminator pre-training metrics file not found.")
 
-# Plot Adversarial Training Loss (Generator PG Loss only for now)
-if os.path.exists(adv_log_file):
+# Plot Adversarial Training Loss
+if adv_metrics_file and os.path.exists(adv_metrics_file):
     try:
-        adv_df = pd.read_csv(adv_log_file)
-        if not adv_df.empty and "gen_pg_loss" in adv_df.columns:
+        adv_df = pd.read_csv(adv_metrics_file)
+        if not adv_df.empty and "adv/gen_pg_loss" in adv_df.columns:
             print("Plotting Adversarial Training Generator Loss...")
             with plt.style.context(["science", "grid"]):
                 fig, ax = plt.subplots()
                 # Ensure 'epoch' column exists and is suitable for x-axis
                 if "epoch" in adv_df.columns:
-                    adv_plot_data = adv_df[["epoch", "gen_pg_loss"]].dropna()
+                    adv_plot_data = adv_df[["epoch", "adv/gen_pg_loss"]].dropna()
                     if not adv_plot_data.empty:
                         ax.plot(
                             adv_plot_data["epoch"],

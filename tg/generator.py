@@ -138,7 +138,7 @@ class GeneratorModel(LightningModule):
         loss = self.step(batch)
         # Log training loss per epoch
         self.log(
-            "gen_pre_train_loss",
+            "pre_gen/train_loss",
             loss,
             on_step=False,
             on_epoch=True,
@@ -152,7 +152,7 @@ class GeneratorModel(LightningModule):
         loss = self.step(batch)
         # Log validation loss per epoch
         self.log(
-            "gen_pre_val_loss",
+            "pre_gen/val_loss",
             loss,
             on_step=False,
             on_epoch=True,

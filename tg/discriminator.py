@@ -172,8 +172,8 @@ class DiscriminatorModel(LightningModule):
         torch.set_printoptions(threshold=np.inf)
         np.set_printoptions(threshold=np.inf)
         if torch.isnan(out).any():
-            logging.warning(  # sometimes with errors the myriad error files ballooned to 3+GB. Here, I made the logigng more concise to avoid that.
-                "NaNs in Discriminator forward - "
+            logging.warning(  # concise diagnostic only
+                "NaNs in Discriminator forward – "
                 "mask %s, embedded %s, encoded %s, masked %s, out %s",
                 tuple(paded_mask.shape),
                 tuple(embedded.shape),
@@ -195,15 +195,15 @@ class DiscriminatorModel(LightningModule):
             # Compute cross-entropy loss for GAN
             loss = self.criterion(outputs, labels)
         # Compute accuracy for the classifier
-        pred = outputs.data.max(1)[1]  # Indices of max elements
-        acc = pred.eq(labels.data).cpu().sum() / len(labels)
+        pred = outputs.argmax(1)
+        acc = (pred == labels).float().mean()
         return loss, acc
 
     def training_step(self, batch, batch_idx):
         self.train()
         loss, acc = self.step(batch)
         self.log(
-            "dis_pre_train_loss",
+            "pre_dis/train_loss",
             loss,
             on_step=False,
             on_epoch=True,
@@ -211,7 +211,7 @@ class DiscriminatorModel(LightningModule):
             logger=True,
         )
         self.log(
-            "dis_pre_train_acc",
+            "pre_dis/train_acc",
             acc,
             on_step=False,
             on_epoch=True,
@@ -224,7 +224,7 @@ class DiscriminatorModel(LightningModule):
         self.eval()
         loss, acc = self.step(batch)
         self.log(
-            "dis_pre_val_loss",
+            "pre_dis/val_loss",
             loss,
             on_step=False,
             on_epoch=True,
@@ -232,7 +232,7 @@ class DiscriminatorModel(LightningModule):
             logger=True,
         )
         self.log(
-            "dis_pre_val_acc",
+            "pre_dis/val_acc",
             acc,
             on_step=False,
             on_epoch=True,

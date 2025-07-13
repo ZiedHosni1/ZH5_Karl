@@ -1,4 +1,5 @@
 import torch
+import os
 import numpy as np
 import pandas as pd
 from rdkit import Chem
@@ -83,7 +84,7 @@ class GenDataLoader(LightningDataModule):
             batch_size=self.batch_size,
             pin_memory=True,
             collate_fn=self.custom_collate_and_pad,
-            num_workers=40,
+            num_workers=min(8, os.cpu_count()),
         )
 
     def val_dataloader(self):
@@ -94,7 +95,7 @@ class GenDataLoader(LightningDataModule):
             pin_memory=True,
             collate_fn=self.custom_collate_and_pad,
             shuffle=False,
-            num_workers=40,
+            num_workers=min(8, os.cpu_count()),
         )
 
 

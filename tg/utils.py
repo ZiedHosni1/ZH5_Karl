@@ -32,6 +32,12 @@ def top_mols_show(filename, properties, log_to_wandb=True):
         scores = batch_SA(smiles)
     elif properties == "solubility":
         scores = batch_solubility(smiles)
+    elif properties == "nhoc":
+        scores = batch_nhoc_gc(smiles)
+    elif properties == "vol_nhoc":
+        scores = batch_vol_nhoc_gc(smiles)
+    else:
+        raise ValueError(f"Unknown property: {properties}")
 
     # Sort the scores
     dic = dict(zip(smiles, scores))
@@ -229,21 +235,30 @@ def evaluation(
     # structured metrics for WandB / CSV
     p = property_name
     metrics = {
-        "validity": validity,
-        "uniqueness": uniqueness,
-        "novelty": novelty,
-        "diversity": diversity,
-        f"{p}_mean": mean_s,
-        f"{p}_std": std_s,
-        f"{p}_min": min_s,
-        f"{p}_max": max_s,
+        "prop/validity": validity,
+        "prop/uniqueness": uniqueness,
+        "prop/novelty": novelty,
+        "prop/diversity": diversity,
+        f"prop/{p}_mean": mean_s,
+        f"prop/{p}_std": std_s,
+        f"prop/{p}_min": min_s,
+        f"prop/{p}_max": max_s,
     }
-    metrics["objective"] = (
-        metrics[f"{p}_mean"] * metrics["validity"] * metrics["novelty"]
+    metrics["prop/objective"] = (
+        metrics[f"prop/{p}_mean"] * metrics["prop/validity"] * metrics["prop/novelty"]
+    )
+    metrics["prop/objective"] = float(
+        (
+            metrics[f"prop/{p}_mean"]
+            * metrics["prop/validity"]
+            * metrics["prop/uniqueness"]
+            * metrics["prop/novelty"]
+        )
+        ** (1.0 / 4.0)
     )
     # added for wandb sweep, the main metric I will look at
     if logger is not None:
         logger.log_metrics(metrics, step=step)
 
     logging.getLogger("tengan").info("[eval] %s", json.dumps({"step": step, **metrics}))
-    return validity, uniqueness, novelty, diversity
+    return validity, uniqueness, novelty, diversity, metrics["prop/objective"]

@@ -14,7 +14,7 @@ from discriminator import DiscriminatorModel
 from generator import GeneratorModel, GenSampler
 from mol_metrics import *
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
-from pytorch_lightning.loggers import WandbLogger
+from pytorch_lightning.loggers import CSVLogger, WandbLogger
 from rdkit import rdBase
 from rdkit.Chem import Draw
 from rollout import OwnModel, Rollout
@@ -44,6 +44,10 @@ parser.add_argument(
     type=int,
     default=64,
     help="the batch size for both generator and discriminator",
+)
+
+parser.add_argument(
+    "--seed", type=int, default=27, help="Random seed for NumPy / Torch. "
 )
 
 # ===========================
@@ -172,6 +176,13 @@ parser.add_argument(
     default=100,
     help="the adverarial training epochs for TenGAN or Ten(W)GAN",
 )
+
+parser.add_argument(
+    "--adv_early_stop",
+    action="store_true",
+    help="stop adversarial training early if needed",
+)
+
 args = parser.parse_known_args()[0]
 
 # ===========================
@@ -183,6 +194,16 @@ NEGATIVE_FILE = (
     "res/generated_smiles_" + args.dataset_name + ".csv"
 )  # Save the generated SMILES data
 
+if args.seed >= 0:  # allow opt-out with -1
+    import random
+    import numpy as np
+    import torch
+
+    random.seed(args.seed)
+    np.random.seed(args.seed)
+    torch.manual_seed(args.seed)
+    torch.cuda.manual_seed_all(args.seed)
+
 if args.dis_lambda == 0:
     MODEL_NAME = "Naive"
 elif args.dis_lambda == 1:
@@ -192,7 +213,6 @@ else:
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")  # cuda:0,1,2,3
 GPUS = 0
-# TODO: Add an argument for GPUs instead, not good to have to modify the scripts like that to move between CPU-only and GPU runs.
 
 if args.dis_wgan:
     DIS_MAX_LR = 8e-4
@@ -273,6 +293,7 @@ with open(PATHS + "/hyperparameters.csv", "a+") as hp:
     params["BATCH_SIZE"] = args.batch_size
     params["MAX_LEN"] = args.max_len
     params["VOCAB_SIZE"] = len(tokenizer.char_to_int)
+    params["RANDOM_SEED"] = args.seed
     params["DEVICE"] = DEVICE
     params["GPUS"] = GPUS
     for param in params:
@@ -365,17 +386,14 @@ def main():
             time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         )
     )
-    # Apply the seed to reproduct the results
-    np.random.seed(27)
-    torch.manual_seed(27)
-    torch.cuda.manual_seed(27)
 
     wandb.init(
-        project="TenGAN-SAF",  # A project to group your runs
+        project="TenGAN-SAF",  # A project to group runs
         config=args,  # Save all argparse hyperparameters
-        name=f"{MODEL_NAME}_{args.properties}_roll{args.roll_num}",  # Optional: give the run a name
+        # give the run a name in wandb, helps with clarity
+        name=f"{MODEL_NAME}_{args.properties}_roll{args.roll_num}",
     )
-    # Use the config object from wandb to access hyperparameters
+    # Use the config object from wandb to access hyperparameters!
     # This ensures consistency if you use WandB sweeps later.
     config = wandb.config
     hyper_csv = os.path.join(PATHS, "hyperparameters.csv")
@@ -384,17 +402,20 @@ def main():
         param_art.add_file(hyper_csv)
         wandb.log_artifact(param_art, aliases=["latest"])
 
-    wandb.define_metric(
-        "epoch"
-    )  # defining both as for some its more clear to log per epoch, for others per step
     wandb.define_metric("global_step")
+    wandb.define_metric("epoch", step_metric="epoch")
     wandb.define_metric("*", step_metric="epoch")
+    wandb.define_metric("adv/*", step_metric="global_step")
+    wandb.define_metric("pre_*", step_metric="pre_step")
+    wandb.define_metric("prop/*", step_metric="epoch")
     global_step = 0
 
     run_logger = WandbLogger(experiment=wandb.run)
+    # extra CSV logger just for the adversarial loop
+    csv_adv_logger = CSVLogger(save_dir=PATHS, name="adv_train_logs")
 
     early_stop_callback = EarlyStopping(
-        monitor="gen_pre_val_loss",  # The metric to monitor
+        monitor="pre_gen/val_loss",  # The metric to monitor
         patience=5,  # Number of epochs with no improvement after which training will be stopped
         verbose=True,
         mode="min",
@@ -450,7 +471,7 @@ def main():
     print("Generating {} samples...".format(args.generated_num))
     sampler = GenSampler(gen, gen_data_loader.tokenizer, args.batch_size, args.max_len)
     generated_smiles = sampler.sample_multi(args.generated_num, NEGATIVE_FILE)
-    validity, uniqueness, novelty, diversity = evaluation(
+    validity, uniqueness, novelty, diversity, _ = evaluation(
         generated_smiles,
         gen_data_loader,
         args.properties,  # property_name
@@ -477,7 +498,7 @@ def main():
     )
 
     dis_early_stop_callback = EarlyStopping(
-        monitor="dis_pre_val_loss", patience=5, verbose=True, mode="min"
+        monitor="pre_dis/val_loss", patience=5, verbose=True, mode="min"
     )
 
     dis_trainer = pytorch_lightning.Trainer(
@@ -549,6 +570,10 @@ def main():
     if args.adversarial_train:
         print("\n\nAdversarial Training...")
 
+        # Early-stop parameters (mirror PL defaults)
+        best_val, since_best = -float("inf"), 0
+        early_stop_hit = False
+
         # --- Define Optimizer and LR Scheduler ---
         pg_optimizer = torch.optim.Adam(params=gen.parameters(), lr=args.adv_lr)
         adv_scheduler = torch.optim.lr_scheduler.StepLR(
@@ -604,31 +629,41 @@ def main():
 
                 pg_optimizer.zero_grad()
                 loss.backward()
-                torch.nn.utils.clip_grad_norm_(gen.parameters(), 5, norm_type=2)
+                grad_norm = torch.nn.utils.clip_grad_norm_(
+                    gen.parameters(), 5
+                )  # capture norm
                 pg_optimizer.step()
 
+                # metrics
+                mean_reward = rewards.mean().item()
+                raw_mean = (rewards + rollout.reward_ema).mean().item()
+                lr_current = pg_optimizer.param_groups[0]["lr"]
                 global_step += 1
-                wandb.log(
-                    {
-                        "adv_gen_pg_loss": loss.item(),
-                        "epoch": epoch + 1,
-                        "global_step": global_step,
-                    },
-                    commit=True,
-                )
+                metrics = {
+                    "epoch": epoch + 1,
+                    "global_step": global_step,
+                    "adv/gen_pg_loss": loss.item(),  # unified and  grouped.
+                    "adv/advantage_mean": mean_reward,  # reward trend
+                    "adv/raw_mean_reward": raw_mean,  # reward where EMA baseline is not subtracted
+                    "adv/grad_norm": grad_norm,  # gradeint health
+                    "adv/lr": lr_current,  # LR schedule
+                }
+
                 batch_size = encoded.size(1)
                 disc_inputs = encoded  # [n_valid, seq_len]
                 disc_labels = torch.zeros(
                     disc_inputs.size(0), dtype=torch.long, device=DEVICE
                 )
                 disc_loss, disc_acc = dis.step((disc_inputs, disc_labels))
-                wandb.log(
-                    {
-                        "adv_dis_loss": disc_loss.item(),
-                        "adv_dis_acc": disc_acc.item(),
-                    },
-                    step=global_step,
-                    commit=False,  # groups with previous log
+                disc_metrics = {
+                    "adv/dis_loss": disc_loss.item(),
+                    "adv/dis_acc": disc_acc.item(),
+                }
+                wandb.log({**metrics, **disc_metrics})
+
+                # CSV mirror
+                csv_adv_logger.log_metrics(
+                    {**metrics, **disc_metrics}, step=global_step
                 )
 
             adv_scheduler.step()
@@ -671,7 +706,7 @@ def main():
                 )
             )
 
-            evaluation(
+            _, _, _, _, val_obj = evaluation(
                 generated_smiles,
                 gen_data_loader,
                 args.properties,  # property_name
@@ -681,11 +716,26 @@ def main():
                 epoch=epoch,
             )
 
+            # adv_early_stop
+            if args.adv_early_stop:
+                gain = (val_obj - best_val) / max(abs(best_val), 1e-8)
+                if gain > 1e-4:
+                    best_val, since_best = val_obj, 0
+                else:
+                    since_best += 1
+                    if since_best >= 10:
+                        print(f"[adv_early_stop] no progress ≥ {_PAT} evals → stop.")
+                        early_stop_hit = True
+                        break  # break epoch loop
+
             # Train discriminator
             if args.dis_lambda > 0:
                 print("Updating Discriminator...")
                 dis_data_loader.setup()
                 adv_trainer.fit(dis, dis_data_loader)
+
+    if early_stop_hit:
+        print(f"Training halted at epoch {epoch + 1} (early-stop).")
 
     # Show Top-12 molecules
     if not os.path.isfile(NEGATIVE_FILE):
@@ -693,13 +743,24 @@ def main():
     else:
         print("Top-12 Molecules of [{}]:".format(args.properties))
         top_mols, top_scores = top_mols_show(NEGATIVE_FILE, args.properties)
-        img = Draw.MolsToGridImage(
-            top_mols[:], molsPerRow=3, subImgSize=(1000, 1000), legends=top_scores[:]
-        )
-        if args.dis_wgan:
-            img.save("res/top_12_w.pdf")
+        if top_mols:
+            img = Draw.MolsToGridImage(
+                top_mols,
+                molsPerRow=3,
+                subImgSize=(300, 300),
+                legends=top_scores,
+            )
+            if args.dis_wgan:
+                img.save("res/top_12_w.pdf")
+            else:
+                img.save("res/top_12.pdf")
+
+            wandb.log({f"Top12_grid_{args.properties}": wandb.Image(img)})
         else:
-            img.save("res/top_12.pdf")
+            print(
+                f"No molecules passed the '{args.properties}' filters; "
+                "skipping grid image."
+            )
         print("*" * 80)
 
     # Figure out distributions
