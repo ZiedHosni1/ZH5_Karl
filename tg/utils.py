@@ -171,7 +171,6 @@ def distribution(real_file, gan_file, wgan_file):
         plt.legend(loc="upper right", prop={"size": 15})
         plt.savefig("res/" + name + ".pdf")
 
-
 def evaluation(
     generated_smiles,
     gen_data_loader,
@@ -244,9 +243,7 @@ def evaluation(
         f"prop/{p}_min": min_s,
         f"prop/{p}_max": max_s,
     }
-    metrics["prop/objective"] = (
-        metrics[f"prop/{p}_mean"] * metrics["prop/validity"] * metrics["prop/novelty"]
-    )
+    # added for wandb sweep, the main metric I will look at
     metrics["prop/objective"] = float(
         (
             metrics[f"prop/{p}_mean"]
@@ -256,9 +253,10 @@ def evaluation(
         )
         ** (1.0 / 4.0)
     )
-    # added for wandb sweep, the main metric I will look at
-    if logger is not None:
-        logger.log_metrics(metrics, step=step)
+
+    wandb.log(metrics, step=step)
+    #if logger is not None:
+    #    logger.log_metrics(metrics, step=step)
 
     logging.getLogger("tengan").info("[eval] %s", json.dumps({"step": step, **metrics}))
     return validity, uniqueness, novelty, diversity, metrics["prop/objective"]

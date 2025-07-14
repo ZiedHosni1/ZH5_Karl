@@ -394,10 +394,12 @@ def main():
         param_art.add_file(hyper_csv)
         wandb.log_artifact(param_art, aliases=["latest"])
 
-    wandb.define_metric("epoch", step_metric="epoch")
-    wandb.define_metric("pre_*", step_metric="pre_step")
-    wandb.define_metric("adv/*", step_metric="adv_step")
-    wandb.define_metric("prop/*", step_metric="epoch")
+    wandb.define_metric(
+        "epoch"
+    )  # defining both as for some its more clear to log per epoch, for others per step
+    wandb.define_metric("global_step")
+    wandb.define_metric("*", step_metric="epoch")
+    wandb.define_metric("adv/*", step_metric="global_step")
     global_step = 0
 
     run_logger = WandbLogger(experiment=wandb.run)
@@ -466,7 +468,7 @@ def main():
         gen_data_loader,
         args.properties,  # property_name
         logger=run_logger,  # WandbLogger created earlier
-        step=gen_trainer.global_step,
+        step=global_step,
     )
 
     # ===========================
@@ -569,7 +571,7 @@ def main():
         rollout = Rollout(gen, roll_own_model, tokenizer, args.update_rate, DEVICE)
 
         # --- Loop through adversarial epochs ---
-        for adv_step, epoch in enumerate(range(args.adv_epochs)):
+        for epoch in range(args.adv_epochs):
             for g_step in range(G_STEP):
                 # Sampling a batch of samples
                 samples = sampler.sample()
@@ -627,7 +629,7 @@ def main():
 
                 metrics = {
                     "epoch": epoch + 1,
-                    "adv_step": adv_step,
+                    "global_step": global_step,
                     "adv/pg_loss": loss.item(),  # unified and  grouped.
                     "adv/advantage_mean": mean_reward,  # reward trend
                     "adv/raw_mean_reward": raw_mean,  # reward where EMA baseline is not subtracted
@@ -649,7 +651,7 @@ def main():
 
                 # CSV mirror
                 csv_adv_logger.log_metrics(
-                    {**metrics, **disc_metrics}, step=adv_step
+                    {**metrics, **disc_metrics}, step=global_step
                 )
 
             adv_scheduler.step()
@@ -692,12 +694,12 @@ def main():
                 )
             )
 
-            _, _, _, _, val_obj = evaluation(
+            evaluation(
                 generated_smiles,
                 gen_data_loader,
                 args.properties,  # property_name
                 logger=run_logger,  # WandbLogger
-                step=adv_step,
+                step=global_step,
                 time=current_time,
                 epoch=epoch,
             )

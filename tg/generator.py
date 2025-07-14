@@ -74,7 +74,7 @@ class GeneratorModel(LightningModule):
             max_lr=self.max_lr,
             total_steps=None,
             epochs=self.epochs,
-            steps_per_epoch=len(self.train_dataloader()),
+            steps_per_epoch=len(self.train_dataloader())*2,
             pct_start=6 / self.epochs,
             anneal_strategy="cos",
             cycle_momentum=True,
@@ -136,7 +136,6 @@ class GeneratorModel(LightningModule):
     def training_step(self, batch, batch_idx):
         self.train()
         loss = self.step(batch)
-        self.log("pre_step", self.global_step, prog_bar=False, on_step=True, on_epoch=False)
         # Log training loss per epoch
         self.log(
             "pre_gen/train_loss",

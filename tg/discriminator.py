@@ -202,7 +202,6 @@ class DiscriminatorModel(LightningModule):
     def training_step(self, batch, batch_idx):
         self.train()
         loss, acc = self.step(batch)
-        self.log("pre_step", self.global_step, prog_bar=False, on_step=True, on_epoch=False)
         self.log(
             "pre_dis/train_loss",
             loss,
