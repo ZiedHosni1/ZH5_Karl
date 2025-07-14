@@ -177,12 +177,6 @@ parser.add_argument(
     help="the adverarial training epochs for TenGAN or Ten(W)GAN",
 )
 
-parser.add_argument(
-    "--adv_early_stop",
-    action="store_true",
-    help="stop adversarial training early if needed",
-)
-
 args = parser.parse_known_args()[0]
 
 # ===========================
@@ -400,11 +394,9 @@ def main():
         param_art.add_file(hyper_csv)
         wandb.log_artifact(param_art, aliases=["latest"])
 
-    wandb.define_metric("global_step")
     wandb.define_metric("epoch", step_metric="epoch")
-    wandb.define_metric("*", step_metric="epoch")
-    wandb.define_metric("adv/*", step_metric="global_step")
     wandb.define_metric("pre_*", step_metric="pre_step")
+    wandb.define_metric("adv/*", step_metric="adv_step")
     wandb.define_metric("prop/*", step_metric="epoch")
     global_step = 0
 
@@ -474,6 +466,7 @@ def main():
         gen_data_loader,
         args.properties,  # property_name
         logger=run_logger,  # WandbLogger created earlier
+        step=gen_trainer.global_step,
     )
 
     # ===========================
@@ -567,10 +560,6 @@ def main():
     if args.adversarial_train:
         print("\n\nAdversarial Training...")
 
-        # Early-stop parameters (mirror PL defaults)
-        best_val, since_best = -float("inf"), 0
-        early_stop_hit = False
-
         # --- Define Optimizer and LR Scheduler ---
         pg_optimizer = torch.optim.Adam(params=gen.parameters(), lr=args.adv_lr)
         adv_scheduler = torch.optim.lr_scheduler.StepLR(
@@ -580,7 +569,7 @@ def main():
         rollout = Rollout(gen, roll_own_model, tokenizer, args.update_rate, DEVICE)
 
         # --- Loop through adversarial epochs ---
-        for epoch in range(args.adv_epochs):
+        for adv_step, epoch in enumerate(range(args.adv_epochs)):
             for g_step in range(G_STEP):
                 # Sampling a batch of samples
                 samples = sampler.sample()
@@ -635,11 +624,11 @@ def main():
                 mean_reward = rewards.mean().item()
                 raw_mean = (rewards + rollout.reward_ema).mean().item()
                 lr_current = pg_optimizer.param_groups[0]["lr"]
-                global_step += 1
+
                 metrics = {
                     "epoch": epoch + 1,
-                    "global_step": global_step,
-                    "adv/gen_pg_loss": loss.item(),  # unified and  grouped.
+                    "adv_step": adv_step,
+                    "adv/pg_loss": loss.item(),  # unified and  grouped.
                     "adv/advantage_mean": mean_reward,  # reward trend
                     "adv/raw_mean_reward": raw_mean,  # reward where EMA baseline is not subtracted
                     "adv/grad_norm": grad_norm,  # gradeint health
@@ -660,7 +649,7 @@ def main():
 
                 # CSV mirror
                 csv_adv_logger.log_metrics(
-                    {**metrics, **disc_metrics}, step=global_step
+                    {**metrics, **disc_metrics}, step=adv_step
                 )
 
             adv_scheduler.step()
@@ -708,31 +697,16 @@ def main():
                 gen_data_loader,
                 args.properties,  # property_name
                 logger=run_logger,  # WandbLogger
-                step=global_step,
+                step=adv_step,
                 time=current_time,
                 epoch=epoch,
             )
-
-            # adv_early_stop
-            if args.adv_early_stop:
-                gain = (val_obj - best_val) / max(abs(best_val), 1e-8)
-                if gain > 1e-4:
-                    best_val, since_best = val_obj, 0
-                else:
-                    since_best += 1
-                    if since_best >= 10:
-                        print(f"[adv_early_stop] no progress ≥ {_PAT} evals → stop.")
-                        early_stop_hit = True
-                        break  # break epoch loop
 
             # Train discriminator
             if args.dis_lambda > 0:
                 print("Updating Discriminator...")
                 dis_data_loader.setup()
                 adv_trainer.fit(dis, dis_data_loader)
-
-    if early_stop_hit:
-        print(f"Training halted at epoch {epoch + 1} (early-stop).")
 
     # Show Top-12 molecules
     if not os.path.isfile(NEGATIVE_FILE):
