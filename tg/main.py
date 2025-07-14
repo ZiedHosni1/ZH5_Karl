@@ -626,7 +626,7 @@ def main():
                 mean_reward = rewards.mean().item()
                 raw_mean = (rewards + rollout.reward_ema).mean().item()
                 lr_current = pg_optimizer.param_groups[0]["lr"]
-
+                global_step += 1
                 metrics = {
                     "epoch": epoch + 1,
                     "global_step": global_step,

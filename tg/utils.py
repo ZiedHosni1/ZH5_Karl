@@ -171,6 +171,7 @@ def distribution(real_file, gan_file, wgan_file):
         plt.legend(loc="upper right", prop={"size": 15})
         plt.savefig("res/" + name + ".pdf")
 
+
 def evaluation(
     generated_smiles,
     gen_data_loader,
@@ -254,9 +255,8 @@ def evaluation(
         ** (1.0 / 4.0)
     )
 
-    wandb.log(metrics, step=step)
-    #if logger is not None:
-    #    logger.log_metrics(metrics, step=step)
+    if logger is not None:
+        logger.log_metrics(metrics, step=step)
 
     logging.getLogger("tengan").info("[eval] %s", json.dumps({"step": step, **metrics}))
     return validity, uniqueness, novelty, diversity, metrics["prop/objective"]
