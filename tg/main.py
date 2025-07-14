@@ -699,7 +699,7 @@ def main():
                 gen_data_loader,
                 args.properties,  # property_name
                 logger=run_logger,  # WandbLogger
-                step=global_step,
+                step=epoch,
                 time=current_time,
                 epoch=epoch,
             )
