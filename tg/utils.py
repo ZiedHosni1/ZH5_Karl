@@ -1,3 +1,8 @@
+from rdkit.Chem import QED, Draw
+from rdkit import Chem
+from mol_metrics import *
+import seaborn as sns
+import matplotlib.pyplot as plt
 import json
 import logging
 
@@ -6,12 +11,6 @@ import numpy as np
 import wandb
 
 matplotlib.use("Agg")
-
-import matplotlib.pyplot as plt
-import seaborn as sns
-from mol_metrics import *
-from rdkit import Chem
-from rdkit.Chem import QED, Draw
 
 
 # ============================================================================
@@ -256,7 +255,10 @@ def evaluation(
     )
 
     if logger is not None:
+        if epoch is not None:
+            metrics["epoch"] = epoch + 1
         logger.log_metrics(metrics, step=step)
 
-    logging.getLogger("tengan").info("[eval] %s", json.dumps({"step": step, **metrics}))
+    logging.getLogger("tengan").info(
+        "[eval] %s", json.dumps({"step": step, **metrics}))
     return validity, uniqueness, novelty, diversity, metrics["prop/objective"]

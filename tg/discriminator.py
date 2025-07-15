@@ -6,7 +6,8 @@ import torch
 from generator import PositionalEncoding
 from pytorch_lightning import LightningModule
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+logging.basicConfig(level=logging.INFO,
+                    format="%(asctime)s %(levelname)s %(message)s")
 
 
 # ============================================================================
@@ -74,13 +75,21 @@ class DiscriminatorModel(LightningModule):
             lr=self.max_lr,
             weight_decay=0.01,
         )
+        try:
+            steps_per_epoch = len(self.train_dataloader())
+        except:
+            steps_per_epoch = 1  # Default to avoid errors
+
+        # Make sure we have at least 2 total steps to prevent division by zero
+        total_steps = max(2, steps_per_epoch * self.epochs)
+
         scheduler = torch.optim.lr_scheduler.OneCycleLR(
             optimizer,
             max_lr=self.max_lr,
-            total_steps=None,
-            epochs=self.epochs,
-            steps_per_epoch=len(self.train_dataloader()),
-            pct_start=6 / self.epochs,
+            total_steps=total_steps,
+            # epochs=self.epochs,
+            # steps_per_epoch=len(self.train_dataloader()),
+            pct_start=min(0.3, 6 / self.epochs),
             anneal_strategy="cos",
             cycle_momentum=True,
             base_momentum=0.85,
@@ -94,7 +103,8 @@ class DiscriminatorModel(LightningModule):
 
     def setup_layers(self):
         self.embedding = torch.nn.Embedding(self.n_tokens, self.d_model)
-        self.positional_encoder = PositionalEncoding(self.d_model, dropout=self.dropout)
+        self.positional_encoder = PositionalEncoding(
+            self.d_model, dropout=self.dropout)
         encoder_layer = torch.nn.TransformerEncoderLayer(
             self.d_model, self.nhead, self.dim_feedforward, self.dropout
         )
@@ -115,7 +125,8 @@ class DiscriminatorModel(LightningModule):
                 param.data = self.truncated_normal_(param.data)
 
     def padding_mask(self, src):  # src:[batch_size, maxlength]
-        return (src == self.pad_token).transpose(0, 1)  # [maxlength, batch_size]
+        # [maxlength, batch_size]
+        return (src == self.pad_token).transpose(0, 1)
 
     # Omit the effect of padding token
     def masked_mean(self, encoded, mask):
@@ -146,7 +157,8 @@ class DiscriminatorModel(LightningModule):
         std = torch.std(x, dim=0, unbiased=False)  # [d_model+1]
         mean = torch.mean(std)  # length of one
 
-        return torch.cat((x, mean.repeat(size)), dim=1)  # [batch_size, d_model+1]
+        # [batch_size, d_model+1]
+        return torch.cat((x, mean.repeat(size)), dim=1)
 
     def forward(self, features):  # [batch_size, maxlength]
         paded_mask = self.padding_mask(features)
@@ -156,8 +168,10 @@ class DiscriminatorModel(LightningModule):
         positional_encoded = self.positional_encoder(
             embedded
         )  # [batch_size, maxlength, d_model]
-        encoded = self.encoder(positional_encoded)  # [batch_size, maxlength, d_model]
-        masked_out = self.masked_mean(encoded, paded_mask)  # [batch_size, d_model]
+        # [batch_size, maxlength, d_model]
+        encoded = self.encoder(positional_encoded)
+        masked_out = self.masked_mean(
+            encoded, paded_mask)  # [batch_size, d_model]
 
         # If true: apply mini-batch discriminator
         if self.minibatch:
@@ -185,7 +199,8 @@ class DiscriminatorModel(LightningModule):
         return out
 
     def step(self, batch):
-        inputs, labels = batch  # inputs:[batch_size, maxlength], labels: [batch_size]
+        # inputs:[batch_size, maxlength], labels: [batch_size]
+        inputs, labels = batch
         outputs = self.forward(inputs)  # [batch_size, 2]
         if self.dis_wgan:
             # Compute WGAN loss

@@ -9,14 +9,15 @@ import numpy as np
 import pytorch_lightning
 import torch
 import wandb
-from data_iter import DisDataLoader, GenDataLoader
-from discriminator import DiscriminatorModel
-from generator import GeneratorModel, GenSampler
-from mol_metrics import *
 from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 from pytorch_lightning.loggers import CSVLogger, WandbLogger
 from rdkit import rdBase
 from rdkit.Chem import Draw
+
+from data_iter import DisDataLoader, GenDataLoader
+from discriminator import DiscriminatorModel
+from generator import GeneratorModel, GenSampler
+from mol_metrics import *
 from rollout import OwnModel, Rollout
 from utils import *
 from utils import evaluation
@@ -745,18 +746,6 @@ def main():
     else:
         print("Distributions are not generated.")
     print("*" * 80)
-
-    print("\n--- Generating Loss Plots ---")
-    try:
-        plot_script = os.path.join(os.path.dirname(__file__), "plot_losses.py")
-        # Pass the directory containing the log files/subdirs
-        log_parent_dir = PATHS
-        plot_cmd = f'python {plot_script} --log_dir "{log_parent_dir}"'
-        print(f"Executing: {plot_cmd}")
-        os.system(plot_cmd)
-        print("--- Plot generation complete ---")
-    except Exception as e:
-        print(f"ERROR: Failed to generate plots: {e}")
 
     wandb.finish()
 
