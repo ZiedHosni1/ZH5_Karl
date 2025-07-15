@@ -259,6 +259,5 @@ def evaluation(
             metrics["epoch"] = epoch + 1
         logger.log_metrics(metrics, step=step)
 
-    logging.getLogger("tengan").info(
-        "[eval] %s", json.dumps({"step": step, **metrics}))
+    logging.getLogger("tengan").info("[eval] %s", json.dumps({"step": step, **metrics}))
     return validity, uniqueness, novelty, diversity, metrics["prop/objective"]

@@ -74,7 +74,7 @@ class GeneratorModel(LightningModule):
             max_lr=self.max_lr,
             total_steps=None,
             epochs=self.epochs,
-            steps_per_epoch=len(self.train_dataloader())*2,
+            steps_per_epoch=len(self.train_dataloader()) * 2,
             pct_start=6 / self.epochs,
             anneal_strategy="cos",
             cycle_momentum=True,

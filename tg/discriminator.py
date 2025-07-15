@@ -6,8 +6,7 @@ import torch
 from generator import PositionalEncoding
 from pytorch_lightning import LightningModule
 
-logging.basicConfig(level=logging.INFO,
-                    format="%(asctime)s %(levelname)s %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 
 # ============================================================================
@@ -103,8 +102,7 @@ class DiscriminatorModel(LightningModule):
 
     def setup_layers(self):
         self.embedding = torch.nn.Embedding(self.n_tokens, self.d_model)
-        self.positional_encoder = PositionalEncoding(
-            self.d_model, dropout=self.dropout)
+        self.positional_encoder = PositionalEncoding(self.d_model, dropout=self.dropout)
         encoder_layer = torch.nn.TransformerEncoderLayer(
             self.d_model, self.nhead, self.dim_feedforward, self.dropout
         )
@@ -170,8 +168,7 @@ class DiscriminatorModel(LightningModule):
         )  # [batch_size, maxlength, d_model]
         # [batch_size, maxlength, d_model]
         encoded = self.encoder(positional_encoded)
-        masked_out = self.masked_mean(
-            encoded, paded_mask)  # [batch_size, d_model]
+        masked_out = self.masked_mean(encoded, paded_mask)  # [batch_size, d_model]
 
         # If true: apply mini-batch discriminator
         if self.minibatch:
