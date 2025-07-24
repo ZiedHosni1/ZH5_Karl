@@ -1,0 +1,11 @@
+%chk=CO2.chk
+%nprocshared=4
+%mem=4GB
+#p B97-3c Opt Freq Int=UltraFine
+
+Carbon dioxide for combustion calculations (B97-3c)
+
+0 1
+C         0.0000000000       0.0000000000       0.0000000000
+O         0.0000000000       0.0000000000       1.1600000000
+O         0.0000000000       0.0000000000      -1.1600000000

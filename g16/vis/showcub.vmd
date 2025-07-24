@@ -1,10 +1,7 @@
-# CylView-style visualisation of Multiwfn cube files
 # Derived from original showcub.vmd by Tian Lu (2019‑05‑18)
-# Modified 22 May 2025 to emulate CylView look (orthographic view, CPK greys, AO shadows, blue/yellow orbitals)
 
 # ---------------------------------------------------------------------------
 # Utility procedure: apply global visual settings
-# ---------------------------------------------------------------------------
 proc set_cylview_display {} {
     display resize 3840 2160
     display projection orthographic
@@ -22,7 +19,6 @@ proc set_cylview_display {} {
 
 # ---------------------------------------------------------------------------
 # Utility procedure: define colours and materials
-# ---------------------------------------------------------------------------
 proc set_cylview_colours {} {
     # Atom colours (CPK greys + orange O)
     color Name C tan
@@ -40,7 +36,6 @@ proc set_cylview_colours {} {
 
 # ---------------------------------------------------------------------------
 # Utility procedure: semi‑transparent glossy material for isosurfaces
-# ---------------------------------------------------------------------------
 proc set_cylview_material {} {
     set m AOShiny
     material change ambient   $m 0.05
@@ -57,7 +52,6 @@ proc set_cylview_material {} {
 
 # ---------------------------------------------------------------------------
 # Main routine for a single cube (e.g. an orbital)
-# ---------------------------------------------------------------------------
 proc cub {filename {isoval 0.05}} {
     set_cylview_display
     set_cylview_colours
@@ -79,7 +73,7 @@ proc cub {filename {isoval 0.05}} {
     mol modcolor    1 top ColorID 12
     mol modmaterial 1 top $mater
 
-    # Negative isosurface – yellow
+    # Negative isosurface - yellow
     mol addrep top
     mol modstyle    2 top Isosurface -$isoval 0 0 0 1 1
     mol modcolor    2 top ColorID 22
@@ -92,7 +86,6 @@ proc cub {filename {isoval 0.05}} {
 
 # ---------------------------------------------------------------------------
 # Helper: interactively update the isovalue for a single cube
-# ---------------------------------------------------------------------------
 proc cubiso {isoval} {
     mol modstyle 1 top Isosurface  $isoval 0 0 0 1 1
     mol modstyle 2 top Isosurface -$isoval 0 0 0 1 1
@@ -100,7 +93,6 @@ proc cubiso {isoval} {
 
 # ---------------------------------------------------------------------------
 # Routine for two cubes (e.g. HOMO & LUMO)
-# ---------------------------------------------------------------------------
 proc cub2 {filename1 filename2 {isoval 0.05}} {
     set_cylview_display
     set_cylview_colours
@@ -130,7 +122,6 @@ proc cub2 {filename1 filename2 {isoval 0.05}} {
 
 # ---------------------------------------------------------------------------
 # Helper: update isovalue for both molecules in cub2
-# ---------------------------------------------------------------------------
 proc cub2iso {isoval} {
     foreach i [molinfo list] {
         mol modstyle 1 $i Isosurface $isoval 0 0 0 1 1

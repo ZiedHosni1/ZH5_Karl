@@ -1,15 +1,15 @@
 #!/bin/bash -l
 #$ -N g16_base
 #$ -l h_rt=48:00:00
-#$ -l mem=12G
+#$ -l mem=3G
 #$ -pe smp 8
-#$ -l tmpfs=1000G
+#$ -l tmpfs=150G
 
 # Submit as `qsub submit_g16_base.sh my_molecule`, make sure not to include .gjf!
 
 # Input file name (without .gjf extension) from the first script argument
 INPUT_NAME="$1"
-echo "Input file base name: $INPUT_NAME"
+echo "Basename: $INPUT_NAME"
 SCRATCH_OUTPUT_BASE="/home/ucaqkin/Scratch/nsci0017/g16_jobs"
 
 # Create a unique directory for this job's results in Scratch
@@ -21,6 +21,7 @@ echo "Results will be saved to: $JOB_RESULT_DIR"
 # Load necessary modules
 module load gaussian/g16-c01/pgi-2018.10
 source $g16root/g16/bsd/g16.profile # Source Gaussian profile
+echo "GAUSS_SCRDIR=$GAUSS_SCRDIR"
 
 # --- Job Execution ---
 
@@ -44,9 +45,9 @@ cp "$SGE_O_WORKDIR/${INPUT_NAME}.gjf" .
 
 # Run Gaussian 16, explicitly asking for the formatted checkpoint file
 echo "Starting Gaussian 16 calculation..."
-g16 -fchk="${INPUT_NAME}.fchk" "${INPUT_NAME}.gjf"
+g16 ${INPUT_NAME}.gjf"
 
-# formchk "${INPUT_NAME}.chk" "${INPUT_NAME}.fchk"
+formchk "${INPUT_NAME}.chk" "${INPUT_NAME}.fchk"
 
 # Check if Gaussian finished successfully
 if [ $? -ne 0 ]; then
@@ -57,7 +58,7 @@ if [ $? -ne 0 ]; then
     rsync -av --ignore-missing-args \
           "${INPUT_NAME}.gjf" \
           "${INPUT_NAME}.log" \
-          "${INPUT_NAME}.chk" \
+          "$*.chk" \
           "${INPUT_NAME}.fchk" \
           "$JOB_RESULT_DIR/" > /dev/null 2>&1
 
@@ -73,12 +74,12 @@ echo "Gaussian 16 calculation finished successfully."
 # --- Copy Results ---
 
 echo "Copying results from $TMPDIR to $JOB_RESULT_DIR"
-# Copy the essential files: input, log, and the generated fchk
-# Checkpoint file (.chk) is usually large and often not needed if fchk is present
+# Copy the essential files: input, log, and the generated chk and fchk
 rsync -av --ignore-missing-args \
           "${INPUT_NAME}.gjf" \
           "${INPUT_NAME}.log" \
           "${INPUT_NAME}.fchk" \
+          "$*.chk" \
           "$JOB_RESULT_DIR/"
 
 

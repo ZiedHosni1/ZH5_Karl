@@ -1,0 +1,10 @@
+%chk=O2.chk
+%nprocshared=4
+%mem=4GB
+#p B97-3c Opt Freq Int=UltraFine
+
+Oxygen molecule for combustion calculations (B97-3c)
+
+0 3
+O         0.0000000000       0.0000000000      -0.6000000000
+O         0.0000000000       0.0000000000       0.6000000000

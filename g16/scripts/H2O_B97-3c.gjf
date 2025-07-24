@@ -1,0 +1,11 @@
+%chk=H2O.chk
+%nprocshared=4
+%mem=4GB
+#p B97-3c Opt Freq Int=UltraFine
+
+Water for combustion calculations (B97-3c)
+
+0 1
+O         0.0000000000       0.0000000000       0.1173000000
+H         0.0000000000       0.7572000000      -0.4692000000
+H         0.0000000000      -0.7572000000      -0.4692000000

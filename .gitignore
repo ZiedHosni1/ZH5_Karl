@@ -20,7 +20,7 @@ Thumbs.db
 #  Virtual/Conda environments created locally or on the cluster
 venv/
 .venv/
-/envs/                     # envs/ under $SCRATCH/tengan_runs (HPC)
+/envs/
 /tengan_runs/envs/         
 
 #  Jupyter artefacts
@@ -33,24 +33,8 @@ lightning_logs/
 #*.chk
 #*.fchk
 
-# Latex junk files (does this work?)
-/writing/manuscript/*.gz
-/writing/manuscript/*.pdf
-/writing/manuscript/*.log
-/writing/manuscript/*.fls
-/writing/manuscript/*.fdb_latexmk
-/writing/manuscript/*.blg
-/writing/manuscript/*.bbl
-/writing/manuscript/*.aux
-
-/writing/dissertation/*.gz
-/writing/dissertation/*.pdf
-/writing/dissertation/*.log
-/writing/dissertation/*.fls
-/writing/dissertation/*.fdb_latexmk
-/writing/dissertation/*.blg
-/writing/dissertation/*.bbl
-/writing/dissertation/*.aux
+# writing folder, will be kept hidden for now
+/writing/
 
 # Myriad jobscript files (some contain my WandB API keys). I believe all .sh files are jobscripts in this repo
 *.sh
