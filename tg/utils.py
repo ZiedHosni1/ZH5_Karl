@@ -1,14 +1,15 @@
-from rdkit.Chem import QED, Draw
-from rdkit import Chem
-from mol_metrics import *
-import seaborn as sns
-import matplotlib.pyplot as plt
 import json
 import logging
 
 import matplotlib
+import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
+from rdkit import Chem
+from rdkit.Chem import QED, Draw
+
 import wandb
+from mol_metrics import *
 
 matplotlib.use("Agg")
 
@@ -32,9 +33,9 @@ def top_mols_show(filename, properties, log_to_wandb=True):
     elif properties == "solubility":
         scores = batch_solubility(smiles)
     elif properties == "nhoc":
-        scores = batch_nhoc_gc(smiles)
+        scores = batch_nhoc(smiles)
     elif properties == "vol_nhoc":
-        scores = batch_vol_nhoc_gc(smiles)
+        scores = batch_vol_nhoc(smiles)
     else:
         raise ValueError(f"Unknown property: {properties}")
 
@@ -244,14 +245,16 @@ def evaluation(
         f"prop/{p}_max": max_s,
     }
     # added for wandb sweep, the main metric I will look at
+    w1 = 0.2
+    w2 = 0.4
     metrics["prop/objective"] = float(
         (
-            metrics[f"prop/{p}_mean"]
-            * metrics["prop/validity"]
-            * metrics["prop/uniqueness"]
-            * metrics["prop/novelty"]
+            metrics[f"prop/{p}_mean"] * w2
+            + metrics["prop/validity"] * w1
+            + metrics["prop/uniqueness"] * w1
+            + metrics["prop/novelty"] * w1
         )
-        ** (1.0 / 4.0)
+        / (w1 + w1 + w1 + w2)  # should be 1 here but a double check for robustness
     )
 
     if logger is not None:

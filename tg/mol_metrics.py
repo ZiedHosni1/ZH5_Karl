@@ -1,20 +1,16 @@
 import gzip
 import math
 import pickle
-import re
+from collections import defaultdict
 from copy import deepcopy
 from math import exp, log
-from typing import Dict
+from typing import Dict, List, Sequence, Tuple
 
 import numpy as np
 import pandas as pd
-from chemicals.utils import Vm_to_rho
-from chemicals.volume import Rackett
 from rdkit import Chem, DataStructs, rdBase
 from rdkit.Chem import Crippen, Descriptors, PandasTools
-from rdkit.Chem import rdMolDescriptors as rdmd
 from rdkit.Chem.rdMolDescriptors import GetMorganFingerprintAsBitVect
-from thermo.group_contribution.joback import Joback
 
 rdBase.DisableLog("rdApp.error")
 
@@ -33,23 +29,23 @@ class Tokenizer:
         # atoms (carbon), replace Cl for Q and Br for W
         chars = chars + [
             "H",
-            # "B",
+            "B",
             "c",
             "C",
-            # "n",
-            # "N",
+            "n",
+            "N",
             "o",
             "O",
-            # "p",
-            # "P",
-            # "s",
-            # "S",
-            # "F",
-            # "Q",
-            # "W",
-            # "I",
+            "p",
+            "P",
+            "s",
+            "S",
+            "F",
+            "Q",
+            "W",
+            "I",
         ]
-        # hidrogens: H2 to Z, H3 to X
+        # hydrogens: H2 to Z, H3 to X
         chars = chars + ["[", "]", "+", "Z", "X"]
         # bounding
         chars = chars + ["-", "=", "#", "."]
@@ -117,9 +113,9 @@ def reward_fn(properties, generated_smiles):
     elif properties == "synthesizability":
         vals = batch_SA(generated_smiles)
     elif properties == "nhoc":
-        vals = batch_nhoc_gc(generated_smiles)
+        vals = batch_nhoc(generated_smiles)
     elif properties == "vol_nhoc":
-        vals = batch_vol_nhoc_gc(generated_smiles)
+        vals = batch_vol_nhoc(generated_smiles)
     return vals
 
 
@@ -610,108 +606,510 @@ def batch_SA(smiles):
     return vals
 
 
-# ============================================================================
-# Net heat of combustion (NHOC) and volumetric NHOC
+# -------------------------------------------------------------------------
+# Marrero-Gani group contribution method for NHOC and vol_nhoc
+# -------------------------------------------------------------------------
+# 1 Group-contribution tables
 
-Hf_CO2_GAS = -393.51e3  # dHf^o[CO2(g)]  298 K
-Hf_H2O_GAS = -241.826e3  # dHf^o[H2O(g)]  298 K
-_L_PER_M3 = 1_000  # m^3 → L conversion
+MG1: Dict[str, Tuple[float, ...]] = {
+    # key              Tm      Tb      Tc       Pc        Vc      Hvap      Hf
+    "CH3": (0.6953, 0.8491, 1.7506, 0.018615, 68.35, 0.217, -42.479),
+    "CH2": (0.2515, 0.7141, 1.3327, 0.013547, 56.28, 4.910, -20.829),
+    "CH": (-0.3730, 0.2925, 0.5960, 0.007259, 37.50, 7.962, -7.122),
+    "C": (0.0256, -0.0671, 0.0306, 0.001219, 16.01, 10.730, 8.928),
+    # olefinic
+    "CH2=CH": (1.1728, 1.5596, 3.2295, 0.025745, 111.43, 4.031, 57.509),
+    "CH=CH": (0.9460, 1.5597, 3.0741, 0.023003, 98.43, 9.456, 69.664),
+    "CH2=C": (0.7662, 1.3621, 2.7717, 0.021137, 91.40, 8.602, 61.625),
+    "CH=C": (0.1732, 1.2971, 2.5666, 0.019609, 83.89, 14.095, 81.835),
+    "C=C": (0.3928, 1.2739, 2.6391, 0.014114, 90.66, 19.910, 95.710),
+    # acetylenic
+    "CH#C": (2.2276, 1.7618, 3.7897, 0.014010, 84.60, 6.144, 224.902),
+    "C#C": (2.0516, 1.6767, 4.5870, 0.010888, 74.66, 12.540, 228.282),
+    # saturated rings
+    "CH2(cyc)": (0.5699, 0.8234, 1.8815, 0.009884, 49.24, 3.341, -18.575),
+    "CH(cyc)": (0.0335, 0.5946, 1.1020, 0.007596, 44.95, 6.416, -12.464),
+    "C(cyc)": (0.1695, 0.0386, -0.2399, 0.003268, 33.32, 7.017, -2.098),
+    # cyclo‑alkenes
+    "CH=CH(cyc)": (1.1936, 1.5985, 3.6426, 0.013815, 83.91, 7.767, 59.841),
+    "CH=C(cyc)": (0.4344, 1.2529, 3.5475, 0.010576, 70.98, 7.171, 64.295),
+    "CH2=C(cyc)": (0.2220, 1.5109, 4.4913, 0.019101, 83.96, 5.351, 0),
+    # special ring‑pair (ignored in SMARTS counting – still available via
+    "ACH": (0.5860, 0.8365, 2.0337, 0.007260, 42.39, 3.683, 12.861),
+    "AC_subst": (0.9176, 1.5468, 4.5344, 0.012859, 26.47, 6.824, 24.701),
+    "AC_fused_ar": (1.8955, 1.7324, 5.4979, 0.003564, 35.71, 6.631, 20.187),
+    "AC_fused_nonar": (1.2065, 1.1995, 3.1058, 0.006512, 34.65, 6.152, 30.768),
+    "CH(bicyc)": (0.6647, 0.1415, 0.4963, -0.000985, -3.33, 0.223, 0),
+    "C(bicyc)": (0.0792, 0.2019, 1.6480, -0.010560, -12.10, -2.030, 0),
+    "CH(spiro)": (0.7730, 0.2900, 1.3500, -0.006200, -4.50, -2.600, 0),
+    "C(spiro)": (0.1020, 0.2300, 1.7900, -0.011100, -13.20, -2.300, 0),
+}
+MG2: Dict[str, Tuple[float, ...]] = {
+    # branched paraffins
+    "(CH3)2CH": (0.1175, -0.0035, -0.0471, 0.000473, 1.71, -0.399, -0.419),
+    "(CH3)3C": (-0.1214, 0.0072, -0.1778, 0.000340, 3.14, -0.417, -1.967),
+    "CH(CH3)CH(CH3)": (0.2390, 0.3160, 0.5602, -0.003207, -3.75, 0.532, 6.065),
+    "CH(CH3)C(CH3)2": (-0.3276, 0.3976, 0.8994, -0.008733, -10.06, 0.623, 8.078),
+    "C(CH3)2C(CH3)2": (3.3297, 0.4487, 1.5535, -0.016852, -8.70, 5.086, 10.535),
+    # diene / alkene adjacency
+    "diene_adj": (0.7451, 0.1097, 0.4214, 0.000792, -7.88, 1.632, -11.786),
+    "CH3-alkene": (0.0524, 0.0369, -0.0172, -0.000101, 0.50, 0.064, -0.048),
+    "CH2-alkene": (-0.1077, -0.0537, 0.0262, 0.000815, 0.14, -0.060, 1.449),
+    "CH-alkene": (-0.2485, -0.0093, -0.1526, -0.000163, -2.67, 0.004, 3.964),
+    # alicyclic substitutions
+    "Ccyc-CH2": (-1.9233, 0.0319, 0.1090, -0.000610, -5.17, 0.585, 21.498),
+    "Ccyc-CH3": (0.1737, 0.0722, 0.1607, 0.001235, 1.95, 0.808, 0.238),
+    "CHcyc-CH3": (-0.1326, -0.1210, -0.1233, 0.000779, 2.79, 0.096, 4.452),
+    "CHcyc-CH2": (-0.4669, -0.0148, 0.3816, 0.001694, -2.95, -0.428, 4.428),
+    "CHcyc-CH": (-0.3548, 0.1395, 0.1093, 0.000124, 6.19, 0.153, -4.128),
+    "CHcyc-C": (-0.1727, 0.1829, 0, 0, 0, 0, 0),
+    "CHcyc-CH=CH": (0.6817, -0.1192, 0.0000, 0.000000, -16.97, 6.768, 10.390),
+    "CHcyc-C=CH": (-1.0631, -0.0455, -0.2832, 0.002114, -16.97, 0.000, 10.390),
+    "AROMRINGs1s2": (-0.6388, -0.1590, -0.3161, 0.000522, 2.86, 1.164, 1.486),
+}
+
+MG3: Dict[str, Tuple[float, ...]] = {
+    "CHcyc-Chcyc": (0.5460, 0.4387, 2.1761, 0.002745, 7.72, 0.0, -66.870),
+    "CHcyc-(CHn)m-CHcyc": (0.4497, 0.5632, 0.0000, 0.0000, 0.00, 0.000, 0.0000),
+    "CH_multiring": (0.6647, 0.1415, 0.4963, -0.000985, -3.33, 0.223, 0.0),
+    "C_multiring": (0.0792, 0.0000, 0.0000, 0.000000, 0.00, 0.000, 0.000),
+    "AROMFUSED[2]": (0.2825, 0.0441, -1.0095, -0.001332, -6.88, 0.694, 1.904),
+    "AROMFUSED[3]": (1.6600, 0.0402, -1.0430, 0.004695, 35.21, 1.176, 5.819),
+    "AROMFUSED[4p]": (-1.5856, 0.9126, 2.8885, 0.007280, -24.02, -3.417, -19.089),
+    "BICYC>C<": (0.5500, 0.0700, 0.8900, -0.004400, -6.95, 0.000, 0.0000),  # Osmont 06
+}
+
+# -------------------------------------------------------------------------
+# 2 First‑order atom‑level classifier for MG1
 
 
-def _elemental_counts(smiles: str) -> Dict[str, int]:
-    """Return counts of C, H, O atoms in the molecule."""
-    formula = rdmd.CalcMolFormula(Chem.MolFromSmiles(smiles))
-    return {
-        elem: int(num) if num else 1
-        for elem, num in re.findall(r"([A-Z][a-z]*)(\d*)", formula)
-    }
+def _mg1_counts(mol: Chem.Mol) -> Dict[str, int]:
+    """Return a mapping {group: count} by classifying every carbon atom.
 
-
-def _hf_formation(smiles: str) -> float:
-    """Gas-phase standard enthalpy of formation at 298 K [J mol^-1] via Joback GC."""
-    J = Joback(smiles)
-    return Joback.Hf(J.counts)
-
-
-def _density_kg_m3(smiles: str, T: float = 298.15) -> float:
-    """Liquid density at temperature T [kg m^-3] via Rackett + Joback."""
-    J = Joback(smiles)
-    counts = J.counts
-    atom_count = sum(_elemental_counts(smiles).values())
-    Tc = Joback.Tc(counts)
-    Pc = Joback.Pc(counts, atom_count)
-    Vc = Joback.Vc(counts)
-    # critical compressibility factor
-    Zc = Pc * Vc / (8.314462618 * Tc)
-    Vm = Rackett(T, Tc, Pc, Zc)  # molar volume (m^3 mol^-1
-    mw = Descriptors.MolWt(Chem.MolFromSmiles(smiles))  # g mol^-1
-    return Vm_to_rho(Vm, mw)  # kg m^-3
-
-
-def nhoc_mass(smiles: str) -> float:
-    """Gravimetric net heat of combustion (lower heating value) [MJ kg^-1]."""
-    elems = _elemental_counts(smiles)
-    c = elems.get("C", 0)
-    h = elems.get("H", 0)
-    o = elems.get("O", 0)
-    delta_hc = (c * Hf_CO2_GAS + (h / 2) * Hf_H2O_GAS) - _hf_formation(smiles)
-    mw = Descriptors.MolWt(Chem.MolFromSmiles(smiles))  # g mol^-1
-    return (-delta_hc / (mw * 1e-3)) / 1e6  # MJ kg^-1
-
-
-def volumetric_nhoc(smiles: str) -> float:
-    """Volumetric NHOC at 298 K [MJ L⁻¹]."""
-    return nhoc_mass(smiles) * _density_kg_m3(smiles) / _L_PER_M3
-
-
-# batch wrappers
-# First, defing expected min and max values for scaling, and deifining scaling function
-_NHOC_MIN, _NHOC_MAX = 30.0, 50.0  # MJ kg^-1
-_VNHOC_MIN, _VNHOC_MAX = 30.0, 42.0  # MJ L^-1
-_VNHOC_MID = 38.0  # logistic midpoint mu
-_VNHOC_WIDTH = 5.0
-
-
-def _scale_minmax(x: float, lo: float, hi: float) -> float:
-    """Map x to [0.1, 1.0] using min-max scaling and symmetric clipping."""
-    y = (x - lo) / (hi - lo)
-    return min(max(y, 0.0), 1.0) * 0.9 + 0.1
-
-
-def batch_nhoc_gc(smiles_list):
-    raw = []
-    for sm in smiles_list:
-        try:
-            raw.append(nhoc_mass(sm))
-        except Exception:
-            raw.append(_NHOC_MIN)
-    return [_scale_minmax(v, _NHOC_MIN, _NHOC_MAX) for v in raw]
-
-
-def _scale_vnhoc_logistic(
-    x: float, mid: float = _VNHOC_MID, width: float = _VNHOC_WIDTH
-) -> float:
+    *   classification logic follows Marrero–Gani’s definition of groups;
+    *   only MG1 groups are handled here – MG2/MG3 are left to the legacy
+        substring heuristic because they depend on *adjacency* patterns
+        not expressible via single‑atom typing.
     """
-    Smooth reward that plateaus as soon as a 'good-enough'
-    volumetric NHOC is reached.
+    counts: Dict[str, int] = defaultdict(int)  # type: ignore[arg-type]
 
-    For x << mid-width/2   -> reward ca 0
-        x  = mid-width/2   -> reward ca 0.1
-        x  = mid           -> reward ca 0.5
-        x  = mid+width/2   -> reward ca 0.9
-        x >> mid+width/2   -> reward ca 1
-    """
-    k = 4.394 / width  # 4.394 ca ln(0.9/0.1)
-    y = 1.0 / (1.0 + math.exp(-k * (x - mid)))
-    return y
+    for atom in mol.GetAtoms():
+        if atom.GetSymbol() != "C":
+            continue  # ignore heteroatoms
+
+        n_H = atom.GetTotalNumHs()
+        in_ring = atom.IsInRing()
+        has_double = any(
+            b.GetBondType() == Chem.BondType.DOUBLE for b in atom.GetBonds()
+        )
+        has_triple = any(
+            b.GetBondType() == Chem.BondType.TRIPLE for b in atom.GetBonds()
+        )
+
+        # aromatic carbons (Marrero-Gani: ACH, AC variants)
+        if atom.GetIsAromatic():
+            if n_H >= 1:
+                counts["ACH"] += 1  # first-order aromatic CH
+                continue
+
+            # Substituted aromatic C: need to know whether it is a fusion atom
+            ri = mol.GetRingInfo()
+            atom_idx = atom.GetIdx()
+            # how many aromatic rings contian this atom?
+            aro_rings = [
+                set(r)
+                for r in ri.AtomRings()
+                if all(mol.GetAtomWithIdx(i).GetIsAromatic() for i in r)
+            ]
+            n_arom_memberships = sum(atom_idx in r for r in aro_rings)
+
+            # whether this atom is also in non-aromatic ring
+            nonaro_rings = [
+                set(r)
+                for r in ri.AtomRings()
+                if not all(mol.GetAtomWithIdx(i).GetIsAromatic() for i in r)
+            ]
+            in_nonaro = any(atom_idx in r for r in nonaro_rings)
+
+            if n_arom_memberships >= 2:
+                # shared by two aromatic rings (e.g. nafthalene)
+                counts["AC_fused_ar"] += 1
+            elif in_nonaro:
+                # shared by aromatic + non-aromatic ring
+                counts["AC_fused_nonar"] += 1
+            else:
+                counts["AC_subst"] += (
+                    1  # substituted aromatic carbon (not a fusion atom)
+                )
+            continue
+
+        # saturated acyclic --------------------------------------------------
+        if not in_ring and not (has_double or has_triple):
+            if n_H == 3:
+                counts["CH3"] += 1
+            elif n_H == 2:
+                counts["CH2"] += 1
+            elif n_H == 1:
+                counts["CH"] += 1
+            else:
+                counts["C"] += 1
+            continue
+
+        # unsaturated acyclic (double bond) ----------------------------------
+        if not in_ring and has_double and not has_triple:
+            if n_H == 2:
+                counts["CH2=CH"] += 1
+            elif n_H == 1:
+                counts["CH=CH"] += 1
+            elif n_H == 0:
+                counts["C=C"] += 1
+            elif n_H < 0:
+                pass
+            continue
+
+        # acetylenic ---------------------------------------------------------
+        if not in_ring and has_triple:
+            if n_H == 1:
+                counts["CH#C"] += 1
+            else:
+                counts["C#C"] += 1
+            continue
+
+        # saturated cyclic ---------------------------------------------------
+        if in_ring and not (has_double or has_triple):
+            if n_H == 2:
+                counts["CH2(cyc)"] += 1
+            elif n_H == 1:
+                counts["CH(cyc)"] += 1
+            else:
+                counts["C(cyc)"] += 1
+            continue
+
+        # unsaturated cyclic (single double bond) ----------------------------
+        if in_ring and has_double and not has_triple:
+            if n_H == 2:
+                counts["CH2=C(cyc)"] += 1
+            elif n_H == 1:
+                counts["CH=CH(cyc)"] += 1
+            else:
+                counts["CH=C(cyc)"] += 1
+            continue
+
+    # other fall through and are ignored
+    return counts
 
 
-def batch_vol_nhoc_gc(smiles_list):
-    vals = []
+def _mg2_mg3_counts(mol: Chem.Mol) -> Dict[str, int]:
+    """Count a small set of high-leverage MG2/MG3 structural motifs."""
+    counts = defaultdict(int)
+    ri = mol.GetRingInfo()
+
+    # MG2: AROMRINGs1s2 (adjacent substituents on aromatic ring)
+    # count rings with two adjacaent sp2 carbons both substituted (not ACH)
+    for ring in ri.AtomRings():
+        ring_atoms = [mol.GetAtomWithIdx(i) for i in ring]
+        if not all(a.GetIsAromatic() for a in ring_atoms):
+            continue
+        ring_set = set(ring)
+        # find substituted aromatic C (no H) inside the ring
+        subs = [
+            a.GetIdx()
+            for a in ring_atoms
+            if a.GetIsAromatic() and a.GetTotalNumHs() == 0
+        ]
+        subs_set = set(subs)
+        # adjacency along the ring (edges within the ring)
+        for i in range(len(ring)):
+            a = ring[i]
+            b = ring[(i + 1) % len(ring)]
+            if a in subs_set and b in subs_set:
+                if "AROMRINGs1s2" in MG2:
+                    counts["AROMRINGs1s2"] += 1
+
+    # MG3: CHcyc-Chcyc (fused/alicyclic rings in saturated systems)
+    # count ring bonds were both atoms are sp3, in rings, non-aromatic, and each bears one H
+    for bond in mol.GetBonds():
+        a, b = bond.GetBeginAtom(), bond.GetEndAtom()
+        if bond.IsInRing() and (not a.GetIsAromatic()) and (not b.GetIsAromatic()):
+            if a.IsInRing() and b.IsInRing():
+                if (
+                    a.GetHybridization().name == "SP3"
+                    and b.GetHybridization().name == "SP3"
+                ):
+                    if a.GetTotalNumHs() == 1 and b.GetTotalNumHs() == 1:
+                        if "CHcyc-Chcyc" in MG3:
+                            counts["CHcyc-Chcyc"] += 1
+
+    # ---- MG3: fused aromatic systems (AROMFUSED[2],[3],[4p])
+    # Build a graph of aromatic rings, edges = shared edge (>= 2 shared atoms)
+    aro_rings = [
+        set(r)
+        for r in ri.AtomRings()
+        if all(mol.GetAtomWithIdx(i).GetIsAromatic() for i in r)
+    ]
+    seen = set()
+    for i in range(len(aro_rings)):
+        if i in seen:
+            continue
+        comp = {i}
+        edges = 0
+        stack = [i]
+        while stack:
+            u = stack.pop()
+            for v in range(len(aro_rings)):
+                if v == u:
+                    continue
+                if len(aro_rings[u] & aro_rings[v]) >= 2:  # fused by an edge
+                    edges += 1
+                    if v not in comp:
+                        comp.add(v)
+                        stack.append(v)
+        seen |= comp
+        n = len(comp)
+        if n == 2 and "AROMFUSED[2]" in MG3:
+            counts["AROMFUSED[2]"] += 1
+        elif n == 3 and "AROMFUSED[3]" in MG3:
+            counts["AROMFUSED[3]"] += 1
+        elif n >= 4 and "AROMFUSED[4p]" in MG3:
+            if edges >= n:
+                counts["AROMFUSED[4p]"] += 1
+            elif "AROMFUSED[3]" in MG3 and n == 4:
+                counts["AROMFUSED[3]"] += 1  # catacondensed 4-ring
+
+        # MG3: CH_multiring / C_multiring -------------------------------
+    for atom in mol.GetAtoms():
+        if atom.GetSymbol() != "C" or atom.GetIsAromatic():
+            continue
+        # number of non-aromatic rings that contain this atom
+        memberships = sum(
+            atom.GetIdx() in r
+            for r in ri.AtomRings()
+            if not all(mol.GetAtomWithIdx(i).GetIsAromatic() for i in r)
+        )
+        if memberships >= 2:  # shared by >=2 rings
+            if atom.GetTotalNumHs() == 1 and "CH_multiring" in MG3:
+                counts["CH_multiring"] += 1
+            elif atom.GetTotalNumHs() == 0 and "C_multiring" in MG3:
+                counts["C_multiring"] += 1
+
+    return counts
+
+
+# -------------------------------------------------------------------------
+# 2b Atom counters - utility needed later bor NHOC
+
+
+def _count_atoms(mol: Chem.Mol) -> Tuple[int, int]:
+    """Return (nC, nH) counting *implicit* and *explicit* hydrogens."""
+    nC = nH = 0
+    for atom in mol.GetAtoms():
+        sym = atom.GetSymbol()
+        if sym == "C":
+            nC += 1
+        elif sym == "H":
+            # explicit H (rare in SMILES for hydrocarbons)
+            nH += 1
+        # implicit H on every heavy atom
+        nH += atom.GetTotalNumHs()
+    return nC, nH
+
+
+# -------------------------------------------------------------------------
+# 3 Group-contribution engine
+# -------------------------------------------------------------------------
+
+_IDX_VC = 4  # tuple indices shared by all MG tables
+_IDX_HF = 6
+
+# Heats of formation of reference species (kJ mol-1)
+_DH_F_CO2 = -395.51  # CO2(l)
+_DH_F_H2O = -241.83  # H2O(l)
+_HF0 = 5.549  # universal correction from MG Table 2
+
+
+def _group_contribution(smiles: str, idx: int) -> float:
+    """Return sum(n_i G_i) for the requested property column idx."""
+    mol = Chem.MolFromSmiles(smiles)
+    if mol is None:
+        return 0.0
+
+    # MG1 via RDKit ------------------------------------
+    counts1 = _mg1_counts(mol)
+    total = 0.0
+    for g, n in counts1.items():
+        tup = MG1.get(g)  # None if group not in the dict
+        if tup is None:
+            continue  # silently ignore unknown group
+        total += n * tup[idx]
+
+        # MG2/MG3 via structural counter -----------------------------------
+    counts_high = _mg2_mg3_counts(mol)
+    for g, n in counts_high.items():
+        if g in MG2:
+            total += n * MG2[g][idx]
+        elif g in MG3:
+            total += n * MG3[g][idx]
+
+    # MG2/MG3 via low-cost substring fallback --------------------------
+    for d in (globals().get("MG2", {}), globals().get("MG3", {})):
+        for grp, tup in d.items():
+            n = smiles.count(grp)
+            if n:
+                total += n * tup[idx]
+
+    return total
+
+
+# universal gas constant in cm3 bar mol-1 K-1 --------------------------
+_R_BAR_CM3 = 83.14472
+
+# column indices (consistent with MG1/MG2/MG3 layout)
+_IDX_TB = 1
+_IDX_TC = 2
+_IDX_PC = 3
+
+
+def _tb(smiles):
+    S = _group_contribution(smiles, _IDX_TB)
+    return 222.543 * math.log(S)
+
+
+def _tc(smiles):
+    S = _group_contribution(smiles, _IDX_TC)
+    return 231.239 * math.log(S)
+
+
+# Pc (critical pressure, bar) -----------------------------------------
+def _pc(smiles: str) -> float:
+    S = _group_contribution(smiles, _IDX_PC)  # sum( n_i G_i)  (bar^{-1/2} units)
+    return 5.9827 + 1.0 / (S + 0.108998) ** 2
+
+
+def _acentric(smiles: str) -> float:
+    tb, tc, pc = _tb(smiles), _tc(smiles), _pc(smiles)
+    if tc <= 0 or tb <= 0 or pc <= 0 or tb >= tc:
+        return 0.0
+    ratio = tb / tc
+    return (3.0 / 7.0) * ratio / (1.0 - ratio) * math.log10(pc) - 1.0
+
+
+def _z_ra(smiles: str) -> float:
+    return 0.29056 - 0.08775 * _acentric(smiles)
+
+
+from chemicals.volume import Yamada_Gunn
+
+
+def _vs_cm3_mol(
+    smiles: str, T: float = 288.15, use_thermo=False
+) -> float:  # default 15C
+    tc, pc = _tc(smiles), _pc(smiles)
+    if use_thermo:
+        vs = Yamada_Gunn(T, tc, pc * 1e5, _acentric(smiles))  # bar -> Pa
+        return vs * 1e6  # m3 -> cm3
+    if tc <= 0 or pc <= 0:
+        return 0.0
+    exponent = 1.0 + (1.0 - T / tc) ** (2.0 / 7.0)
+    return (_R_BAR_CM3 * tc / pc) * (_z_ra(smiles) ** exponent)
+
+
+def _density_g_cm3(smiles: str, T: float = 298.15) -> float:
+    """Liquid density at T (default 15C)."""
+    mol = Chem.MolFromSmiles(smiles)
+    if mol is None:
+        return 0.0
+    vs = _vs_cm3_mol(smiles, T)
+    if vs <= 0.0:
+        return 0.0
+    mw = Descriptors.MolWt(mol)  # g mol-1
+    return mw / vs
+
+
+# -------------------------------------------------------------------------
+# 4 NHOC adn density helpers
+
+
+def _hf(smiles: str) -> float:
+    """Standard enthalpy of formation dHf (kJ mol‑1, 298 K)."""
+    return _group_contribution(smiles, _IDX_HF) + _HF0
+
+
+def _nhoc_raw(smiles: str) -> float:
+    mol = Chem.MolFromSmiles(smiles)
+    if mol is None:
+        return 0.0
+    mw_g_mol = Descriptors.MolWt(mol)
+    nC, nH = _count_atoms(mol)
+    delta_h_comb = nC * _DH_F_CO2 + (nH / 2.0) * _DH_F_H2O - _hf(smiles)
+    return -delta_h_comb / mw_g_mol  # kJ g-1 = MJ kg-1
+
+
+# -------------------------------------------------------------------------
+# 5 Public API used by reward_fn
+
+
+def nhoc(smiles: str) -> float:  # MJ kg-1
+    return _nhoc_raw(smiles)
+
+
+def vol_nhoc(smiles: str, T: float = 288.15) -> float:  # MJ L-1 at 15C by default
+    rho = _density_g_cm3(smiles, T)
+    return _nhoc_raw(smiles) * rho  # MJ kg-1 * g cm-3 -> MJ L-1
+
+
+# -------------------------------------------------------------------------
+# 6 Desirability-based normalisation
+
+# Mass-based NHOC bounds (MJ kg-1)
+NHOC_MASS_LB: float = 38.0  # lower bound - anything poorer scores 0
+NHOC_MASS_TAR: float = 45.0  # target - anything richer scores 1
+
+# Volumetric NHOC bounds (MJ L-1)
+NHOC_VOL_LB: float = 25.0
+NHOC_VOL_TAR: float = 40.0
+
+
+def desirability_nhoc(value: float, s: float = 1.0) -> float:
+    """Desirability for mass NHOC."""
+    if value <= NHOC_MASS_LB:
+        return 0.0
+    if value >= NHOC_MASS_TAR:
+        return 1.0
+    return ((value - NHOC_MASS_LB) / (NHOC_MASS_TAR - NHOC_MASS_LB)) ** s
+
+
+def desirability_vol_nhoc(value: float, s: float = 1.0) -> float:
+    """Same desirability function but for volumetric NHOC."""
+    if value <= NHOC_VOL_LB:
+        return 0.0
+    if value >= NHOC_VOL_TAR:
+        return 1.0
+    return ((value - NHOC_VOL_LB) / (NHOC_VOL_TAR - NHOC_VOL_LB)) ** s
+
+
+# -------------------------------------------------------------------------
+# Batch wrappers
+
+
+def batch_nhoc(smiles_list: Sequence[str], s: float = 1.0) -> List[float]:
+    """Return list of desirability‑scaled mass NHOC values for each SMILES."""
+    out: List[float] = []
     for sm in smiles_list:
-        try:
-            v = volumetric_nhoc(sm)
-        except Exception:
-            v = _VNHOC_MID - _VNHOC_WIDTH  # pessimistic default
-        vals.append(_scale_vnhoc_logistic(v))
-    return vals
+        if Chem.MolFromSmiles(sm):
+            out.append(desirability_nhoc(nhoc(sm), s))
+        else:
+            out.append(0.0)
+    return out
+
+
+def batch_vol_nhoc(
+    smiles_list: Sequence[str], s: float = 1.0, T: float = 288.15
+) -> List[float]:
+    """Desirability‑scaled volumetric NHOC at *T* K (default 15 °C)."""
+    out: List[float] = []
+    for sm in smiles_list:
+        if Chem.MolFromSmiles(sm):
+            out.append(desirability_vol_nhoc(vol_nhoc(sm, T), s))
+        else:
+            out.append(0.0)
+    return out

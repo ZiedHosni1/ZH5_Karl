@@ -1,7 +1,10 @@
 # TenGAN
 
-A PyTorch implementation of "TenGAN: Pure Transformer Encoders Make an Efficient Discrete GAN for De Novo Molecular Generation."
-The paper has been accepted by [AISTATS 2024](https://). ![Overview of TenGAN](https://github.com/naruto7283/TenGAN/blob/main/tengan_overview.png)
+
+Model has been adapted from the original implementation of TenGAN to support the following features:
+- New properties for fuel-relevant molecular generation, such as net heat of combustion (NHOC) and volume-normalised NHOC (vol_NHOC).
+- Added early stopping mechanisms to pretraining processes.
+- Overhauled the logging system to use Weight and Biases (wandb) for better tracking of experiments, including hyperparameters, losses, and generated molecules.
 
 ## Installation
 Execute the following commands:
@@ -14,14 +17,15 @@ source activate tg_env
   - **dataset:** contains the training datasets. Each dataset contains only one column of SMILES strings.
 	  - QM9.csv
 	  - ZINC.csv
-	  - comb_1.csv - self-composed dataset of (potential) fuel molecules
-   
+	  - combinedSet_10k.csv - self-composed dataset of fuel-like molecules, composed of 10,000 molecules. 
+      - combinedSet_100k.csv - self-composed dataset of fuel-like molecules, composed of 100,000 molecules. 
+
   - **res:** all generated datasets, saved models, and experimental results are automatically saved in this folder. Currently it is empty as I search for the best-performing models. 
 	- save_models: all training results, pre-trained and trained filler and discriminator models are saved in this folder.
 
-	- main.py: definite all hyper-parameters, pretraining of the generator, pretraining of the discriminator, adversarial training of the TenGAN and Ten(W)GAN.
+	- main.py: defines all hyper-parameters, pretraining of the generator, pretraining of the discriminator, adversarial training of the TenGAN and Ten(W)GAN.
 	
-	- mol_metrics.py: definite the vocabulary, tokenization of SMILES strings, and all the objective functions of the chemical properties.	
+	- mol_metrics.py: defines the vocabulary, tokenization of SMILES strings, and all the objective functions of the chemical properties.
 
 	- data_iter.py: load data for the generator and discriminator.
 
@@ -37,14 +41,14 @@ source activate tg_env
 	- solubility
 	- druglikeness
 	- synthesizability
-	- molar_nhoc
-	- safscore
+	- nhoc
+	- vol_nhoc
  
 ## Experimental Reproduction
 
-  - TenGAN on the comb-1 dataset with safscore as the optimized property, full pre-train and train:
+  - TenGAN on the combinedSet_10k dataset with vol_nhoc as the optimised property, full pre-train and train:
   ```
-  $ python main.py --dataset_name comb_1 --properties safscore --gen_pretrain --dis_pretrian --adv_training
+  $ python main.py --dataset_name combinedSet_10k --properties vol_nhoc --gen_pretrain --dis_pretrian --adv_training
   ```
   
 ## Model heavily adapted from

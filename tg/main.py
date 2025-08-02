@@ -9,15 +9,14 @@ import numpy as np
 import pytorch_lightning
 import torch
 import wandb
-from pytorch_lightning.callbacks.early_stopping import EarlyStopping
-from pytorch_lightning.loggers import CSVLogger, WandbLogger
-from rdkit import rdBase
-from rdkit.Chem import Draw
-
 from data_iter import DisDataLoader, GenDataLoader
 from discriminator import DiscriminatorModel
 from generator import GeneratorModel, GenSampler
 from mol_metrics import *
+from pytorch_lightning.callbacks.early_stopping import EarlyStopping
+from pytorch_lightning.loggers import CSVLogger, WandbLogger
+from rdkit import rdBase
+from rdkit.Chem import Draw
 from rollout import OwnModel, Rollout
 from utils import *
 from utils import evaluation
@@ -370,6 +369,62 @@ def pg_loss(probs, targets, rewards):
 # ============================================================================
 
 
+def pg_stats(probs, targets, rewards):
+    """Return dict of interpretable PG diagnostics (no grads)."""
+    with torch.no_grad():
+        one_hot = torch.zeros_like(probs, dtype=torch.bool)
+        one_hot.scatter_(1, targets.view(-1, 1), 1)
+        logp_taken = torch.masked_select(probs, one_hot)  # [B*T]
+        adv_vec = rewards.contiguous().view(-1)  # [B*T]
+        loss_vec = -logp_taken * adv_vec  # element-wise REINFORCE term
+
+        # token-length for normalisation (pad token = 0 by default; change if needed)
+        n_tokens = float(len(logp_taken))
+        stats = {
+            "adv/pg_loss_sum": float(loss_vec.sum().item()),
+            "adv/pg_loss_mean": float(loss_vec.mean().item()),
+            "adv/R_mean": float(adv_vec.mean().item()),
+            "adv/R_std": float(adv_vec.std().item()),
+            "adv/logp_mean": float(logp_taken.mean().item()),
+            "adv/logp_std": float(logp_taken.std().item()),
+        }
+
+        # entropy of policy over vocab (per time-step mean)
+        p = probs.exp()
+        entropy = -(p * probs).sum(dim=1).mean()
+        stats["adv/entropy"] = float(entropy.item())
+    return stats
+
+
+import torch.nn.functional as F
+
+
+def gen_ce_loss(batch, gen):
+    """Teacher-forced CE on a padded [L, B] batch (same as GeneratorModel.step)."""
+    batch = batch.to(gen.device)
+    logits = gen.forward(batch[:-1])  # [L-1, B, V]
+    loss = F.cross_entropy(
+        logits.transpose(0, 1).transpose(1, 2),  # [B, V, L-1]
+        batch[1:].transpose(0, 1),  # [B, L-1]
+        reduction="mean",
+    )
+    return loss
+
+
+def dis_batch_loss(dloader, dis, device):
+    """Grab ONE batch from a loader and compute loss/acc via DiscriminatorModel.step()."""
+    try:
+        data = next(dis_batch_loss._it)
+    except (AttributeError, StopIteration):
+        dis_batch_loss._it = iter(dloader)
+        data = next(dis_batch_loss._it)
+    inputs, labels = data
+    inputs, labels = inputs.to(device), labels.to(device)
+    with torch.no_grad():
+        loss, acc = dis.step((inputs, labels))
+    return loss.item(), acc.item()
+
+
 def main():
     # ===========================
     # For reproducing experiments
@@ -418,6 +473,8 @@ def main():
     # Generator objects definition
     gen_data_loader = GenDataLoader(POSITIVE_FILE, args.gen_train_size, args.batch_size)
     gen_data_loader.setup()
+    gen_train_loader = gen_data_loader.train_dataloader()
+    gen_val_loader = gen_data_loader.val_dataloader()
     gen = GeneratorModel(
         n_tokens=gen_data_loader.tokenizer.n_tokens,
         num_encoder_layers=args.gen_num_encoder_layers,
@@ -476,6 +533,8 @@ def main():
     # Discriminator objects definition
     dis_data_loader = DisDataLoader(POSITIVE_FILE, NEGATIVE_FILE, args.batch_size)
     dis_data_loader.setup()
+    dis_train_loader = dis_data_loader.train_dataloader()
+    dis_val_loader = dis_data_loader.val_dataloader()
     dis = DiscriminatorModel(
         n_tokens=dis_data_loader.tokenizer.n_tokens,
         d_model=args.dis_d_model,
@@ -558,6 +617,7 @@ def main():
 
     pg_optimizer = torch.optim.Adam(params=gen.parameters(), lr=args.adv_lr)
     rollout = Rollout(gen, roll_own_model, tokenizer, args.update_rate, DEVICE)
+    real_iter = iter(dis_data_loader.train_dataloader())
 
     # Adversarial training
     if args.adversarial_train:
@@ -623,30 +683,117 @@ def main():
                 )  # capture norm
                 pg_optimizer.step()
 
+                if g_step == 0:  # once per epoch; adjust to taste
+                    with torch.no_grad():
+                        # Generator CE sanity
+                        try:
+                            gen_batch = next(gen_ce_loss._it)
+                        except (AttributeError, StopIteration):
+                            gen_ce_loss._it = iter(gen_train_loader)
+                            gen_batch = next(gen_ce_loss._it)
+                        gen_ce_tr = gen_ce_loss(gen_batch, gen).item()
+
+                        try:
+                            vbatch = next(gen_ce_loss._vit)
+                        except (AttributeError, StopIteration):
+                            gen_ce_loss._vit = iter(gen_val_loader)
+                            vbatch = next(gen_ce_loss._vit)
+                        gen_ce_val = gen_ce_loss(vbatch, gen).item()
+
+                        # Discriminator held-out losses/accs
+                        dis_tr_loss, dis_tr_acc = dis_batch_loss(
+                            dis_train_loader, dis, DEVICE
+                        )
+                        dis_vl_loss, dis_vl_acc = dis_batch_loss(
+                            dis_val_loader, dis, DEVICE
+                        )
+
+                extra_metrics = {
+                    "adv/gen_ce_train": gen_ce_tr,
+                    "adv/gen_ce_val": gen_ce_val,
+                    "adv/dis_train_loss": dis_tr_loss,
+                    "adv/dis_train_acc": dis_tr_acc,
+                    "adv/dis_val_loss": dis_vl_loss,
+                    "adv/dis_val_acc": dis_vl_acc,
+                }
+            else:
+                extra_metrics = {}
+
                 # metrics
                 mean_reward = rewards.mean().item()
                 raw_mean = (rewards + rollout.reward_ema).mean().item()
                 lr_current = pg_optimizer.param_groups[0]["lr"]
+                pg_diag = pg_stats(
+                    gen_pred.detach(), targets.detach(), rewards.detach()
+                )
+                pg_diag["adv/baseline"] = float(rollout.reward_ema)
                 global_step += 1
                 metrics = {
                     "epoch": epoch + 1,
                     "global_step": global_step,
-                    "adv/pg_loss": loss.item(),  # unified and  grouped.
-                    "adv/advantage_mean": mean_reward,  # reward trend
+                    # "adv/pg_loss": loss.item(),  # unified and  grouped.
+                    "adv/advantage_mean": mean_reward,  # rewrad trend
                     "adv/raw_mean_reward": raw_mean,  # reward where EMA baseline is not subtracted
-                    "adv/grad_norm": grad_norm,  # gradeint health
+                    "adv/grad_norm": float(grad_norm),  # gradeint health
                     "adv/lr": lr_current,  # LR schedule
                 }
-
+                metrics.update(pg_diag)
+                metrics.update(extra_metrics)
                 batch_size = encoded.size(1)
-                disc_inputs = encoded  # [n_valid, seq_len]
-                disc_labels = torch.zeros(
-                    disc_inputs.size(0), dtype=torch.long, device=DEVICE
+                # build fake batch for D (match DisDataset format: [B, L] without <s>, </s>)
+                fake_seq_list = [
+                    torch.tensor(tokenizer.encode(s))[1:-1] for s in samples
+                ]
+                fake_inputs = (
+                    torch.nn.utils.rnn.pad_sequence(fake_seq_list)
+                    .transpose(0, 1)
+                    .to(DEVICE)
+                )  # [Bf, Lf]
+                fake_labels = torch.zeros(
+                    fake_inputs.size(0), dtype=torch.long, device=DEVICE
                 )
+
+                # get real batch
+                try:
+                    real_batch = next(real_iter)
+                except (NameError, StopIteration):
+                    real_iter = iter(dis_data_loader.train_dataloader())
+                    real_batch = next(real_iter)
+
+                real_inputs, real_labels = real_batch
+                real_inputs = real_inputs.to(DEVICE)  # [Br, Lr]
+                real_labels = real_labels.to(DEVICE)  # [Br]
+
+                # --- pad to common length ---
+                pad_token = tokenizer.char_to_int[tokenizer.pad]
+                max_len = max(real_inputs.size(1), fake_inputs.size(1))
+                if real_inputs.size(1) != max_len:
+                    real_inputs = torch.nn.functional.pad(
+                        real_inputs, (0, max_len - real_inputs.size(1)), value=pad_token
+                    )
+                if fake_inputs.size(1) != max_len:
+                    fake_inputs = torch.nn.functional.pad(
+                        fake_inputs, (0, max_len - fake_inputs.size(1)), value=pad_token
+                    )
+
+                # concat on batch dimension
+                disc_inputs = torch.cat([real_inputs, fake_inputs], dim=0)  # [Br+Bf, L]
+                disc_labels = torch.cat([real_labels, fake_labels], dim=0)
+
                 disc_loss, disc_acc = dis.step((disc_inputs, disc_labels))
+
+                # optional split accuracies
+                with torch.no_grad():
+                    out = dis.forward(disc_inputs).softmax(1)
+                    pred = out.argmax(1)
+                    acc_real = (pred[: real_inputs.size(0)] == 1).float().mean()
+                    acc_fake = (pred[real_inputs.size(0) :] == 0).float().mean()
+
                 disc_metrics = {
                     "adv/dis_loss": disc_loss.item(),
-                    "adv/dis_acc": disc_acc.item(),
+                    "adv/dis_acc": disc_acc.item(),  # overall
+                    "adv/dis_acc_real": float(acc_real.item()),
+                    "adv/dis_acc_fake": float(acc_fake.item()),
                 }
                 wandb.log({**metrics, **disc_metrics})
 
