@@ -1,3 +1,4 @@
+from chemicals.volume import Yamada_Gunn
 import gzip
 import math
 import pickle
@@ -609,7 +610,7 @@ def batch_SA(smiles):
 # -------------------------------------------------------------------------
 # Marrero-Gani group contribution method for NHOC and vol_nhoc
 # -------------------------------------------------------------------------
-# 1 Group-contribution tables
+#  Group-contribution tables
 
 MG1: Dict[str, Tuple[float, ...]] = {
     # key              Tm      Tb      Tc       Pc        Vc      Hvap      Hf
@@ -676,11 +677,12 @@ MG3: Dict[str, Tuple[float, ...]] = {
     "AROMFUSED[2]": (0.2825, 0.0441, -1.0095, -0.001332, -6.88, 0.694, 1.904),
     "AROMFUSED[3]": (1.6600, 0.0402, -1.0430, 0.004695, 35.21, 1.176, 5.819),
     "AROMFUSED[4p]": (-1.5856, 0.9126, 2.8885, 0.007280, -24.02, -3.417, -19.089),
-    "BICYC>C<": (0.5500, 0.0700, 0.8900, -0.004400, -6.95, 0.000, 0.0000),  # Osmont 06
+    # Osmont 06
+    "BICYC>C<": (0.5500, 0.0700, 0.8900, -0.004400, -6.95, 0.000, 0.0000),
 }
 
 # -------------------------------------------------------------------------
-# 2 First‑order atom‑level classifier for MG1
+#  First‑order atom‑level classifier for MG1
 
 
 def _mg1_counts(mol: Chem.Mol) -> Dict[str, int]:
@@ -896,7 +898,7 @@ def _mg2_mg3_counts(mol: Chem.Mol) -> Dict[str, int]:
 
 
 # -------------------------------------------------------------------------
-# 2b Atom counters - utility needed later bor NHOC
+# Atom counters - utility needed later bor NHOC
 
 
 def _count_atoms(mol: Chem.Mol) -> Tuple[int, int]:
@@ -915,7 +917,7 @@ def _count_atoms(mol: Chem.Mol) -> Tuple[int, int]:
 
 
 # -------------------------------------------------------------------------
-# 3 Group-contribution engine
+# Group-contribution
 # -------------------------------------------------------------------------
 
 _IDX_VC = 4  # tuple indices shared by all MG tables
@@ -985,7 +987,8 @@ def _tc(smiles):
 
 # Pc (critical pressure, bar) -----------------------------------------
 def _pc(smiles: str) -> float:
-    S = _group_contribution(smiles, _IDX_PC)  # sum( n_i G_i)  (bar^{-1/2} units)
+    # sum( n_i G_i)  (bar^{-1/2} units)
+    S = _group_contribution(smiles, _IDX_PC)
     return 5.9827 + 1.0 / (S + 0.108998) ** 2
 
 
@@ -999,9 +1002,6 @@ def _acentric(smiles: str) -> float:
 
 def _z_ra(smiles: str) -> float:
     return 0.29056 - 0.08775 * _acentric(smiles)
-
-
-from chemicals.volume import Yamada_Gunn
 
 
 def _vs_cm3_mol(
@@ -1030,7 +1030,7 @@ def _density_g_cm3(smiles: str, T: float = 298.15) -> float:
 
 
 # -------------------------------------------------------------------------
-# 4 NHOC adn density helpers
+#  NHOC adn density helpers
 
 
 def _hf(smiles: str) -> float:
@@ -1051,7 +1051,7 @@ def _nhoc_raw(smiles: str) -> float:
 
 
 # -------------------------------------------------------------------------
-# 5 Public call used by reward_fn
+#  Public call used by reward_fn
 
 
 def nhoc(smiles: str) -> float:  # MJ kg-1
@@ -1102,7 +1102,7 @@ def batch_vol_nhoc(smiles_list: Sequence[str], T: float = 288.15) -> List[float]
         except Exception:
             rewards.append(0.0)
             continue
-        if vn < 5.0:  # trap truly bad estimates
+        if vn < 5.0:  # trap unreal estimates
             rewards.append(0.0)
         else:
             rewards.append(_scale_vnhoc_clipped_logistic(vn))
