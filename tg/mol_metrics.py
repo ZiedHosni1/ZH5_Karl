@@ -971,11 +971,15 @@ _IDX_PC = 3
 
 def _tb(smiles):
     S = _group_contribution(smiles, _IDX_TB)
+    if S <= 0:  # avoid log-domain error
+        return 0.0
     return 222.543 * math.log(S)
 
 
 def _tc(smiles):
     S = _group_contribution(smiles, _IDX_TC)
+    if S <= 0:  # avoid log-domain error
+        return 0.0
     return 231.239 * math.log(S)
 
 
@@ -1039,13 +1043,15 @@ def _nhoc_raw(smiles: str) -> float:
     if mol is None:
         return 0.0
     mw_g_mol = Descriptors.MolWt(mol)
+    if mw_g_mol == 0:  # RDKit kept only "dummy" atoms
+        return 0.0
     nC, nH = _count_atoms(mol)
     delta_h_comb = nC * _DH_F_CO2 + (nH / 2.0) * _DH_F_H2O - _hf(smiles)
     return -delta_h_comb / mw_g_mol  # kJ g-1 = MJ kg-1
 
 
 # -------------------------------------------------------------------------
-# 5 Public API used by reward_fn
+# 5 Public call used by reward_fn
 
 
 def nhoc(smiles: str) -> float:  # MJ kg-1
@@ -1058,19 +1064,57 @@ def vol_nhoc(smiles: str, T: float = 288.15) -> float:  # MJ L-1 at 15C by defau
 
 
 # -------------------------------------------------------------------------
-# 6 Desirability-based normalisation
+# Normalisation and batch processing
 
-# Mass-based NHOC bounds (MJ kg-1)
-NHOC_MASS_LB: float = 38.0  # lower bound - anything poorer scores 0
-NHOC_MASS_TAR: float = 45.0  # target - anything richer scores 1
+# --- Volumetric NHOC (MJ L-1) ----------------------------------------
+_VNHOC_MU = 34.0  # training mean
+_VNHOC_SIGMA = 5.0  # training std
+_VNHOC_Z_CLIP = 3.0  # hard clip for outliers/invalids
+_VNHOC_TARGET = 37.0  # centre of "sweet-spot" window
+_VNHOC_K = 1.3  # logistic slope  (ca 1 / sigma)
 
-# Volumetric NHOC bounds (MJ L-1)
-NHOC_VOL_LB: float = 25.0
-NHOC_VOL_TAR: float = 40.0
+
+def _scale_vnhoc_clipped_logistic(x: float) -> float:
+    """
+    1. z-score w.r.t. training distribution
+    2. clip to +-3 sigma to tame invalid 0-MJ points
+    3. logistic desirability centred at the aviation-fuel target
+    """
+    z = (x - _VNHOC_MU) / _VNHOC_SIGMA
+    z = max(min(z, _VNHOC_Z_CLIP), -_VNHOC_Z_CLIP)
+    z0 = (_VNHOC_TARGET - _VNHOC_MU) / _VNHOC_SIGMA
+    return 1.0 / (1.0 + math.exp(-_VNHOC_K * (z - z0)))
+
+
+def batch_vol_nhoc(smiles_list: Sequence[str], T: float = 288.15) -> List[float]:
+    """
+    Volumetric NHOC reward in [0, 1].
+    Invalid SMILES or NHOC < 5 MJ L-1 receive 0.
+    """
+    rewards: List[float] = []
+    for sm in smiles_list:
+        mol_ok = Chem.MolFromSmiles(sm) is not None
+        if not mol_ok:
+            rewards.append(0.0)
+            continue
+        try:
+            vn = vol_nhoc(sm, T)
+        except Exception:
+            rewards.append(0.0)
+            continue
+        if vn < 5.0:  # trap truly bad estimates
+            rewards.append(0.0)
+        else:
+            rewards.append(_scale_vnhoc_clipped_logistic(vn))
+    return rewards
+
+
+# --- Gravimetric NHOC (MJ kg-1) --------------------------------------
+NHOC_MASS_LB = 40.0  # 0-reward below this
+NHOC_MASS_TAR = 44.0  # 1-reward at / above this
 
 
 def desirability_nhoc(value: float, s: float = 1.0) -> float:
-    """Desirability for mass NHOC."""
     if value <= NHOC_MASS_LB:
         return 0.0
     if value >= NHOC_MASS_TAR:
@@ -1078,38 +1122,12 @@ def desirability_nhoc(value: float, s: float = 1.0) -> float:
     return ((value - NHOC_MASS_LB) / (NHOC_MASS_TAR - NHOC_MASS_LB)) ** s
 
 
-def desirability_vol_nhoc(value: float, s: float = 1.0) -> float:
-    """Same desirability function but for volumetric NHOC."""
-    if value <= NHOC_VOL_LB:
-        return 0.0
-    if value >= NHOC_VOL_TAR:
-        return 1.0
-    return ((value - NHOC_VOL_LB) / (NHOC_VOL_TAR - NHOC_VOL_LB)) ** s
-
-
-# -------------------------------------------------------------------------
-# Batch wrappers
-
-
-def batch_nhoc(smiles_list: Sequence[str], s: float = 1.0) -> List[float]:
-    """Return list of desirability‑scaled mass NHOC values for each SMILES."""
-    out: List[float] = []
+def batch_nhoc(smiles_list: Sequence[str]) -> List[float]:
+    rewards: List[float] = []
     for sm in smiles_list:
-        if Chem.MolFromSmiles(sm):
-            out.append(desirability_nhoc(nhoc(sm), s))
-        else:
-            out.append(0.0)
-    return out
-
-
-def batch_vol_nhoc(
-    smiles_list: Sequence[str], s: float = 1.0, T: float = 288.15
-) -> List[float]:
-    """Desirability‑scaled volumetric NHOC at *T* K (default 15 °C)."""
-    out: List[float] = []
-    for sm in smiles_list:
-        if Chem.MolFromSmiles(sm):
-            out.append(desirability_vol_nhoc(vol_nhoc(sm, T), s))
-        else:
-            out.append(0.0)
-    return out
+        mol_ok = Chem.MolFromSmiles(sm) is not None
+        if not mol_ok:
+            rewards.append(0.0)
+            continue
+        rewards.append(desirability_nhoc(nhoc(sm)))
+    return rewards

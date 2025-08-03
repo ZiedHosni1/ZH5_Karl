@@ -209,7 +209,7 @@ GPUS = 0
 if args.dis_wgan:
     DIS_MAX_LR = 8e-4
 else:
-    DIS_MAX_LR = 8e-7
+    DIS_MAX_LR = 8e-5
 
 G_STEP = 1
 if args.dis_wgan:

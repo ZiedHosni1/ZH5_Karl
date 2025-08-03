@@ -212,10 +212,11 @@ class DiscriminatorModel(LightningModule):
         return loss, acc
 
     def training_step(self, batch, batch_idx):
+        phase = "rl_dis" if self.trainer.max_epochs != self.epochs else "pre_dis"
         self.train()
         loss, acc = self.step(batch)
         self.log(
-            "pre_dis/train_loss",
+            f"{phase}/train_loss",
             loss,
             on_step=False,
             on_epoch=True,
@@ -223,7 +224,7 @@ class DiscriminatorModel(LightningModule):
             logger=True,
         )
         self.log(
-            "pre_dis/train_acc",
+            f"{phase}/train_acc",
             acc,
             on_step=False,
             on_epoch=True,
@@ -233,10 +234,11 @@ class DiscriminatorModel(LightningModule):
         return loss
 
     def validation_step(self, batch, batch_idx):
+        phase = "rl_dis" if self.trainer.max_epochs != self.epochs else "pre_dis"
         self.eval()
         loss, acc = self.step(batch)
         self.log(
-            "pre_dis/val_loss",
+            f"{phase}/val_loss",
             loss,
             on_step=False,
             on_epoch=True,
@@ -244,7 +246,7 @@ class DiscriminatorModel(LightningModule):
             logger=True,
         )
         self.log(
-            "pre_dis/val_acc",
+            f"{phase}/val_acc",
             acc,
             on_step=False,
             on_epoch=True,
