@@ -16,12 +16,3 @@ For detailed instructions on setting up the environment, training the TenGAN mod
 > "All models are wrong, but some are useful."
 > — George E. P. Box
 
-TODO: Add top model(s) to `/tg/res`, change main.py parameter defaults to them.
-
-TODO: Add TenGAN pipeline (single job submittion, outputs, explanations)
-
-TODO: Add DFT pipeline (converting smiles to gjf, single job submittion)
-
-TODO: Add post-processing section (summary tables, getting loss data and plotting it, plotting validity, uniqueness, etc.)
-
-TODO: Add licenses? Verify.
