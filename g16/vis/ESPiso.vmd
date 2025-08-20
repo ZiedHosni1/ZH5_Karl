@@ -28,8 +28,8 @@ material change outlinewidth Glossy 0.3
 #The maximum number of systems to be loaded
 set nsystem 1
 #Lower and upper limit of color scale of ESP (a.u.)
-set colorlow -0.03
-set colorhigh 0.03
+set colorlow -0.05
+set colorhigh 0.05
 #eV as unit
 #set colorlow -0.8
 #set colorhigh 0.8

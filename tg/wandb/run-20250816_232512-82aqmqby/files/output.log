@@ -1,0 +1,6023 @@
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+Pre-train Generator...
+
+
+
+
+
+
+Epoch 0:  85%|████████▌ | 135/158 [00:12<00:02, 10.68it/s, loss=2.74, v_num=mqby]
+Epoch 0:  98%|█████████▊| 155/158 [00:14<00:00, 10.91it/s, loss=2.46, v_num=mqby]
+
+
+
+
+
+
+
+Epoch 1:  89%|████████▊ | 140/158 [00:13<00:01, 10.47it/s, loss=1.17, v_num=mqby, pre_gen/val_loss=2.150, pre_gen/train_loss=3.290]
+
+
+
+
+
+
+
+Epoch 2:  98%|█████████▊| 155/158 [00:14<00:00, 11.12it/s, loss=0.921, v_num=mqby, pre_gen/val_loss=1.090, pre_gen/train_loss=1.480]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+Epoch 3:  95%|█████████▍| 150/158 [00:13<00:00, 11.35it/s, loss=0.805, v_num=mqby, pre_gen/val_loss=0.880, pre_gen/train_loss=0.992]
+
+
+
+
+
+
+
+
+Epoch 5:   0%|          | 0/158 [00:00<00:00, 2259.86it/s, loss=0.759, v_num=mqby, pre_gen/val_loss=0.733, pre_gen/train_loss=0.840]
+
+
+
+
+
+
+Epoch 5:  98%|█████████▊| 155/158 [00:13<00:00, 11.41it/s, loss=0.719, v_num=mqby, pre_gen/val_loss=0.733, pre_gen/train_loss=0.771]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+Epoch 6:  95%|█████████▍| 150/158 [00:13<00:00, 11.36it/s, loss=0.692, v_num=mqby, pre_gen/val_loss=0.694, pre_gen/train_loss=0.730]
+
+
+
+
+
+
+
+Epoch 7:  98%|█████████▊| 155/158 [00:14<00:00, 10.78it/s, loss=0.675, v_num=mqby, pre_gen/val_loss=0.677, pre_gen/train_loss=0.700]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+Epoch 8:  98%|█████████▊| 155/158 [00:13<00:00, 11.41it/s, loss=0.663, v_num=mqby, pre_gen/val_loss=0.662, pre_gen/train_loss=0.679]
+
+
+
+
+
+
+
+Epoch 9:  98%|█████████▊| 155/158 [00:14<00:00, 10.62it/s, loss=0.65, v_num=mqby, pre_gen/val_loss=0.678, pre_gen/train_loss=0.664]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+Epoch 10:  98%|█████████▊| 155/158 [00:13<00:00, 11.52it/s, loss=0.643, v_num=mqby, pre_gen/val_loss=0.638, pre_gen/train_loss=0.653]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 12:  98%|█████████▊| 155/158 [00:14<00:00, 10.87it/s, loss=0.633, v_num=mqby, pre_gen/val_loss=0.635, pre_gen/train_loss=0.638]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+Epoch 13:  98%|█████████▊| 155/158 [00:15<00:00, 10.38it/s, loss=0.631, v_num=mqby, pre_gen/val_loss=0.622, pre_gen/train_loss=0.631]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+Epoch 14:  98%|█████████▊| 155/158 [00:15<00:00, 10.33it/s, loss=0.626, v_num=mqby, pre_gen/val_loss=0.621, pre_gen/train_loss=0.627]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 16:  92%|█████████▏| 145/158 [00:12<00:01, 11.50it/s, loss=0.617, v_num=mqby, pre_gen/val_loss=0.622, pre_gen/train_loss=0.618]
+
+
+
+
+
+
+
+Epoch 17:  98%|█████████▊| 155/158 [00:14<00:00, 10.79it/s, loss=0.612, v_num=mqby, pre_gen/val_loss=0.611, pre_gen/train_loss=0.615]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+Epoch 18:  98%|█████████▊| 155/158 [00:14<00:00, 10.59it/s, loss=0.61, v_num=mqby, pre_gen/val_loss=0.604, pre_gen/train_loss=0.612]
+
+
+
+
+
+
+
+Epoch 19:  98%|█████████▊| 155/158 [00:15<00:00, 10.38it/s, loss=0.611, v_num=mqby, pre_gen/val_loss=0.605, pre_gen/train_loss=0.609]
+
+
+
+
+
+
+
+Epoch 20:  95%|█████████▍| 150/158 [00:13<00:00, 11.54it/s, loss=0.603, v_num=mqby, pre_gen/val_loss=0.660, pre_gen/train_loss=0.607]
+
+
+
+
+
+
+
+Epoch 21:  98%|█████████▊| 155/158 [00:14<00:00, 10.58it/s, loss=0.602, v_num=mqby, pre_gen/val_loss=0.595, pre_gen/train_loss=0.604]
+
+
+
+
+
+
+
+Epoch 22:  98%|█████████▊| 155/158 [00:14<00:00, 10.63it/s, loss=0.6, v_num=mqby, pre_gen/val_loss=0.597, pre_gen/train_loss=0.601]
+
+
+
+
+
+
+Epoch 23:  98%|█████████▊| 155/158 [00:13<00:00, 11.29it/s, loss=0.598, v_num=mqby, pre_gen/val_loss=0.595, pre_gen/train_loss=0.597]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 25:  98%|█████████▊| 155/158 [00:13<00:00, 11.45it/s, loss=0.593, v_num=mqby, pre_gen/val_loss=0.592, pre_gen/train_loss=0.594]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+Epoch 26:  98%|█████████▊| 155/158 [00:15<00:00, 10.09it/s, loss=0.592, v_num=mqby, pre_gen/val_loss=0.588, pre_gen/train_loss=0.593]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 28:  98%|█████████▊| 155/158 [00:13<00:00, 11.19it/s, loss=0.587, v_num=mqby, pre_gen/val_loss=0.588, pre_gen/train_loss=0.589]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 30:  98%|█████████▊| 155/158 [00:13<00:00, 11.22it/s, loss=0.589, v_num=mqby, pre_gen/val_loss=0.585, pre_gen/train_loss=0.586]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 33:   0%|          | 0/158 [00:00<00:00, 2445.66it/s, loss=0.586, v_num=mqby, pre_gen/val_loss=0.581, pre_gen/train_loss=0.583]
+
+
+
+
+
+
+Epoch 33:  98%|█████████▊| 155/158 [00:13<00:00, 11.63it/s, loss=0.582, v_num=mqby, pre_gen/val_loss=0.581, pre_gen/train_loss=0.582]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+Epoch 34:  98%|█████████▊| 155/158 [00:13<00:00, 11.76it/s, loss=0.58, v_num=mqby, pre_gen/val_loss=0.579, pre_gen/train_loss=0.581]
+
+
+
+
+
+
+
+Epoch 35:  98%|█████████▊| 155/158 [00:14<00:00, 10.70it/s, loss=0.579, v_num=mqby, pre_gen/val_loss=0.579, pre_gen/train_loss=0.579]
+Validating: 100%|██████████| 4/4 [00:00<00:00,  5.37it/s]
+
+
+
+
+
+
+Epoch 36:  98%|█████████▊| 155/158 [00:13<00:00, 11.21it/s, loss=0.579, v_num=mqby, pre_gen/val_loss=0.578, pre_gen/train_loss=0.578]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 38:  98%|█████████▊| 155/158 [00:14<00:00, 11.02it/s, loss=0.576, v_num=mqby, pre_gen/val_loss=0.578, pre_gen/train_loss=0.576]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 41:  98%|█████████▊| 155/158 [00:13<00:00, 11.19it/s, loss=0.573, v_num=mqby, pre_gen/val_loss=0.579, pre_gen/train_loss=0.571]
+Validating: 100%|██████████| 4/4 [00:00<00:00,  5.37it/s]
+
+
+
+
+
+
+Epoch 42:  98%|█████████▊| 155/158 [00:13<00:00, 11.58it/s, loss=0.571, v_num=mqby, pre_gen/val_loss=0.575, pre_gen/train_loss=0.571]
+Validating:   0%|          | 0/4 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 45:   0%|          | 0/158 [00:00<00:00, 2388.56it/s, loss=0.571, v_num=mqby, pre_gen/val_loss=0.573, pre_gen/train_loss=0.568]
+
+
+
+
+
+
+Epoch 45:  98%|█████████▊| 155/158 [00:13<00:00, 11.49it/s, loss=0.57, v_num=mqby, pre_gen/val_loss=0.573, pre_gen/train_loss=0.567]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 49:  95%|█████████▍| 150/158 [00:13<00:00, 10.91it/s, loss=0.566, v_num=mqby, pre_gen/val_loss=0.577, pre_gen/train_loss=0.562]
+Epoch 49: 100%|██████████| 158/158 [00:15<00:00, 10.53it/s, loss=0.566, v_num=mqby, pre_gen/val_loss=0.574, pre_gen/train_loss=0.562]
+Generator Pre-train Time:[1m 0.21[22m hours
+  4%|▍         | 6/156 [00:03<01:25,  1.74it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:04<00:00,  2.40it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     8911    (89.25%)
+Uniqueness:   8431    (94.61%)
+Novelty:      7741    (91.82%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC12C3CC4CCC4C1C32
+CC(C)C1CCCC1C(C)(C)C
+CCC1C2C(C(C)C)C3(CC3)C2C1(C)C
+CCC(CC)C(C)C
+CC1CC2CC3(C4CC4)CC3CC12
+2025-08-16 23:45:39,620 INFO [eval] {"step": 0, "prop/validity": 0.8925280448717948, "prop/uniqueness": 0.946133991695657, "prop/novelty": 0.9181591744751513, "prop/diversity": 0.8802020154965184, "prop/vol_nhoc_mean": 0.3433090843521232, "prop/vol_nhoc_std": 0.23043921811920848, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9475883412254894, "prop/objective": 0.68868787594937}
+[vol_nhoc]: [Mean: 0.343   STD: 0.230   MIN: 0.009   MAX: 0.948]
+********************************************************************************
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+Pre-train Discriminator...
+
+
+
+
+
+
+Epoch 1:   2%|▏         | 7/314 [00:00<00:19, 15.71it/s, loss=0.695, v_num=mqby, pre_dis/val_loss=0.699, pre_dis/val_acc=0.498, pre_dis/train_loss=0.702, pre_dis/train_acc=0.498]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 2:  90%|████████▉ | 282/314 [00:14<00:01, 19.81it/s, loss=0.682, v_num=mqby, pre_dis/val_loss=0.702, pre_dis/val_acc=0.501, pre_dis/train_loss=0.699, pre_dis/train_acc=0.500]
+
+
+
+
+
+
+Epoch 3:  84%|████████▍ | 265/314 [00:11<00:02, 22.49it/s, loss=0.698, v_num=mqby, pre_dis/val_loss=0.738, pre_dis/val_acc=0.502, pre_dis/train_loss=0.699, pre_dis/train_acc=0.504]
+
+
+
+
+
+
+
+Epoch 4:  83%|████████▎ | 262/314 [00:12<00:02, 20.86it/s, loss=0.695, v_num=mqby, pre_dis/val_loss=0.694, pre_dis/val_acc=0.515, pre_dis/train_loss=0.697, pre_dis/train_acc=0.510]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Epoch 9: 100%|██████████| 314/314 [00:15<00:00, 20.34it/s, loss=0.697, v_num=mqby, pre_dis/val_loss=0.694, pre_dis/val_acc=0.524, pre_dis/train_loss=0.694, pre_dis/train_acc=0.515]
+Discriminator Pre-train Time:[1m 0.38[22m hours
+Monitored metric pre_dis/val_loss did not improve in the last 5 records. Best score: 0.693. Signaling Trainer to stop.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+Adversarial Training...
+[1mEpoch 1[22m / 100, G_STEP 1 / 1, PG_Loss: -23.892
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:05<00:00,  2.38it/s]
+Total Computational Time: [1m 0.61 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9041    (90.56%)
+Uniqueness:   8555    (94.62%)
+Novelty:      7841    (91.65%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CCCC2(CC1)CC1CCC2C1
+CC1CCC2CC2C(C)C2CCC2C1
+CCC1(C)C2CC3CC(C)(C2)C31
+C1CC2(CCC3CC32)C2CC1C2
+CCC(CC)C(C)C
+[vol_nhoc]: [Mean: 0.357   STD: 0.231   MIN: 0.011   MAX: 0.954]
+********************************************************************************
+2025-08-17 00:08:28,492 INFO [eval] {"step": 0, "prop/validity": 0.9056395872984073, "prop/uniqueness": 0.9462448844154407, "prop/novelty": 0.9165400350672122, "prop/diversity": 0.8794403320759229, "prop/vol_nhoc_mean": 0.35699976965466085, "prop/vol_nhoc_std": 0.2307379023964693, "prop/vol_nhoc_min": 0.010605809006829002, "prop/vol_nhoc_max": 0.9544616173377332, "prop/objective": 0.6964848092180764, "epoch": 1}
+Updating Discriminator...
+[1mEpoch 2[22m / 100, G_STEP 1 / 1, PG_Loss: -32.094
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 98%|█████████▊| 153/156 [01:04<00:01,  1.79it/s]
+
+100%|██████████| 156/156 [01:05<00:00,  2.37it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9066    (90.81%)
+Uniqueness:   8538    (94.18%)
+Novelty:      7833    (91.74%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC12CC(CC3CCC1C3)C2
+CC1(C)CCC(C2(C)CC2)C1
+CC1CCCCCCCCC2(CC1)CC2
+CC1CCC2C3(C)CC4CC23C14
+CCC1CC2(C)C1C1CC1CC2(C)C
+[vol_nhoc]: [Mean: 0.363   STD: 0.231   MIN: 0.009   MAX: 0.953]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 00:28:19,047 INFO [eval] {"step": 1, "prop/validity": 0.9080528846153846, "prop/uniqueness": 0.9417604235605559, "prop/novelty": 0.9174279690794097, "prop/diversity": 0.8812902016534763, "prop/vol_nhoc_mean": 0.3628701106914663, "prop/vol_nhoc_std": 0.23141050163358198, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9533393514143234, "prop/objective": 0.6985962997276566, "epoch": 2}
+[1mEpoch 3[22m / 100, G_STEP 1 / 1, PG_Loss: 14.651
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:06<00:00,  2.34it/s]
+Total Computational Time: [1m 1.28 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9130    (91.45%)
+Uniqueness:   8668    (94.94%)
+Novelty:      7985    (92.12%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCCCC1(C)CCC12CC2
+CC1CCC2CC2C(C)C2CCC2C1
+CC(C)CC12C3CCC1CC(C3)C2C
+CCC(CC)C(C)C
+CCC1CC1CC(CC)C(C)(C)C(C)C
+2025-08-17 00:48:49,777 INFO [eval] {"step": 2, "prop/validity": 0.9144631410256411, "prop/uniqueness": 0.9493975903614458, "prop/novelty": 0.9212044300876788, "prop/diversity": 0.881875102281905, "prop/vol_nhoc_mean": 0.37413594579898785, "prop/vol_nhoc_std": 0.22840398149522018, "prop/vol_nhoc_min": 0.01007110655924399, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.7066674106145483, "epoch": 3}
+[vol_nhoc]: [Mean: 0.374   STD: 0.228   MIN: 0.010   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+  1%|▏         | 2/156 [00:00<01:01,  2.50it/s]
+[1mEpoch 4[22m / 100, G_STEP 1 / 1, PG_Loss: 15.216
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:03<00:00,  2.47it/s]
+Total Computational Time: [1m 1.63 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9207    (92.22%)
+Uniqueness:   8705    (94.55%)
+Novelty:      8032    (92.27%)
+Diversity:    0.88
+Samples of Novel SMILES:
+C1CC2CCCC3CC(C1)CC3C2
+CC1CC2CC3(C)CCCCCC23C1
+CCC1(C)C2CC3CC(C)(C2)C31
+C1CC2(C1)C1C3CC3C12
+CCC(CC)C(C)C
+[vol_nhoc]: [Mean: 0.380   STD: 0.225   MIN: 0.009   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 01:09:21,114 INFO [eval] {"step": 3, "prop/validity": 0.9221754807692307, "prop/uniqueness": 0.9454762680569132, "prop/novelty": 0.9226881102814475, "prop/diversity": 0.8819004404117371, "prop/vol_nhoc_mean": 0.37978510997105436, "prop/vol_nhoc_std": 0.225401069276938, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9577102281579662, "prop/objective": 0.7099820158099401, "epoch": 4}
+[1mEpoch 5[22m / 100, G_STEP 1 / 1, PG_Loss: -11.978
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:05<00:00,  2.38it/s]
+Total Computational Time: [1m 1.97 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9170    (91.85%)
+Uniqueness:   8638    (94.20%)
+Novelty:      7968    (92.24%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CCC23CCCCC12C3(C)C
+CC1CCC(C(C)C2CCC23CC3)C1
+CCC1CCC2C(C)C(C)C(C)CCC12
+CC12CCCCC1CCC1CC(CC2)C1
+CCC(CC)C(C)C
+2025-08-17 01:29:37,176 INFO [eval] {"step": 4, "prop/validity": 0.9184695512820513, "prop/uniqueness": 0.9419847328244275, "prop/novelty": 0.9224357490159759, "prop/diversity": 0.8825886549223094, "prop/vol_nhoc_mean": 0.39549880804578746, "prop/vol_nhoc_std": 0.22485784972214956, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.7147775298428058, "epoch": 5}
+[vol_nhoc]: [Mean: 0.395   STD: 0.225   MIN: 0.009   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+  1%|▏         | 2/156 [00:00<00:59,  2.59it/s]
+[1mEpoch 6[22m / 100, G_STEP 1 / 1, PG_Loss: 7.284
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:05<00:00,  2.38it/s]
+Total Computational Time: [1m 2.31 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9238    (92.53%)
+Uniqueness:   8681    (93.97%)
+Novelty:      7962    (91.72%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC12CC3CC3CC1(C)C2
+CC1CCC2CC(C)(C(C)C2C)C(C)(C)C1
+CC12CCC(CC3CC(C3)C1)C2
+CCC(CC)C(C)C
+CC1(C)CCC(C2(C)CC2)C1
+2025-08-17 01:49:51,255 INFO [eval] {"step": 5, "prop/validity": 0.9252804487179487, "prop/uniqueness": 0.9397055639748864, "prop/novelty": 0.9171754406174404, "prop/diversity": 0.8824003979288981, "prop/vol_nhoc_mean": 0.3998542030251436, "prop/vol_nhoc_std": 0.22346639127631032, "prop/vol_nhoc_min": 0.01007110655924399, "prop/vol_nhoc_max": 0.9531894898412783, "prop/objective": 0.7163739718721125, "epoch": 6}
+[vol_nhoc]: [Mean: 0.400   STD: 0.223   MIN: 0.010   MAX: 0.953]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 7[22m / 100, G_STEP 1 / 1, PG_Loss: 33.314
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▉| 155/156 [01:04<00:00,  2.38it/s]
+
+100%|██████████| 156/156 [01:05<00:00,  2.40it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9264    (92.79%)
+Uniqueness:   8705    (93.97%)
+Novelty:      8002    (91.92%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC12CC(CC3CCC1C3)C2
+CCC(C)C1CCC(C)(CC)CC(C)C(C)C1
+C1CCC(C2CCCC3CC32)C1
+CCC(CC)C(C)C
+CCC(C)C1CC2CCC1CC(C)(CC)C2
+2025-08-17 02:09:35,838 INFO [eval] {"step": 6, "prop/validity": 0.9278846153846154, "prop/uniqueness": 0.9396588946459413, "prop/novelty": 0.9192418150488225, "prop/diversity": 0.8833623909422516, "prop/vol_nhoc_mean": 0.4088856796167038, "prop/vol_nhoc_std": 0.22420115268331509, "prop/vol_nhoc_min": 0.009880066775680613, "prop/vol_nhoc_max": 0.9559310281675567, "prop/objective": 0.7209113368625574, "epoch": 7}
+[vol_nhoc]: [Mean: 0.409   STD: 0.224   MIN: 0.010   MAX: 0.956]
+********************************************************************************
+Updating Discriminator...
+  1%|▏         | 2/156 [00:00<01:00,  2.54it/s]
+[1mEpoch 8[22m / 100, G_STEP 1 / 1, PG_Loss: 33.479
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:07<00:00,  2.30it/s]
+Total Computational Time: [1m 2.97 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9252    (92.67%)
+Uniqueness:   8655    (93.55%)
+Novelty:      7994    (92.36%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCCC1(C)CCC(C)C2CC(C)(CC1)C2
+CCCC12CC3CCC1(C)C3CC2C
+CC1CCCC2CC(C)C(CCC1)C2C
+CC1CC2CC(C)(C1)C1(C)CC2CCC1(C)C
+CCC1(CCC2CC2C)CCCC1C
+2025-08-17 02:29:49,452 INFO [eval] {"step": 7, "prop/validity": 0.9266826923076923, "prop/uniqueness": 0.935473411154345, "prop/novelty": 0.9236279607163489, "prop/diversity": 0.8827238228389644, "prop/vol_nhoc_mean": 0.41464997083290034, "prop/vol_nhoc_std": 0.2221917845724672, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9246332873274717, "prop/objective": 0.7230168011688374, "epoch": 8}
+[vol_nhoc]: [Mean: 0.415   STD: 0.222   MIN: 0.009   MAX: 0.925]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 9[22m / 100, G_STEP 1 / 1, PG_Loss: 55.618
+  1%|          | 1/156 [00:00<01:16,  2.03it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.50it/s]
+Total Computational Time: [1m 3.29 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9311    (93.26%)
+Uniqueness:   8618    (92.56%)
+Novelty:      7902    (91.69%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CC2CC3CCC(C)(C)C3C2C1
+CCC12C(C)C1C1C(C)CC12
+CC12CCC3C(C1)C32C
+CCCCCCC1(C)CC12CCCCC2
+CC1CCC2CCC(C)C3CC(C1)C23
+2025-08-17 02:48:17,210 INFO [eval] {"step": 8, "prop/validity": 0.9325921474358975, "prop/uniqueness": 0.9255719041993341, "prop/novelty": 0.9169180784404735, "prop/diversity": 0.8838241154948373, "prop/vol_nhoc_mean": 0.42649634243677237, "prop/vol_nhoc_std": 0.22102837420757412, "prop/vol_nhoc_min": 0.009412265551528035, "prop/vol_nhoc_max": 0.9359401378779675, "prop/objective": 0.72561496298985, "epoch": 9}
+[vol_nhoc]: [Mean: 0.426   STD: 0.221   MIN: 0.009   MAX: 0.936]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 10[22m / 100, G_STEP 1 / 1, PG_Loss: 30.808
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▊| 154/156 [01:07<00:00,  2.53it/s]
+
+100%|██████████| 156/156 [01:08<00:00,  2.28it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9291    (93.06%)
+Uniqueness:   8554    (92.07%)
+Novelty:      7852    (91.79%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CC1C1C(C)CCC1C
+CCC12CC(C)C3CCC31C2
+CCCC1(C)CC2CCCCCC(CC2)C1
+CC1(C)CCC(C2(C)CC2)C1
+CCC12CC3(C)CCC(C3)C1C2C
+[vol_nhoc]: [Mean: 0.430   STD: 0.218   MIN: 0.012   MAX: 0.930]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 03:07:16,933 INFO [eval] {"step": 9, "prop/validity": 0.9305889423076923, "prop/uniqueness": 0.9206759229361748, "prop/novelty": 0.9179331306990881, "prop/diversity": 0.8834356615510989, "prop/vol_nhoc_mean": 0.4296137525208625, "prop/vol_nhoc_std": 0.2184363923059251, "prop/vol_nhoc_min": 0.011678209478444635, "prop/vol_nhoc_max": 0.9295438875219264, "prop/objective": 0.725685100196936, "epoch": 10}
+  1%|          | 1/156 [00:00<01:07,  2.31it/s]
+[1mEpoch 11[22m / 100, G_STEP 1 / 1, PG_Loss: 35.790
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▉| 155/156 [01:24<00:00,  1.60it/s]
+
+100%|██████████| 156/156 [01:25<00:00,  1.83it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9366    (93.81%)
+Uniqueness:   8699    (92.88%)
+Novelty:      8013    (92.11%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCCC1CCCC(CC)C2CC(C)C1(C)C2
+CCCC1CCC(CCCC(C)CC)CC1(C)C
+CC1C2CCC1(C)CCC1CCC12
+CCC1(C)CC2(CC2)CC12CC2
+CCC(CC)C(C)C
+[vol_nhoc]: [Mean: 0.436   STD: 0.222   MIN: 0.014   MAX: 0.956]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 03:26:27,146 INFO [eval] {"step": 10, "prop/validity": 0.9381009615384616, "prop/uniqueness": 0.9287849669015589, "prop/novelty": 0.92114036096103, "prop/diversity": 0.8834188144605363, "prop/vol_nhoc_mean": 0.4364115358316141, "prop/vol_nhoc_std": 0.2216360555665239, "prop/vol_nhoc_min": 0.01380404703868797, "prop/vol_nhoc_max": 0.9559310281675567, "prop/objective": 0.7321698722128558, "epoch": 11}
+  0%|          | 0/156 [00:00<?, ?it/s]
+[1mEpoch 12[22m / 100, G_STEP 1 / 1, PG_Loss: 27.193
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:09<00:00,  2.26it/s]
+Total Computational Time: [1m 4.22 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9366    (93.81%)
+Uniqueness:   8635    (92.20%)
+Novelty:      7950    (92.07%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC12C3CC4CCC4C1C32
+CC1CCCC2(CC1)CC1CCC2C1
+CCC(C)(C)CCC(C)CC1(C)CC2CC21
+CCC1(C)C2CCC3(CC3)C21
+CCC(CC)C(C)C
+[vol_nhoc]: [Mean: 0.444   STD: 0.215   MIN: 0.016   MAX: 0.954]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 03:44:22,504 INFO [eval] {"step": 11, "prop/validity": 0.9381009615384616, "prop/uniqueness": 0.9219517403373906, "prop/novelty": 0.9206716850028952, "prop/diversity": 0.8836022931177854, "prop/vol_nhoc_mean": 0.443994023701317, "prop/vol_nhoc_std": 0.21464742494772693, "prop/vol_nhoc_min": 0.01648740339092625, "prop/vol_nhoc_max": 0.9544616173377332, "prop/objective": 0.7337424868562763, "epoch": 12}
+[1mEpoch 13[22m / 100, G_STEP 1 / 1, PG_Loss: 65.469
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▊| 154/156 [01:11<00:00,  2.56it/s]
+
+100%|██████████| 156/156 [01:12<00:00,  2.15it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9341    (93.56%)
+Uniqueness:   8554    (91.57%)
+Novelty:      7850    (91.77%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC(CC)C(C)C
+CC1CCC2(C1)CC2C(C)C(C)C
+CCC(C)CC1(C)C(CC)CC1(C)C(C)C
+CC1(C)C2CCC1(C1CC1)C2
+CC(C)CC1CC1C1CC1
+2025-08-17 04:02:48,408 INFO [eval] {"step": 12, "prop/validity": 0.9355969551282052, "prop/uniqueness": 0.9157477786104271, "prop/novelty": 0.9176993219546411, "prop/diversity": 0.8833559456581425, "prop/vol_nhoc_mean": 0.44468218796181314, "prop/vol_nhoc_std": 0.21593761586978782, "prop/vol_nhoc_min": 0.01195367422639227, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.7316816863233799, "epoch": 13}
+[vol_nhoc]: [Mean: 0.445   STD: 0.216   MIN: 0.012   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 14[22m / 100, G_STEP 1 / 1, PG_Loss: 47.868
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▉| 155/156 [01:47<00:00,  1.34it/s]
+
+100%|██████████| 156/156 [01:47<00:00,  1.45it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9352    (93.67%)
+Uniqueness:   8551    (91.43%)
+Novelty:      7878    (92.13%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCCC(CC1CC1(C)C)C(C)C
+CCC1C2CC2CCC(C)(C)C2CC12
+CC1(C)C2CCC1(C1CC1)C2
+CCC1(C)CC(C)CCC12CCC2
+CC(C)C(C)CC12CCCC1CC2
+[vol_nhoc]: [Mean: 0.460   STD: 0.213   MIN: 0.012   MAX: 0.937]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 04:21:23,131 INFO [eval] {"step": 13, "prop/validity": 0.936698717948718, "prop/uniqueness": 0.914349871685201, "prop/novelty": 0.9212957548824698, "prop/diversity": 0.882696094201429, "prop/vol_nhoc_mean": 0.45974393540858133, "prop/vol_nhoc_std": 0.21278603295514562, "prop/vol_nhoc_min": 0.011611747556882863, "prop/vol_nhoc_max": 0.9373978334870534, "prop/objective": 0.7383664430667103, "epoch": 14}
+[1mEpoch 15[22m / 100, G_STEP 1 / 1, PG_Loss: 94.725
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:12<00:00,  2.16it/s]
+Total Computational Time: [1m 5.15 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9325    (93.40%)
+Uniqueness:   8576    (91.97%)
+Novelty:      7912    (92.26%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CCC(C)C(C)C2CCCCC(CC2)C1
+CCC(C)(C)CC1(CC(C)C)CCC(C)C1
+CCC1(C)CC(C(C)(C)C)(C(C)(C)C)C1
+CCC1CCCC2CCC(C(C)C)C12CC
+CC1CC1CC(C)C(C)C1(C)CC1
+[vol_nhoc]: [Mean: 0.463   STD: 0.213   MIN: 0.016   MAX: 0.927]
+********************************************************************************
+2025-08-17 04:40:04,519 INFO [eval] {"step": 14, "prop/validity": 0.9339943910256411, "prop/uniqueness": 0.9196782841823057, "prop/novelty": 0.9225746268656716, "prop/diversity": 0.883453726169158, "prop/vol_nhoc_mean": 0.4626988027436738, "prop/vol_nhoc_std": 0.21332209443179834, "prop/vol_nhoc_min": 0.015960848308633643, "prop/vol_nhoc_max": 0.9272659854423128, "prop/objective": 0.7403289815121932, "epoch": 15}
+Updating Discriminator...
+[1mEpoch 16[22m / 100, G_STEP 1 / 1, PG_Loss: 75.514
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:13<00:00,  2.11it/s]
+Total Computational Time: [1m 5.47 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9384    (93.99%)
+Uniqueness:   8573    (91.36%)
+Novelty:      7910    (92.27%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC12CC3C1CC1CC13C2
+CCCCC1(C)CC1(C)C(C)C
+CC1CCC2CC2C(C)C2CCC2C1
+CCC(CC)C(C)C
+CCC1CCCCCCCC12CCCCC2
+[vol_nhoc]: [Mean: 0.465   STD: 0.210   MIN: 0.009   MAX: 0.925]
+********************************************************************************
+2025-08-17 04:59:17,890 INFO [eval] {"step": 15, "prop/validity": 0.9399038461538461, "prop/uniqueness": 0.9135763000852515, "prop/novelty": 0.9226641782339904, "prop/diversity": 0.8828062829046057, "prop/vol_nhoc_mean": 0.46454283759133624, "prop/vol_nhoc_std": 0.21025777421829284, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9247131969146357, "prop/objective": 0.7410459999311522, "epoch": 16}
+Updating Discriminator...
+[1mEpoch 17[22m / 100, G_STEP 1 / 1, PG_Loss: 67.768
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▉| 155/156 [01:09<00:00,  1.79it/s]
+
+100%|██████████| 156/156 [01:10<00:00,  2.22it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9982
+Validity:     9398    (94.15%)
+Uniqueness:   8629    (91.82%)
+Novelty:      7921    (91.80%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CCC12CC1C(C)(C)CC1(C)CC2C
+CC(C)C(C)C(C)C1CCCCCC1C
+CCC(CC)C(C)C
+CC1CCCCCC1CC1CC(C)(C)C1C
+CC1CCC(C)(C)CC12C1CC(C1)C2C
+2025-08-17 05:18:15,940 INFO [eval] {"step": 16, "prop/validity": 0.941494690442797, "prop/uniqueness": 0.9181740795914024, "prop/novelty": 0.9179510951442809, "prop/diversity": 0.8832374796362825, "prop/vol_nhoc_mean": 0.4729933940940168, "prop/vol_nhoc_std": 0.2114864531065877, "prop/vol_nhoc_min": 0.012123102606172885, "prop/vol_nhoc_max": 0.9544616173377332, "prop/objective": 0.7447213306733028, "epoch": 17}
+[vol_nhoc]: [Mean: 0.473   STD: 0.211   MIN: 0.012   MAX: 0.954]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 18[22m / 100, G_STEP 1 / 1, PG_Loss: 66.864
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:10<00:00,  2.23it/s]
+Total Computational Time: [1m 6.10 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9390    (94.05%)
+Uniqueness:   8563    (91.19%)
+Novelty:      7864    (91.84%)
+Diversity:    0.88
+Samples of Novel SMILES:
+C1CC2CC2CCC23CCC2CCC1C3
+CC1C2CCC3C4CC2(C)CC1C34C
+CCCCC1(C)CCC12CC2
+CCC1CCC2(C)CC2CC2CC12C
+CCC(C)C1CCCCCCCC2(CC2)C1
+[vol_nhoc]: [Mean: 0.478   STD: 0.211   MIN: 0.015   MAX: 0.936]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 05:36:30,766 INFO [eval] {"step": 17, "prop/validity": 0.9405048076923077, "prop/uniqueness": 0.9119275825346113, "prop/novelty": 0.9183697302347308, "prop/diversity": 0.8827884479077281, "prop/vol_nhoc_mean": 0.4775823077039318, "prop/vol_nhoc_std": 0.21073105936960695, "prop/vol_nhoc_min": 0.0152069371038594, "prop/vol_nhoc_max": 0.9361756031855205, "prop/objective": 0.7451933471739027, "epoch": 18}
+[1mEpoch 19[22m / 100, G_STEP 1 / 1, PG_Loss: 119.041
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:18<00:00,  1.98it/s]
+Total Computational Time: [1m 6.41 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9405    (94.21%)
+Uniqueness:   8550    (90.91%)
+Novelty:      7909    (92.50%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1C2C3CC3(CC3CC3)C12
+C1CC2CCCC3CC(C1)CC3C2
+CCC1(C)CC(C)(C)CCC(C)CC1(C)C
+CC1(C)CCC(C2(C)CC2)C1
+CC1CC2CCC3C(C)C3C2(C)C1
+2025-08-17 05:55:37,206 INFO [eval] {"step": 18, "prop/validity": 0.942101572673545, "prop/uniqueness": 0.9090909090909091, "prop/novelty": 0.9250292397660819, "prop/diversity": 0.882599433459165, "prop/vol_nhoc_mean": 0.4840580008334841, "prop/vol_nhoc_std": 0.2102563314577911, "prop/vol_nhoc_min": 0.016550292304680237, "prop/vol_nhoc_max": 0.9559310281675567, "prop/objective": 0.7488675446395008, "epoch": 19}
+[vol_nhoc]: [Mean: 0.484   STD: 0.210   MIN: 0.017   MAX: 0.956]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 20[22m / 100, G_STEP 1 / 1, PG_Loss: 92.461
+  4%|▍         | 7/156 [00:04<01:24,  1.77it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:17<00:00,  2.02it/s]
+Total Computational Time: [1m 6.72 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9439    (94.54%)
+Uniqueness:   8584    (90.94%)
+Novelty:      7934    (92.43%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CCCC2(CC1)CC1CCC2C1
+CCCC12CC(CC3CCC1C3)C2
+CC12CCC(CC3CC(C3)C1)C2
+CC1CCCC(C2CCC3CC32)C1(C)C
+CCC(CC)C(C)C
+2025-08-17 06:13:55,782 INFO [eval] {"step": 19, "prop/validity": 0.9454126602564102, "prop/uniqueness": 0.9094183705901049, "prop/novelty": 0.924277726001864, "prop/diversity": 0.8828509699492412, "prop/vol_nhoc_mean": 0.48651747884691277, "prop/vol_nhoc_std": 0.2070490812784361, "prop/vol_nhoc_min": 0.0, "prop/vol_nhoc_max": 0.9577102281579662, "prop/objective": 0.750428742908441, "epoch": 20}
+[vol_nhoc]: [Mean: 0.487   STD: 0.207   MIN: 0.000   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 21[22m / 100, G_STEP 1 / 1, PG_Loss: 111.883
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:19<00:00,  1.97it/s]
+Total Computational Time: [1m 7.04 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9436    (94.51%)
+Uniqueness:   8544    (90.55%)
+Novelty:      7938    (92.91%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CCC2(C1)CC(C)(C(C)C)CC2C
+CCC(CC)C(C)C
+CC1(C)CCC(C2(C)CC2)C1
+CC(C)C(C)(C)C1CCC2CCCCC21
+CC(C)CC1CC2(C)CCC1(C)C2
+[vol_nhoc]: [Mean: 0.488   STD: 0.206   MIN: 0.017   MAX: 0.938]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 06:33:04,841 INFO [eval] {"step": 20, "prop/validity": 0.9451121794871795, "prop/uniqueness": 0.9054684188215345, "prop/novelty": 0.9290730337078652, "prop/diversity": 0.8831983039205059, "prop/vol_nhoc_mean": 0.48822060382118093, "prop/vol_nhoc_std": 0.20613370783037346, "prop/vol_nhoc_min": 0.016550292304680237, "prop/vol_nhoc_max": 0.9376525011777834, "prop/objective": 0.7512189679317882, "epoch": 21}
+[1mEpoch 22[22m / 100, G_STEP 1 / 1, PG_Loss: 84.695
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:16<00:00,  2.03it/s]
+Total Computational Time: [1m 7.33 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9460    (94.75%)
+Uniqueness:   8518    (90.04%)
+Novelty:      7874    (92.44%)
+Diversity:    0.88
+Samples of Novel SMILES:
+C1CCC(C2CCCC3CC32)C1
+CCCC12CC(CC3CCC1C3)C2
+CCCC(C)CCC(C)C1(CC)CCCC1
+CCC1C2CC(C)(CC)C12
+CCCCCC(C)(C)CCCC
+2025-08-17 06:50:33,065 INFO [eval] {"step": 21, "prop/validity": 0.9475160256410257, "prop/uniqueness": 0.9004228329809725, "prop/novelty": 0.9243953979807467, "prop/diversity": 0.8825855287158402, "prop/vol_nhoc_mean": 0.4989167369673586, "prop/vol_nhoc_std": 0.20615893332718763, "prop/vol_nhoc_min": 0.0128490807176981, "prop/vol_nhoc_max": 0.9575971401542348, "prop/objective": 0.7540335461074925, "epoch": 22}
+[vol_nhoc]: [Mean: 0.499   STD: 0.206   MIN: 0.013   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+  3%|▎         | 4/156 [00:01<00:59,  2.54it/s]
+[1mEpoch 23[22m / 100, G_STEP 1 / 1, PG_Loss: 127.626
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:24<00:00,  1.85it/s]
+Total Computational Time: [1m 7.64 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9490    (95.05%)
+Uniqueness:   8545    (90.04%)
+Novelty:      7893    (92.37%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC12CC(CC3CCC1C3)C2
+CC1CCC(C(C)(C)C)CCCC(C)(C)CC1
+CC1(C)CCC(C)(CCC2(C)CCCC2)C1
+CC(C)CC1CC1C1CC1
+CC1C2CCC3(CC3C)C12
+[vol_nhoc]: [Mean: 0.504   STD: 0.207   MIN: 0.017   MAX: 0.950]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 07:09:10,910 INFO [eval] {"step": 22, "prop/validity": 0.9505208333333334, "prop/uniqueness": 0.9004214963119073, "prop/novelty": 0.9236980690462259, "prop/diversity": 0.8824794162995689, "prop/vol_nhoc_mean": 0.5037988641855135, "prop/vol_nhoc_std": 0.2065376826513013, "prop/vol_nhoc_min": 0.016550292304680237, "prop/vol_nhoc_max": 0.9498887373549955, "prop/objective": 0.7564476254124988, "epoch": 23}
+[1mEpoch 24[22m / 100, G_STEP 1 / 1, PG_Loss: 119.839
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:25<00:00,  1.82it/s]
+Total Computational Time: [1m 7.94 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9503    (95.18%)
+Uniqueness:   8434    (88.75%)
+Novelty:      7788    (92.34%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CC2(C)CCC3(CCC3)C12C
+CCC(C(C)C)C1C(CC)C2CCCC21
+CC(C)C12CCC(C1)C1(C)CC12
+CC1(C)CCC(C2(C)CC2)C1
+CCC1(CC2CCCCC2)CC1C
+[vol_nhoc]: [Mean: 0.510   STD: 0.205   MIN: 0.015   MAX: 0.948]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 07:27:09,916 INFO [eval] {"step": 23, "prop/validity": 0.9518229166666666, "prop/uniqueness": 0.8875092076186467, "prop/novelty": 0.9234052644059758, "prop/diversity": 0.881656934244702, "prop/vol_nhoc_mean": 0.5100767361991065, "prop/vol_nhoc_std": 0.20539437359665716, "prop/vol_nhoc_min": 0.014996042017450414, "prop/vol_nhoc_max": 0.9475883412254894, "prop/objective": 0.7565781722179005, "epoch": 24}
+[1mEpoch 25[22m / 100, G_STEP 1 / 1, PG_Loss: 131.004
+  4%|▍         | 7/156 [00:02<00:58,  2.56it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:16<00:00,  2.04it/s]
+Total Computational Time: [1m 8.23 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9520    (95.35%)
+Uniqueness:   8415    (88.39%)
+Novelty:      7759    (92.20%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1C[ClH]CCCC2(CCC2C)CC1C
+CC(C)CC1CC2CCCC1C21CC1C
+CCC1CC(C)(CC)CCCC1(C)C
+CC12CC3CCC4(C)CC4(C)CCC1C32
+CC1(C)CCC(C2(C)CC2)C1
+2025-08-17 07:44:37,076 INFO [eval] {"step": 24, "prop/validity": 0.9535256410256411, "prop/uniqueness": 0.8839285714285714, "prop/novelty": 0.9220439691027926, "prop/diversity": 0.881843357533638, "prop/vol_nhoc_mean": 0.5119077890737703, "prop/vol_nhoc_std": 0.20509915099052686, "prop/vol_nhoc_min": 0.0152069371038594, "prop/vol_nhoc_max": 0.9272659854423129, "prop/objective": 0.7566627519409092, "epoch": 25}
+[vol_nhoc]: [Mean: 0.512   STD: 0.205   MIN: 0.015   MAX: 0.927]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 26[22m / 100, G_STEP 1 / 1, PG_Loss: 104.400
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▊| 154/156 [02:01<00:01,  1.72it/s]
+
+100%|██████████| 156/156 [02:03<00:00,  1.27it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9541    (95.56%)
+Uniqueness:   8462    (88.69%)
+Novelty:      7815    (92.35%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC(C)C(C)C(C)C1CCCCCC1C
+CCCCCC(C)(C)CCCC
+CCC1C2CC3CCC2CCC31C
+C1CC2CC1C21CCC2(CC2)C1
+CCC1C(C(C)C)CCC1C1CCC1C
+[vol_nhoc]: [Mean: 0.518   STD: 0.203   MIN: 0.011   MAX: 0.956]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 08:02:36,041 INFO [eval] {"step": 25, "prop/validity": 0.9556290064102564, "prop/uniqueness": 0.886909129022115, "prop/novelty": 0.9235405341526826, "prop/diversity": 0.8819320750137307, "prop/vol_nhoc_mean": 0.5178707638469829, "prop/vol_nhoc_std": 0.20338865251632532, "prop/vol_nhoc_min": 0.011235008274332324, "prop/vol_nhoc_max": 0.9559310281675567, "prop/objective": 0.760364039455804, "epoch": 26}
+  0%|          | 0/156 [00:00<?, ?it/s]
+[1mEpoch 27[22m / 100, G_STEP 1 / 1, PG_Loss: 90.602
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:21<00:00,  1.92it/s]
+Total Computational Time: [1m 8.83 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9533    (95.48%)
+Uniqueness:   8319    (87.27%)
+Novelty:      7677    (92.28%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCCC1CC12CCC2(C)CC
+CC1CC12CC1CCCCCC1C2C
+CCC1CCC2(CCCC2(C)CC)C1
+CCC1CCC2CC3CCCCCC13C2
+CCC(CC)C(C)C
+2025-08-17 08:20:20,976 INFO [eval] {"step": 26, "prop/validity": 0.9548277243589743, "prop/uniqueness": 0.8726528899611875, "prop/novelty": 0.9228272628921745, "prop/diversity": 0.8812227996304535, "prop/vol_nhoc_mean": 0.5218883019744132, "prop/vol_nhoc_std": 0.20431153140255365, "prop/vol_nhoc_min": 0.01855192059383908, "prop/vol_nhoc_max": 0.9274986318829913, "prop/objective": 0.7588168962322326, "epoch": 27}
+[vol_nhoc]: [Mean: 0.522   STD: 0.204   MIN: 0.019   MAX: 0.927]
+********************************************************************************
+Updating Discriminator...
+  0%|          | 0/156 [00:00<?, ?it/s]
+[1mEpoch 28[22m / 100, G_STEP 1 / 1, PG_Loss: 135.749
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:30<00:00,  1.73it/s]
+Total Computational Time: [1m 9.15 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9582    (95.97%)
+Uniqueness:   8370    (87.35%)
+Novelty:      7746    (92.54%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCCCCC1(CC)CCC2CC2C1
+CCC12CCC3(CC1)CC(C)CCCCC23
+CCC1(C)CCC2CC1CC1CCC12
+CCC(CC)C(C)C
+CC1(C)CCC(C2(C)CC2)C1
+2025-08-17 08:39:42,964 INFO [eval] {"step": 27, "prop/validity": 0.9597355769230769, "prop/uniqueness": 0.873512836568566, "prop/novelty": 0.9254480286738351, "prop/diversity": 0.8812536593460877, "prop/vol_nhoc_mean": 0.5264724764596072, "prop/vol_nhoc_std": 0.20310419181199296, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9303206932408814, "prop/objective": 0.7623282790169386, "epoch": 28}
+[vol_nhoc]: [Mean: 0.526   STD: 0.203   MIN: 0.009   MAX: 0.930]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 29[22m / 100, G_STEP 1 / 1, PG_Loss: 137.705
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:16<00:00,  2.03it/s]
+Total Computational Time: [1m 9.46 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9533    (95.48%)
+Uniqueness:   8287    (86.93%)
+Novelty:      7637    (92.16%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CC2CC3CCCCC3(C1)CC21CC1
+CC12CC3CCC4CC3C3C1C432
+CC1CC2CCC3CCCC1(CC2)C3C
+CCC12CCCC1C1CCCC1(C)C2
+CC(C)CC1CC1C1CC1
+[vol_nhoc]: [Mean: 0.533   STD: 0.201   MIN: 0.009   MAX: 0.926]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 08:58:23,767 INFO [eval] {"step": 28, "prop/validity": 0.9548277243589743, "prop/uniqueness": 0.869296129235288, "prop/novelty": 0.9215638952576324, "prop/diversity": 0.8808436054476808, "prop/vol_nhoc_mean": 0.5332890214153576, "prop/vol_nhoc_std": 0.20065166418782093, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9262272256573915, "prop/objective": 0.7624531583365219, "epoch": 29}
+[1mEpoch 30[22m / 100, G_STEP 1 / 1, PG_Loss: 121.237
+  6%|▌         | 9/156 [00:04<01:26,  1.70it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:19<00:00,  1.97it/s]
+Total Computational Time: [1m 9.75 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9575    (95.90%)
+Uniqueness:   8275    (86.42%)
+Novelty:      7682    (92.83%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC1(C)CC2(CC2)CC12CC2
+CC1(C)CCC(C2(C)CC2)C1
+CCC1(CC2CCCCC2)CC1C
+CCC1CC1(CC)C(C)C1CCC1
+CC12CCCCC(C1)C21CCC1
+[vol_nhoc]: [Mean: 0.538   STD: 0.202   MIN: 0.017   MAX: 0.929]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 09:15:34,013 INFO [eval] {"step": 29, "prop/validity": 0.9590344551282052, "prop/uniqueness": 0.8642297650130548, "prop/novelty": 0.9283383685800605, "prop/diversity": 0.880769594712071, "prop/vol_nhoc_mean": 0.5377611551381397, "prop/vol_nhoc_std": 0.2016528477235094, "prop/vol_nhoc_min": 0.016550292304680237, "prop/vol_nhoc_max": 0.9290164309624077, "prop/objective": 0.7654249797995201, "epoch": 30}
+[1mEpoch 31[22m / 100, G_STEP 1 / 1, PG_Loss: 125.518
+  1%|▏         | 2/156 [00:01<02:04,  1.24it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:18<00:00,  2.00it/s]
+Total Computational Time: [1m 10.04 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9581    (95.96%)
+Uniqueness:   8236    (85.96%)
+Novelty:      7611    (92.41%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC(C)C12CCCC(CC3(CC3)C1)C2C
+C1CCC(C2CCCC3CC32)C1
+CCCC12CC(CC3CCC1C3)C2
+CCCC1CC(C)C(C)(CC)C1
+CC1(C(CC2CC2)C2CC2)CC1
+2025-08-17 09:32:51,281 INFO [eval] {"step": 30, "prop/validity": 0.9596354166666666, "prop/uniqueness": 0.8596179939463522, "prop/novelty": 0.9241136474016513, "prop/diversity": 0.8808739507862936, "prop/vol_nhoc_mean": 0.5431194512309724, "prop/vol_nhoc_std": 0.2012522214235015, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9533393514143234, "prop/objective": 0.7659211920953231, "epoch": 31}
+[vol_nhoc]: [Mean: 0.543   STD: 0.201   MIN: 0.009   MAX: 0.953]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 32[22m / 100, G_STEP 1 / 1, PG_Loss: 127.605
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 98%|█████████▊| 153/156 [01:16<00:01,  1.87it/s]
+
+100%|██████████| 156/156 [01:17<00:00,  2.01it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9565    (95.80%)
+Uniqueness:   8134    (85.04%)
+Novelty:      7524    (92.50%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC1(C)CC2CCC(C)(CC(C)C)C2C1
+CCC(C)C1CC1(C)CC1CCCC1
+CCC(CC)C(C)C
+CCCCC(CCC)CCC(CC)CC
+CCC1C2CCC3CCCCC3(C)C1C2
+[vol_nhoc]: [Mean: 0.541   STD: 0.201   MIN: 0.009   MAX: 0.936]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 09:50:44,492 INFO [eval] {"step": 31, "prop/validity": 0.9580328525641025, "prop/uniqueness": 0.850392054364872, "prop/novelty": 0.9250061470371281, "prop/diversity": 0.8801889142939308, "prop/vol_nhoc_mean": 0.5405257461746233, "prop/vol_nhoc_std": 0.2012371314136399, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9361756031855205, "prop/objective": 0.76289650926307, "epoch": 32}
+[1mEpoch 33[22m / 100, G_STEP 1 / 1, PG_Loss: 146.649
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:19<00:00,  1.96it/s]
+Total Computational Time: [1m 10.63 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9624    (96.40%)
+Uniqueness:   8136    (84.54%)
+Novelty:      7566    (92.99%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC12CC(CC3CCC1C3)C2
+CC1CC12C1CCCC1CC1CC12
+CC1CCC2CCC(C)C23CC3C1
+CCC1CC1(C)CCCCC1(C)CC1
+CCC(CC)C(C)C
+[vol_nhoc]: [Mean: 0.549   STD: 0.200   MIN: 0.009   MAX: 0.928]
+********************************************************************************
+2025-08-17 10:08:37,983 INFO [eval] {"step": 32, "prop/validity": 0.9640388660723229, "prop/uniqueness": 0.8453865336658354, "prop/novelty": 0.9299410029498525, "prop/diversity": 0.8803790778682975, "prop/vol_nhoc_mean": 0.5489872727915528, "prop/vol_nhoc_std": 0.20009040038409964, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9283825437003604, "prop/objective": 0.7674681896542233, "epoch": 33}
+Updating Discriminator...
+  1%|          | 1/156 [00:00<01:00,  2.55it/s]
+[1mEpoch 34[22m / 100, G_STEP 1 / 1, PG_Loss: 133.147
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:12<00:00,  2.15it/s]
+Total Computational Time: [1m 10.93 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9620    (96.35%)
+Uniqueness:   8127    (84.48%)
+Novelty:      7550    (92.90%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC1(CCCC2CCCCC23CC3)CC1
+CCC1(CC(C)C)CCC1CC1(C)CC1
+CC1(C(CC2CC2)C2CC2)CC1
+CC1CCC2(C1)CC2C
+CC1CCC12CCCC2
+2025-08-17 10:26:11,901 INFO [eval] {"step": 33, "prop/validity": 0.9635416666666666, "prop/uniqueness": 0.8448024948024948, "prop/novelty": 0.9290020917927895, "prop/diversity": 0.8812152158879174, "prop/vol_nhoc_mean": 0.5533941352872327, "prop/vol_nhoc_std": 0.19982302736494087, "prop/vol_nhoc_min": 0.016784845018014645, "prop/vol_nhoc_max": 0.9531894898412776, "prop/objective": 0.7688269047672832, "epoch": 34}
+[vol_nhoc]: [Mean: 0.553   STD: 0.200   MIN: 0.017   MAX: 0.953]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 35[22m / 100, G_STEP 1 / 1, PG_Loss: 160.195
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▉| 155/156 [01:11<00:00,  1.86it/s]
+
+100%|██████████| 156/156 [01:12<00:00,  2.16it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9602    (96.17%)
+Uniqueness:   8006    (83.38%)
+Novelty:      7432    (92.83%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CC2CC34CCC(CC13)C2C4
+CCC(C)CCC1(C)CC(C)(C)CC1(C)CC
+CCCCC1(C)CC(C)C2CC21
+CC(C)CC12CCCCC(C)C1CC2
+CC1C2CC3CCCCC1C3C2
+[vol_nhoc]: [Mean: 0.557   STD: 0.199   MIN: 0.009   MAX: 0.930]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 10:43:31,457 INFO [eval] {"step": 34, "prop/validity": 0.961738782051282, "prop/uniqueness": 0.8337846282024578, "prop/novelty": 0.9283037721708719, "prop/diversity": 0.8803465463840269, "prop/vol_nhoc_mean": 0.557062576893465, "prop/vol_nhoc_std": 0.19897525981547373, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9303206932408816, "prop/objective": 0.7675904672423084, "epoch": 35}
+[1mEpoch 36[22m / 100, G_STEP 1 / 1, PG_Loss: 154.948
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▊| 154/156 [01:09<00:00,  2.85it/s]
+
+100%|██████████| 156/156 [01:10<00:00,  2.21it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9628    (96.44%)
+Uniqueness:   8026    (83.36%)
+Novelty:      7426    (92.52%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC1CCC2CCCCC(CC2)C1C
+CCC1(C2CCCCCCCC2)CCC1
+CCC(CCCC(C)C)C1(C)CCC(C)(C)C1
+CC1CCCC2(CCC3(CCCC3)C2)C1
+CC1CC(C)(C)CCC2C3CC1C2C3
+[vol_nhoc]: [Mean: 0.561   STD: 0.200   MIN: 0.027   MAX: 0.953]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 11:01:47,557 INFO [eval] {"step": 35, "prop/validity": 0.9644395472302915, "prop/uniqueness": 0.8336103032820938, "prop/novelty": 0.925242960378769, "prop/diversity": 0.8804246957900461, "prop/vol_nhoc_mean": 0.5606843147184971, "prop/vol_nhoc_std": 0.1997983440541669, "prop/vol_nhoc_min": 0.027217497297929386, "prop/vol_nhoc_max": 0.9533393514143234, "prop/objective": 0.7689322880656297, "epoch": 36}
+  0%|          | 0/156 [00:00<?, ?it/s]
+[1mEpoch 37[22m / 100, G_STEP 1 / 1, PG_Loss: 139.662
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:11<00:00,  2.19it/s]
+Total Computational Time: [1m 11.81 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9590    (96.05%)
+Uniqueness:   7985    (83.26%)
+Novelty:      7384    (92.47%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC12CCC3C(C1)C32C
+CC1(C(CC2CC2)C2CC2)CC1
+C1CCC2(CC1)CCCC1CCCC12
+CCCCC1CCCC12CC2
+CC1CCC2(C1)CC2C
+2025-08-17 11:19:17,091 INFO [eval] {"step": 36, "prop/validity": 0.9605368589743589, "prop/uniqueness": 0.8326381647549531, "prop/novelty": 0.9247338760175329, "prop/diversity": 0.8799962608269273, "prop/vol_nhoc_mean": 0.5641683369447068, "prop/vol_nhoc_std": 0.20020685268895635, "prop/vol_nhoc_min": 0.019054625075093194, "prop/vol_nhoc_max": 0.9559310281675567, "prop/objective": 0.7692491147272517, "epoch": 37}
+[vol_nhoc]: [Mean: 0.564   STD: 0.200   MIN: 0.019   MAX: 0.956]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 38[22m / 100, G_STEP 1 / 1, PG_Loss: 128.282
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▊| 154/156 [01:13<00:00,  2.61it/s]
+
+100%|██████████| 156/156 [01:13<00:00,  2.11it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9596    (96.11%)
+Uniqueness:   7970    (83.06%)
+Novelty:      7367    (92.43%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC1CCCCC2CCC(C)C1C2
+CCCC(C)C1CCC2CCC(C(C)C)C21
+CCCC(C)(C)C1(CC)CCCCC(C)(C)C1
+CC1CC(C)C2CCCCC1CCCC2
+CC1(C)CCC(C2(C)CC2)C1
+[vol_nhoc]: [Mean: 0.566   STD: 0.199   MIN: 0.000   MAX: 0.927]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 11:37:40,143 INFO [eval] {"step": 37, "prop/validity": 0.9611378205128205, "prop/uniqueness": 0.830554397665694, "prop/novelty": 0.9243412797992472, "prop/diversity": 0.8792862821949503, "prop/vol_nhoc_mean": 0.5662612945157381, "prop/vol_nhoc_std": 0.19919678758822315, "prop/vol_nhoc_min": 0.0, "prop/vol_nhoc_max": 0.9272659854423129, "prop/objective": 0.7697112174018477, "epoch": 38}
+[1mEpoch 39[22m / 100, G_STEP 1 / 1, PG_Loss: 146.691
+  1%|▏         | 2/156 [00:00<00:55,  2.79it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:11<00:00,  2.17it/s]
+Total Computational Time: [1m 12.41 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9637    (96.52%)
+Uniqueness:   7842    (81.37%)
+Novelty:      7239    (92.31%)
+Diversity:    0.88
+Samples of Novel SMILES:
+C1CCC(C2CCCC3CC32)C1
+CC1CCC2CCC3(CC3)C2C1
+CC12CCC(CC3CC(C3)C1)C2
+CC1(C)CCC(C2(C)CC2)C1
+CCCC1CCC2(CCCC2)C1C
+2025-08-17 11:55:10,080 INFO [eval] {"step": 38, "prop/validity": 0.9652443910256411, "prop/uniqueness": 0.813738715367853, "prop/novelty": 0.923106350420811, "prop/diversity": 0.8791733947661945, "prop/vol_nhoc_mean": 0.5711006134395968, "prop/vol_nhoc_std": 0.19970650724712105, "prop/vol_nhoc_min": 0.017776415652185906, "prop/vol_nhoc_max": 0.9546555503655761, "prop/objective": 0.7688581367386997, "epoch": 39}
+[vol_nhoc]: [Mean: 0.571   STD: 0.200   MIN: 0.018   MAX: 0.955]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 40[22m / 100, G_STEP 1 / 1, PG_Loss: 147.072
+  5%|▌         | 8/156 [00:03<01:13,  2.01it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:09<00:00,  2.25it/s]
+Total Computational Time: [1m 12.70 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9584    (96.00%)
+Uniqueness:   7818    (81.57%)
+Novelty:      7248    (92.71%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC12CCC(C(C)C)CCC1(C)C2
+CC1CCCCCCCCC2(CC1)CC2
+CCCC1(C)CC(C)(C2(CC)CCCC2)C1
+C1CCC(CCCCC2C3CCC23)CC1
+CC12CCCCC(C1)C21CCC1
+2025-08-17 12:12:41,006 INFO [eval] {"step": 39, "prop/validity": 0.9600320544926375, "prop/uniqueness": 0.8157345575959933, "prop/novelty": 0.9270913277052955, "prop/diversity": 0.8795813553126495, "prop/vol_nhoc_mean": 0.5771671359519583, "prop/vol_nhoc_std": 0.19808336405110857, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9303206932408816, "prop/objective": 0.7714384423395687, "epoch": 40}
+[vol_nhoc]: [Mean: 0.577   STD: 0.198   MIN: 0.009   MAX: 0.930]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 41[22m / 100, G_STEP 1 / 1, PG_Loss: 137.848
+  1%|          | 1/156 [00:00<01:10,  2.20it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:08<00:00,  2.29it/s]
+Total Computational Time: [1m 13.01 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9545    (95.61%)
+Uniqueness:   7775    (81.46%)
+Novelty:      7205    (92.67%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCCCCCC(C)C1CCC1CC
+C1CCC2(C1)C1CCC1CC21CC1
+CCC12CC3CC3CC1(C)C2
+C1CC2CCCC3CC(C1)CC3C2
+CC1(C)CCC(C2(C)CC2)C1
+2025-08-17 12:30:52,674 INFO [eval] {"step": 40, "prop/validity": 0.9561254132024442, "prop/uniqueness": 0.8145625982189628, "prop/novelty": 0.9266881028938907, "prop/diversity": 0.8788180535881918, "prop/vol_nhoc_mean": 0.5785865073186305, "prop/vol_nhoc_std": 0.19944260651735904, "prop/vol_nhoc_min": 0.02160667586300915, "prop/vol_nhoc_max": 0.9577102281579662, "prop/objective": 0.7709098257905118, "epoch": 41}
+[vol_nhoc]: [Mean: 0.579   STD: 0.199   MIN: 0.022   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+  1%|          | 1/156 [00:00<01:01,  2.51it/s]
+[1mEpoch 42[22m / 100, G_STEP 1 / 1, PG_Loss: 140.808
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:06<00:00,  2.35it/s]
+Total Computational Time: [1m 13.32 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9584    (95.99%)
+Uniqueness:   7723    (80.58%)
+Novelty:      7168    (92.81%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC12CC(CC3CCC1C3)C2
+CCC1CC2(C)C3(C)CCCCC2(C)C13
+CCCC12CC1C1(CC1)C2C
+CC12CCC(CC3CC(C3)C1)C2
+CC12CCCCC(C1)C21CCC1
+[vol_nhoc]: [Mean: 0.585   STD: 0.196   MIN: 0.029   MAX: 0.957]
+********************************************************************************
+2025-08-17 12:49:25,372 INFO [eval] {"step": 41, "prop/validity": 0.9599358974358975, "prop/uniqueness": 0.805822203672788, "prop/novelty": 0.9281367344296257, "prop/diversity": 0.8780335243364503, "prop/vol_nhoc_mean": 0.5853134444544663, "prop/vol_nhoc_std": 0.19593945919978217, "prop/vol_nhoc_min": 0.02858254368657571, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.7729043448894488, "epoch": 42}
+Updating Discriminator...
+  1%|          | 1/156 [00:00<01:13,  2.10it/s]
+[1mEpoch 43[22m / 100, G_STEP 1 / 1, PG_Loss: 138.265
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:11<00:00,  2.17it/s]
+Total Computational Time: [1m 13.62 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9551    (95.66%)
+Uniqueness:   7726    (80.89%)
+Novelty:      7182    (92.96%)
+Diversity:    0.88
+Samples of Novel SMILES:
+C1CCCC2CCC3(CCC1)CCCCC23
+C1CC2CC(C1)C2C1CC1CC1CC1
+CCCC1CCC2(CCC2)CC1(C)C
+CCC1(CC2CCCCC2)CC1C
+CC12CCCCC(C1)C21CCC1
+2025-08-17 13:07:30,035 INFO [eval] {"step": 42, "prop/validity": 0.9566306089743589, "prop/uniqueness": 0.8089205318814784, "prop/novelty": 0.9295884027957546, "prop/diversity": 0.8789358605280414, "prop/vol_nhoc_mean": 0.5846699001663812, "prop/vol_nhoc_std": 0.19779794503024392, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9577102281579662, "prop/objective": 0.7728958687968709, "epoch": 43}
+[vol_nhoc]: [Mean: 0.585   STD: 0.198   MIN: 0.009   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 44[22m / 100, G_STEP 1 / 1, PG_Loss: 169.195
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:04<00:00,  2.85it/s]
+
+100%|██████████| 156/156 [01:04<00:00,  2.43it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9560    (95.75%)
+Uniqueness:   7620    (79.71%)
+Novelty:      7066    (92.73%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CCC2CCC3(CC3)C2C1
+CC(C)C1CC(C)C2CCC(C2)C1C
+CC(CC1(C)CCC1)C1CCCCCCC1
+CCCCCCCC(C)C1CCCCC1
+CCCCCCC1CCCC2CCCC2C1C
+[vol_nhoc]: [Mean: 0.584   STD: 0.200   MIN: 0.021   MAX: 0.956]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 13:25:53,629 INFO [eval] {"step": 43, "prop/validity": 0.9575320512820513, "prop/uniqueness": 0.797071129707113, "prop/novelty": 0.9272965879265092, "prop/diversity": 0.8786706802160396, "prop/vol_nhoc_mean": 0.5843341626573895, "prop/vol_nhoc_std": 0.19964201953552596, "prop/vol_nhoc_min": 0.02149374669788864, "prop/vol_nhoc_max": 0.9559310281675567, "prop/objective": 0.7701136188460905, "epoch": 44}
+[1mEpoch 45[22m / 100, G_STEP 1 / 1, PG_Loss: 157.031
+  4%|▍         | 6/156 [00:02<01:07,  2.21it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:03<00:00,  2.44it/s]
+Total Computational Time: [1m 14.22 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9570    (95.85%)
+Uniqueness:   7677    (80.22%)
+Novelty:      7136    (92.95%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CCC2C(C)CCCCC(C1)C21CC1
+CCCC12CCC(C(C)C)CC1(CC)C2
+CC1CCC2CCC3(CC3)C2C1
+CC12CCC(CC3CC(C3)C1)C2
+CC1(C)CCC(C2(C)CC2)C1
+2025-08-17 13:44:02,451 INFO [eval] {"step": 44, "prop/validity": 0.9585336538461539, "prop/uniqueness": 0.8021943573667711, "prop/novelty": 0.9295297642308193, "prop/diversity": 0.8780108505082782, "prop/vol_nhoc_mean": 0.5935655730971711, "prop/vol_nhoc_std": 0.19528474391434708, "prop/vol_nhoc_min": 0.02396040882475601, "prop/vol_nhoc_max": 0.9575971401542349, "prop/objective": 0.7754777843276173, "epoch": 45}
+[vol_nhoc]: [Mean: 0.594   STD: 0.195   MIN: 0.024   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 46[22m / 100, G_STEP 1 / 1, PG_Loss: 136.544
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.51it/s]
+Total Computational Time: [1m 14.53 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9574    (95.89%)
+Uniqueness:   7619    (79.58%)
+Novelty:      7080    (92.93%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC12CC(CC3CCC1C3)C2
+CC1CC(C)C12CCCCC(C)(C)CCC2
+CCC1(C2CCCCCCCC2)CCC1
+CCCCCC12CCCCCCC1(C)CC2
+CCC(C1CC1)C1(C)CCCC(C)(C)CC1
+2025-08-17 14:02:29,103 INFO [eval] {"step": 45, "prop/validity": 0.9589342948717948, "prop/uniqueness": 0.7958011280551494, "prop/novelty": 0.929255807848799, "prop/diversity": 0.8782403458118785, "prop/vol_nhoc_mean": 0.5969192931737187, "prop/vol_nhoc_std": 0.1965974968803391, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.7755659634246361, "epoch": 46}
+[vol_nhoc]: [Mean: 0.597   STD: 0.197   MIN: 0.009   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 47[22m / 100, G_STEP 1 / 1, PG_Loss: 160.839
+  1%|▏         | 2/156 [00:00<00:56,  2.71it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.48it/s]
+Total Computational Time: [1m 14.84 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9534    (95.49%)
+Uniqueness:   7653    (80.27%)
+Novelty:      7159    (93.55%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1(C)CCC(C2(C)CC2)C1
+CC1(C(CC2CC2)C2CC2)CC1
+CC(C)CC1CC1C1CC1
+CCC1(C)CC2(CC)CC1C2C
+CCC12CCCC(C1)C(C)(CC(C)C)C2
+[vol_nhoc]: [Mean: 0.596   STD: 0.197   MIN: 0.016   MAX: 0.937]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 14:20:53,689 INFO [eval] {"step": 46, "prop/validity": 0.9549278846153846, "prop/uniqueness": 0.802706104468219, "prop/novelty": 0.9354501502678688, "prop/diversity": 0.8784893438111142, "prop/vol_nhoc_mean": 0.5957417414028111, "prop/vol_nhoc_std": 0.1974084631340638, "prop/vol_nhoc_min": 0.01579062544106133, "prop/vol_nhoc_max": 0.9373978334870534, "prop/objective": 0.7769135244314189, "epoch": 47}
+[1mEpoch 48[22m / 100, G_STEP 1 / 1, PG_Loss: 149.267
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:05<00:00,  2.38it/s]
+Total Computational Time: [1m 15.14 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9568    (95.83%)
+Uniqueness:   7620    (79.64%)
+Novelty:      7107    (93.27%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1(C)CCC(C2(C)CC2)C1
+CCC1(CC2CCCCC2)CC1C
+CCC1CCC2(C)CC(C(C)C)CC1C2
+CC1CCCC1C(C)(C)C1(C)CC1
+CC(C)CC1CC1C1CC1
+2025-08-17 14:39:13,967 INFO [eval] {"step": 47, "prop/validity": 0.9583333333333334, "prop/uniqueness": 0.7964046822742475, "prop/novelty": 0.9326771653543308, "prop/diversity": 0.87834435996829, "prop/vol_nhoc_mean": 0.6012397591004234, "prop/vol_nhoc_std": 0.19619460386852555, "prop/vol_nhoc_min": 0.03240166851021653, "prop/vol_nhoc_max": 0.9295438875219264, "prop/objective": 0.7779789398325517, "epoch": 48}
+[vol_nhoc]: [Mean: 0.601   STD: 0.196   MIN: 0.032   MAX: 0.930]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 49[22m / 100, G_STEP 1 / 1, PG_Loss: 139.350
+  0%|          | 0/156 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▉| 155/156 [01:04<00:00,  2.60it/s]
+
+100%|██████████| 156/156 [01:04<00:00,  2.42it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9508    (95.23%)
+Uniqueness:   7483    (78.70%)
+Novelty:      6984    (93.33%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CCCC2CCCC(C)(C1)C(C)(C)C2
+CCCC12CC(CC3CCC1C3)C2
+CCC1(C)CC2(CC2)CC12CC2
+CCC(CC)C(C)C
+CC1(C)CCC(C2(C)CC2)C1
+[vol_nhoc]: [Mean: 0.604   STD: 0.198   MIN: 0.020   MAX: 0.946]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 14:57:29,893 INFO [eval] {"step": 48, "prop/validity": 0.952323717948718, "prop/uniqueness": 0.7870214556163231, "prop/novelty": 0.9333155151677135, "prop/diversity": 0.8779616280325563, "prop/vol_nhoc_mean": 0.603911731120075, "prop/vol_nhoc_std": 0.1979734821202115, "prop/vol_nhoc_min": 0.020042915172441007, "prop/vol_nhoc_max": 0.9463728078394775, "prop/objective": 0.776096830194581, "epoch": 49}
+[1mEpoch 50[22m / 100, G_STEP 1 / 1, PG_Loss: 144.811
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [00:59<00:00,  2.61it/s]
+Total Computational Time: [1m 15.77 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9544    (95.59%)
+Uniqueness:   7562    (79.23%)
+Novelty:      7059    (93.35%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC1CCCCC2CCC(C)C1C2
+CCC(CC)CC1CCC2CCC(C)C1C2
+CCCC12CC1C1(CC1)C2C
+CCC1(CC)CCC2(CC1)CC(C)(C)C2
+CCCC1C23CCCC12C1CCCCC13
+2025-08-17 15:16:34,661 INFO [eval] {"step": 49, "prop/validity": 0.9559294871794872, "prop/uniqueness": 0.7923302598491199, "prop/novelty": 0.9334832055011901, "prop/diversity": 0.8782111919118032, "prop/vol_nhoc_mean": 0.6075693240033744, "prop/vol_nhoc_std": 0.19378542036792107, "prop/vol_nhoc_min": 0.03073291300996899, "prop/vol_nhoc_max": 0.9533393514143234, "prop/objective": 0.7793763201073092, "epoch": 50}
+[vol_nhoc]: [Mean: 0.608   STD: 0.194   MIN: 0.031   MAX: 0.953]
+********************************************************************************
+Updating Discriminator...
+  0%|          | 0/156 [00:00<?, ?it/s]
+[1mEpoch 51[22m / 100, G_STEP 1 / 1, PG_Loss: 140.629
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.51it/s]
+Total Computational Time: [1m 16.07 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9548    (95.63%)
+Uniqueness:   7527    (78.83%)
+Novelty:      7025    (93.33%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC1CCCCC2CC(C)(C1)C2(C)CC
+CCCC12CCCCC(CC)(CC1)CC2
+CC(CCCC1CC1)CC1CCCC1
+CC1(C)CCC(C2(C)CC2)C1
+CCC12CCCCC3CC(CCC1)C32
+[vol_nhoc]: [Mean: 0.613   STD: 0.193   MIN: 0.026   MAX: 0.930]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 15:34:37,237 INFO [eval] {"step": 50, "prop/validity": 0.9563301282051282, "prop/uniqueness": 0.7883326351068286, "prop/novelty": 0.9333067623223064, "prop/diversity": 0.8781569935009068, "prop/vol_nhoc_mean": 0.6125157102552158, "prop/vol_nhoc_std": 0.1931469314534558, "prop/vol_nhoc_min": 0.0256652295804906, "prop/vol_nhoc_max": 0.9303206932408816, "prop/objective": 0.780600189228939, "epoch": 51}
+[1mEpoch 52[22m / 100, G_STEP 1 / 1, PG_Loss: 149.687
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▊| 154/156 [01:00<00:00,  2.75it/s]
+
+100%|██████████| 156/156 [01:01<00:00,  2.55it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9511    (95.27%)
+Uniqueness:   7463    (78.47%)
+Novelty:      6987    (93.62%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CCC1(C)C1CCC2CCC2C1
+CC1(C)CCCCC(C)(CCC2CCCC2)C1
+CCCCCC12CCCCCCC1(C)CC2
+CC12CCCC3(CC4CCC41C3)C2
+CC1(C)CCC(C2(C)CC2)C1
+2025-08-17 15:53:09,198 INFO [eval] {"step": 51, "prop/validity": 0.9527196233597115, "prop/uniqueness": 0.7846703816633371, "prop/novelty": 0.9362186788154897, "prop/diversity": 0.8780455504049584, "prop/vol_nhoc_mean": 0.6180367591859562, "prop/vol_nhoc_std": 0.19035413836488985, "prop/vol_nhoc_min": 0.025357861132906577, "prop/vol_nhoc_max": 0.9559310281675567, "prop/objective": 0.7819364404420902, "epoch": 52}
+[vol_nhoc]: [Mean: 0.618   STD: 0.190   MIN: 0.025   MAX: 0.956]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 53[22m / 100, G_STEP 1 / 1, PG_Loss: 156.877
+  1%|          | 1/156 [00:00<01:10,  2.18it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▉| 155/156 [01:00<00:00,  2.44it/s]
+
+100%|██████████| 156/156 [01:00<00:00,  2.56it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9528    (95.43%)
+Uniqueness:   7445    (78.14%)
+Novelty:      6978    (93.73%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CCCCC2(C)CC1(C)C2C
+CC1CC23CCC4CC1(C4)CC2CC3
+CCC1(C)C2CCC3(CC3)C21
+CC12CCC(CC3CC(C3)C1)C2
+CC1(C)CCC(C2(C)CC2)C1
+2025-08-17 16:11:38,169 INFO [eval] {"step": 52, "prop/validity": 0.9543269230769231, "prop/uniqueness": 0.7813811922753988, "prop/novelty": 0.9372733378106112, "prop/diversity": 0.8772559380127244, "prop/vol_nhoc_mean": 0.6189939296318617, "prop/vol_nhoc_std": 0.18901894432714605, "prop/vol_nhoc_min": 0.022401679827048545, "prop/vol_nhoc_max": 0.9531894898412783, "prop/objective": 0.7821938624853313, "epoch": 53}
+[vol_nhoc]: [Mean: 0.619   STD: 0.189   MIN: 0.022   MAX: 0.953]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 54[22m / 100, G_STEP 1 / 1, PG_Loss: 175.831
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:03<00:00,  2.45it/s]
+Total Computational Time: [1m 17.00 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9508    (95.23%)
+Uniqueness:   7469    (78.55%)
+Novelty:      7013    (93.89%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC(C)(C1CC1)C(C)C1CCCCC1
+CCC1(C)CC2(CC2)CC12CC2
+CCCCC(C)(CC)C1CCC2CC(C2)C1
+CCCCC1CC1C1(CC)CCC1
+CC12CCC(CC3CC(C3)C1)C2
+2025-08-17 16:30:27,141 INFO [eval] {"step": 53, "prop/validity": 0.952323717948718, "prop/uniqueness": 0.7855490113588557, "prop/novelty": 0.9389476502878564, "prop/diversity": 0.8768161712604831, "prop/vol_nhoc_mean": 0.6284902225356551, "prop/vol_nhoc_std": 0.18461130115945007, "prop/vol_nhoc_min": 0.02896829125314213, "prop/vol_nhoc_max": 0.944404497177328, "prop/objective": 0.7867601649333481, "epoch": 54}
+[vol_nhoc]: [Mean: 0.628   STD: 0.185   MIN: 0.029   MAX: 0.944]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 55[22m / 100, G_STEP 1 / 1, PG_Loss: 163.970
+  4%|▍         | 7/156 [00:02<01:01,  2.40it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 98%|█████████▊| 153/156 [01:00<00:01,  2.77it/s]
+
+100%|██████████| 156/156 [01:01<00:00,  2.52it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9482    (94.97%)
+Uniqueness:   7355    (77.57%)
+Novelty:      6913    (93.99%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC1CCCC12CCC(C)(CC)CC2
+CCC1(C)C2CCC1CC(C1CC1)C2
+CCC1(C)CC2(CC2)CC12CC2
+CC1CC2(C)C1CCCC21CCCC1C
+CC12CCC3C(C1)C32C
+2025-08-17 16:49:43,115 INFO [eval] {"step": 54, "prop/validity": 0.9497195512820513, "prop/uniqueness": 0.7756802362370808, "prop/novelty": 0.9399048266485384, "prop/diversity": 0.8762909749124757, "prop/vol_nhoc_mean": 0.626863713655251, "prop/vol_nhoc_std": 0.18756715507245852, "prop/vol_nhoc_min": 0.029115662101253655, "prop/vol_nhoc_max": 0.9303206932408816, "prop/objective": 0.7838064082956345, "epoch": 55}
+[vol_nhoc]: [Mean: 0.627   STD: 0.188   MIN: 0.029   MAX: 0.930]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 56[22m / 100, G_STEP 1 / 1, PG_Loss: 169.467
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:03<00:00,  2.45it/s]
+Total Computational Time: [1m 17.64 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9982
+Validity:     9542    (95.59%)
+Uniqueness:   7527    (78.88%)
+Novelty:      7082    (94.09%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCCC1CC23CCCCC2CC13
+CC(C)CC1CC1C1CC1
+CC1C2C3CCC2(C)C1(C)C3
+C1CCC2(CC1)CCCC1CCCC12
+CC12CCCC3CCCCC1C(CC3)C2
+2025-08-17 17:09:09,776 INFO [eval] {"step": 55, "prop/validity": 0.9559206571829293, "prop/uniqueness": 0.7888283378746594, "prop/novelty": 0.9408795004649927, "prop/diversity": 0.876651912464364, "prop/vol_nhoc_mean": 0.631371393944841, "prop/vol_nhoc_std": 0.1859398112938337, "prop/vol_nhoc_min": 0.02160667586300915, "prop/vol_nhoc_max": 0.9575971401542349, "prop/objective": 0.7896742566824527, "epoch": 56}
+[vol_nhoc]: [Mean: 0.631   STD: 0.186   MIN: 0.022   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 57[22m / 100, G_STEP 1 / 1, PG_Loss: 175.396
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▊| 154/156 [01:01<00:00,  2.75it/s]
+
+100%|██████████| 156/156 [01:02<00:00,  2.51it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9549    (95.64%)
+Uniqueness:   7429    (77.80%)
+Novelty:      6997    (94.18%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC12CC(CC3CCC1C3)C2
+CCC1(C2CCCCCCCC2)CCC1
+CC(CCCC1CC1)CC1CCCC1
+CC1CCCCCCCCC2(CC1)CC2
+CC1(C)CCC(C2(C)CC2)C1
+[vol_nhoc]: [Mean: 0.635   STD: 0.183   MIN: 0.046   MAX: 0.957]
+********************************************************************************
+2025-08-17 17:28:07,694 INFO [eval] {"step": 56, "prop/validity": 0.9564302884615384, "prop/uniqueness": 0.7779872237930673, "prop/novelty": 0.9418495086821914, "prop/diversity": 0.8765217056510346, "prop/vol_nhoc_mean": 0.6345698983363486, "prop/vol_nhoc_std": 0.1831787018906224, "prop/vol_nhoc_min": 0.045959969896281906, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.789081363521899, "epoch": 57}
+Updating Discriminator...
+[1mEpoch 58[22m / 100, G_STEP 1 / 1, PG_Loss: 174.580
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:00<00:00,  2.58it/s]
+Total Computational Time: [1m 18.27 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9519    (95.34%)
+Uniqueness:   7392    (77.66%)
+Novelty:      6951    (94.03%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC1(C2CCCCCCCC2)CCC1
+C1CCC(C2CCCC3CC32)C1
+CCC(C1CCC2CCC1C2)C1(C)CC1
+CCCCC12CCC(C)(C1)C1CC1C2
+CCCC1(C)C(C)(C)CCCC12CCC2
+2025-08-17 17:47:01,121 INFO [eval] {"step": 57, "prop/validity": 0.9534254807692307, "prop/uniqueness": 0.7765521588402143, "prop/novelty": 0.9403409090909091, "prop/diversity": 0.8766472189462869, "prop/vol_nhoc_mean": 0.63438700478144, "prop/vol_nhoc_std": 0.1853573287452196, "prop/vol_nhoc_min": 0.03394069033137956, "prop/vol_nhoc_max": 0.9559310281675567, "prop/objective": 0.7878185116526469, "epoch": 58}
+[vol_nhoc]: [Mean: 0.634   STD: 0.185   MIN: 0.034   MAX: 0.956]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 59[22m / 100, G_STEP 1 / 1, PG_Loss: 158.409
+  1%|▏         | 2/156 [00:00<00:57,  2.67it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:01<00:00,  2.53it/s]
+Total Computational Time: [1m 18.58 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9525    (95.40%)
+Uniqueness:   7340    (77.06%)
+Novelty:      6927    (94.37%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCCCCC12CCCCCCC1(C)CC2
+C1CCC(C2CCCC3CC32)C1
+CCCCC1(CCC)CCC2(C)CCCC1C2
+CC(CCCC1CC1)CC1CCCC1
+CCC(C)(CC)C1CCCCC12CC2
+2025-08-17 18:05:24,043 INFO [eval] {"step": 58, "prop/validity": 0.9540264423076923, "prop/uniqueness": 0.7706036745406825, "prop/novelty": 0.943732970027248, "prop/diversity": 0.8768443207346394, "prop/vol_nhoc_mean": 0.6414790659250674, "prop/vol_nhoc_std": 0.18259148798967212, "prop/vol_nhoc_min": 0.03204143343133763, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.7902642437451515, "epoch": 59}
+[vol_nhoc]: [Mean: 0.641   STD: 0.183   MIN: 0.032   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 60[22m / 100, G_STEP 1 / 1, PG_Loss: 161.931
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▉| 155/156 [01:00<00:00,  2.74it/s]
+
+100%|██████████| 156/156 [01:00<00:00,  2.57it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9531    (95.46%)
+Uniqueness:   7284    (76.42%)
+Novelty:      6861    (94.19%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC(C)(CC(C)C)C1(C)CC2CCC1C2
+CC12CCCC(CC1)CC1CCC(C)(C1)C2
+CC1CC2CCC1CCCC2C
+CC1CC12CC2CC1CC1
+CC12CC1CC13C4CC(C21)C3(C)C4
+[vol_nhoc]: [Mean: 0.640   STD: 0.185   MIN: 0.024   MAX: 0.957]
+********************************************************************************
+2025-08-17 18:23:47,875 INFO [eval] {"step": 59, "prop/validity": 0.9546274038461539, "prop/uniqueness": 0.7642429965376141, "prop/novelty": 0.9419275123558485, "prop/diversity": 0.8766482982591882, "prop/vol_nhoc_mean": 0.6398044072803833, "prop/vol_nhoc_std": 0.18485650732977088, "prop/vol_nhoc_min": 0.02361150490763247, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.7880813454600767, "epoch": 60}
+Updating Discriminator...
+[1mEpoch 61[22m / 100, G_STEP 1 / 1, PG_Loss: 156.498
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [00:59<00:00,  2.62it/s]
+Total Computational Time: [1m 19.20 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9545    (95.60%)
+Uniqueness:   7291    (76.39%)
+Novelty:      6868    (94.20%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC12CC(CC3CCC1C3)C2
+CCC1CCC2CC1CCC1(CCC1)C2
+CCCCC1(C)CCC12CC2
+CC1C2CCC1(C)CCC1CCC12
+CCCC1(C)CC2CCCCCC(CC2)C1
+2025-08-17 18:42:41,816 INFO [eval] {"step": 60, "prop/validity": 0.9560296474358975, "prop/uniqueness": 0.763855421686747, "prop/novelty": 0.9419832670415581, "prop/diversity": 0.8759792065735997, "prop/vol_nhoc_mean": 0.6452230885362104, "prop/vol_nhoc_std": 0.18050533819676248, "prop/vol_nhoc_min": 0.02396040882475601, "prop/vol_nhoc_max": 0.9303206932408816, "prop/objective": 0.7904629026473247, "epoch": 61}
+[vol_nhoc]: [Mean: 0.645   STD: 0.181   MIN: 0.024   MAX: 0.930]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 62[22m / 100, G_STEP 1 / 1, PG_Loss: 169.662
+  1%|▏         | 2/156 [00:00<01:01,  2.52it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [00:59<00:00,  2.64it/s]
+Total Computational Time: [1m 19.51 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9539    (95.54%)
+Uniqueness:   7229    (75.78%)
+Novelty:      6838    (94.59%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC1(C2CCCCCCCC2)CCC1
+CCCCC1(C)CCC12CC2
+C1CC2CCCC3CC(C1)CC3C2
+CC12CCCCC(C1)C21CCC1
+CC1CCC2(CC1C)CC1CC12
+2025-08-17 19:00:59,448 INFO [eval] {"step": 61, "prop/validity": 0.9554286858974359, "prop/uniqueness": 0.7578362511793689, "prop/novelty": 0.9459122976898603, "prop/diversity": 0.8763465597192123, "prop/vol_nhoc_mean": 0.6427703691402729, "prop/vol_nhoc_std": 0.1823508311399013, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9376525011777836, "prop/objective": 0.7889435946094423, "epoch": 62}
+[vol_nhoc]: [Mean: 0.643   STD: 0.182   MIN: 0.009   MAX: 0.938]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 63[22m / 100, G_STEP 1 / 1, PG_Loss: 150.527
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [00:58<00:00,  2.67it/s]
+Total Computational Time: [1m 19.82 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9547    (95.62%)
+Uniqueness:   7232    (75.75%)
+Novelty:      6850    (94.72%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CCC2CCC3(CC3)C2C1
+CCCC1(C2(C(C)C)CCC2)CCC1
+CC1CCCCCC2C1C1CCC2(C)C1
+CCC1(CC2CCCCC2)CC1C
+CC1(C(CC2CC2)C2CC2)CC1
+[vol_nhoc]: [Mean: 0.652   STD: 0.178   MIN: 0.029   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 19:19:52,186 INFO [eval] {"step": 62, "prop/validity": 0.956229967948718, "prop/uniqueness": 0.7575154498795433, "prop/novelty": 0.947179203539823, "prop/diversity": 0.8751744674663886, "prop/vol_nhoc_mean": 0.6520317011594146, "prop/vol_nhoc_std": 0.17792659620471407, "prop/vol_nhoc_min": 0.028821934374364484, "prop/vol_nhoc_max": 0.9577102281579662, "prop/objective": 0.7929976047373827, "epoch": 63}
+[1mEpoch 64[22m / 100, G_STEP 1 / 1, PG_Loss: 179.918
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:04<00:00,  2.41it/s]
+Total Computational Time: [1m 20.14 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9516    (95.31%)
+Uniqueness:   7217    (75.84%)
+Novelty:      6800    (94.22%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCCCC1(C)CCC12CC2
+CCC1CCCC2CCC(C)(CC1)C(CC)C2
+CC1CC1(C)C1CC2CC1C2
+CC12CCCCC(C1)C21CCC1
+CC1(C(CC2CC2)C2CC2)CC1
+2025-08-17 19:39:01,861 INFO [eval] {"step": 63, "prop/validity": 0.953125, "prop/uniqueness": 0.7584068936527953, "prop/novelty": 0.9422197589025911, "prop/diversity": 0.8765071657365023, "prop/vol_nhoc_mean": 0.6515756506407377, "prop/vol_nhoc_std": 0.17957518200565994, "prop/vol_nhoc_min": 0.016784845018014645, "prop/vol_nhoc_max": 0.9575971401542349, "prop/objective": 0.7913805907673724, "epoch": 64}
+[vol_nhoc]: [Mean: 0.652   STD: 0.180   MIN: 0.017   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 65[22m / 100, G_STEP 1 / 1, PG_Loss: 158.221
+  6%|▌         | 9/156 [00:04<01:06,  2.22it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:04<00:00,  2.41it/s]
+Total Computational Time: [1m 20.45 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9510    (95.25%)
+Uniqueness:   7226    (75.98%)
+Novelty:      6829    (94.51%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC1CCC2CC1CCCCC1CC1C2
+CC(CC1(C)CCC1)C1CCCCCCC1
+CC(C)(C)C12CCCCCCC(CCC1)CC2
+CC(C)C1CCC(CCC2(C)CC2C)C1
+CC1CC1(C)C1CC2CC1C2
+2025-08-17 19:57:49,576 INFO [eval] {"step": 64, "prop/validity": 0.9525240384615384, "prop/uniqueness": 0.7598317560462671, "prop/novelty": 0.945059507334625, "prop/diversity": 0.8760546188911892, "prop/vol_nhoc_mean": 0.6507966547953877, "prop/vol_nhoc_std": 0.17872429255950995, "prop/vol_nhoc_min": 0.03394069033137956, "prop/vol_nhoc_max": 0.9518583464645384, "prop/objective": 0.7918017222866413, "epoch": 65}
+[vol_nhoc]: [Mean: 0.651   STD: 0.179   MIN: 0.034   MAX: 0.952]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 66[22m / 100, G_STEP 1 / 1, PG_Loss: 183.631
+  1%|          | 1/156 [00:00<01:01,  2.54it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▊| 154/156 [01:02<00:00,  2.90it/s]
+
+100%|██████████| 156/156 [01:03<00:00,  2.46it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9485    (95.00%)
+Uniqueness:   7144    (75.32%)
+Novelty:      6775    (94.83%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC1(C2CCCCCCCC2)CCC1
+CCC12CCCC(C)CCC1CC2C
+CC1(C)C2CCC1(C1CC1)C2
+CC1(C(CC2CC2)C2CC2)CC1
+CC1CC2CCC2CCC2CCCC1CCC2
+[vol_nhoc]: [Mean: 0.657   STD: 0.177   MIN: 0.022   MAX: 0.956]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 20:17:19,608 INFO [eval] {"step": 65, "prop/validity": 0.950020032051282, "prop/uniqueness": 0.7531892461781761, "prop/novelty": 0.9483482642777156, "prop/diversity": 0.8761239427851746, "prop/vol_nhoc_mean": 0.6568299663828107, "prop/vol_nhoc_std": 0.17665167566882012, "prop/vol_nhoc_min": 0.02160667586300915, "prop/vol_nhoc_max": 0.9559310281675567, "prop/objective": 0.7930434950545592, "epoch": 66}
+  1%|          | 1/156 [00:00<01:04,  2.40it/s]
+[1mEpoch 67[22m / 100, G_STEP 1 / 1, PG_Loss: 143.964
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [00:59<00:00,  2.60it/s]
+Total Computational Time: [1m 21.08 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9539    (95.55%)
+Uniqueness:   7262    (76.13%)
+Novelty:      6900    (95.02%)
+Diversity:    0.88
+Samples of Novel SMILES:
+C1CCC(C2CCCC3CC32)C1
+CC12CCCCCC(C3CCC3)(CCC1)CC2
+CC1CCCCC1CCC12CCC1CC2
+C1CCC2(CCCC2)CCC2CCC2C1
+CCC1C2CC3CCC2CCC31C
+2025-08-17 20:35:35,955 INFO [eval] {"step": 66, "prop/validity": 0.9555243914654913, "prop/uniqueness": 0.7612957333053779, "prop/novelty": 0.9501514734232994, "prop/diversity": 0.8752692066800792, "prop/vol_nhoc_mean": 0.6590175578437508, "prop/vol_nhoc_std": 0.17585405739493237, "prop/vol_nhoc_min": 0.031105061764048876, "prop/vol_nhoc_max": 0.9577102281579662, "prop/objective": 0.797001342776334, "epoch": 67}
+[vol_nhoc]: [Mean: 0.659   STD: 0.176   MIN: 0.031   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 68[22m / 100, G_STEP 1 / 1, PG_Loss: 182.376
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▉| 155/156 [01:04<00:00,  2.84it/s]
+
+100%|██████████| 156/156 [01:05<00:00,  2.39it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9480    (94.95%)
+Uniqueness:   7237    (76.34%)
+Novelty:      6872    (94.96%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CC12CCC(CC3CC(C3)C1)C2
+CC1(C)CCC(C2(C)CC2)C1
+CCCC1CCC2(CCCC2)C1C
+CC1(CCCC2CCC2)CC2CCCCC21
+CC1CC2C3CCC4C(CC4CC12)C3
+[vol_nhoc]: [Mean: 0.658   STD: 0.175   MIN: 0.026   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 20:54:41,851 INFO [eval] {"step": 67, "prop/validity": 0.9495192307692307, "prop/uniqueness": 0.7633966244725738, "prop/novelty": 0.9495647367693796, "prop/diversity": 0.875475222473978, "prop/vol_nhoc_mean": 0.6576484124625613, "prop/vol_nhoc_std": 0.17543827186522123, "prop/vol_nhoc_min": 0.0256652295804906, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.7955554833872613, "epoch": 68}
+[1mEpoch 69[22m / 100, G_STEP 1 / 1, PG_Loss: 173.154
+  1%|▏         | 2/156 [00:00<01:08,  2.26it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:04<00:00,  2.43it/s]
+Total Computational Time: [1m 21.72 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9547    (95.62%)
+Uniqueness:   7244    (75.88%)
+Novelty:      6865    (94.77%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCC1CCC2(C3CCC3)CCC2C1
+CCCC12CCC(CC)CC1CC2
+CC1(C(CC2CC2)C2CC2)CC1
+CC1CCCC2CC1C1CCC21
+CC(C)CC1CC2(C)CCC1(C)C2
+2025-08-17 21:13:48,471 INFO [eval] {"step": 68, "prop/validity": 0.956229967948718, "prop/uniqueness": 0.7587723892322196, "prop/novelty": 0.9476808393152955, "prop/diversity": 0.8753276674891227, "prop/vol_nhoc_mean": 0.6632619670482539, "prop/vol_nhoc_std": 0.17601840909199878, "prop/vol_nhoc_min": 0.009193705367288087, "prop/vol_nhoc_max": 0.9318233701207523, "prop/objective": 0.7978414261185482, "epoch": 69}
+[vol_nhoc]: [Mean: 0.663   STD: 0.176   MIN: 0.009   MAX: 0.932]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 70[22m / 100, G_STEP 1 / 1, PG_Loss: 150.468
+  3%|▎         | 5/156 [00:03<01:45,  1.44it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:04<00:00,  2.40it/s]
+Total Computational Time: [1m 22.06 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9497    (95.13%)
+Uniqueness:   7133    (75.11%)
+Novelty:      6758    (94.74%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCCCCC1(CC)CCC2CC2C1
+CC1CCCC2(CC1)CC1CCC2C1
+CCCCC1(C)CCC12CC2
+CC1CCC2CCC3(CC3)C2C1
+CCC1(C)CC2(CC2)CC12CC2
+2025-08-17 21:34:11,911 INFO [eval] {"step": 69, "prop/validity": 0.9513172393068215, "prop/uniqueness": 0.7510792881962725, "prop/novelty": 0.9474274498808356, "prop/diversity": 0.875296692948955, "prop/vol_nhoc_mean": 0.6663021376884903, "prop/vol_nhoc_std": 0.17225182241076786, "prop/vol_nhoc_min": 0.028821934374364484, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.796485650552182, "epoch": 70}
+[vol_nhoc]: [Mean: 0.666   STD: 0.172   MIN: 0.029   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 71[22m / 100, G_STEP 1 / 1, PG_Loss: 167.624
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 99%|█████████▊| 154/156 [01:02<00:00,  2.70it/s]
+
+100%|██████████| 156/156 [01:03<00:00,  2.48it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9446    (94.61%)
+Uniqueness:   7210    (76.33%)
+Novelty:      6874    (95.34%)
+Diversity:    0.88
+Samples of Novel SMILES:
+CCCC12CCC(CC3CCC3C13CC3)C2
+CC(CCCC1CC1)CC1CCCC1
+C1CC2CCCC3CC(C1)CC3C2
+CC12CCCCC3CCC31C1CC12
+CC1CCC2CCC3(CC3)C2C1
+[vol_nhoc]: [Mean: 0.670   STD: 0.170   MIN: 0.047   MAX: 0.953]
+********************************************************************************
+Updating Discriminator...
+2025-08-17 21:54:02,940 INFO [eval] {"step": 70, "prop/validity": 0.946113782051282, "prop/uniqueness": 0.7632860470040229, "prop/novelty": 0.9533980582524272, "prop/diversity": 0.875752652535879, "prop/vol_nhoc_mean": 0.6700733895100379, "prop/vol_nhoc_std": 0.17024659093428882, "prop/vol_nhoc_min": 0.04745555975543514, "prop/vol_nhoc_max": 0.9533393514143234, "prop/objective": 0.8005889332655616, "epoch": 71}
+  0%|          | 0/156 [00:00<?, ?it/s]
+[1mEpoch 72[22m / 100, G_STEP 1 / 1, PG_Loss: 191.087
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:04<00:00,  2.43it/s]
+Total Computational Time: [1m 22.72 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9494    (95.09%)
+Uniqueness:   7222    (76.07%)
+Novelty:      6884    (95.32%)
+Diversity:    0.88
+Samples of Novel SMILES:
+C1CCC(C2CCCC3CC32)C1
+C1CCC2(C1)C1CCC1CC21CC1
+C1CCCC(C2(CC3CC3)CCCC2)CC1
+CC1CCCCCCCCC2(CC1)CC2
+CC1(C)CCC(C2(C)CC2)C1
+2025-08-17 22:14:11,789 INFO [eval] {"step": 71, "prop/validity": 0.9509214743589743, "prop/uniqueness": 0.7606909627132926, "prop/novelty": 0.9531985599556909, "prop/diversity": 0.8757210760457409, "prop/vol_nhoc_mean": 0.6687976107062488, "prop/vol_nhoc_std": 0.17348944192172192, "prop/vol_nhoc_min": 0.03240166851021653, "prop/vol_nhoc_max": 0.9303206932408816, "prop/objective": 0.8004812436880911, "epoch": 72}
+[vol_nhoc]: [Mean: 0.669   STD: 0.173   MIN: 0.032   MAX: 0.930]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 73[22m / 100, G_STEP 1 / 1, PG_Loss: 176.955
+  0%|          | 0/156 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:04<00:00,  2.43it/s]
+Total Computational Time: [1m 23.07 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9469    (94.84%)
+Uniqueness:   7122    (75.21%)
+Novelty:      6768    (95.03%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC12CC(CC3CCC1C3)C2
+CCC1(C2CCCCCCCC2)CCC1
+CC(CCC12CCCC1CC2)C1CC1
+CC1CCC2CCC3(CC3)C2C1
+CC1CCCCCCCCC2(CC1)CC2
+2025-08-17 22:34:43,848 INFO [eval] {"step": 72, "prop/validity": 0.948417467948718, "prop/uniqueness": 0.7521385573978244, "prop/novelty": 0.9502948609941028, "prop/diversity": 0.8747561540887452, "prop/vol_nhoc_mean": 0.674177392942284, "prop/vol_nhoc_std": 0.17138274344172993, "prop/vol_nhoc_min": 0.0256652295804906, "prop/vol_nhoc_max": 0.9303206932408816, "prop/objective": 0.7998411344450427, "epoch": 73}
+[vol_nhoc]: [Mean: 0.674   STD: 0.171   MIN: 0.026   MAX: 0.930]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 74[22m / 100, G_STEP 1 / 1, PG_Loss: 173.713
+  1%|          | 1/156 [00:00<01:04,  2.39it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.50it/s]
+Total Computational Time: [1m 23.40 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9481    (94.97%)
+Uniqueness:   7144    (75.35%)
+Novelty:      6818    (95.44%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC12CCCCC(CCC(CCC(C)C)C1)C2
+CC1(C)CCC(C2(C)CC2)C1
+CC12CCCCC(C1)C21CCC1
+C1CCC2(CC1)CCCC1CCCC12
+CCCCC1CCCC12CC2
+2025-08-17 22:54:31,917 INFO [eval] {"step": 73, "prop/validity": 0.9497145146749474, "prop/uniqueness": 0.7535070140280561, "prop/novelty": 0.9543673012318029, "prop/diversity": 0.8748208445282915, "prop/vol_nhoc_mean": 0.6761393949634927, "prop/vol_nhoc_std": 0.16913677334299335, "prop/vol_nhoc_min": 0.05282555726689142, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.8019735239723584, "epoch": 74}
+[vol_nhoc]: [Mean: 0.676   STD: 0.169   MIN: 0.053   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 75[22m / 100, G_STEP 1 / 1, PG_Loss: 171.935
+  4%|▍         | 6/156 [00:02<00:55,  2.69it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:03<00:00,  2.46it/s]
+Total Computational Time: [1m 23.72 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9469    (94.84%)
+Uniqueness:   7096    (74.94%)
+Novelty:      6759    (95.25%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC12CC(CC3CCC1C3)C2
+C1CC2(CCC3CC32)C2CC1C2
+CCC1(CC2CCCCC2)CC1C
+CC12CCCCC(C1)C21CCC1
+C1CCC2(CC1)CCCC1CCCC12
+2025-08-17 23:14:00,757 INFO [eval] {"step": 74, "prop/validity": 0.948417467948718, "prop/uniqueness": 0.7493927553067906, "prop/novelty": 0.9525084554678692, "prop/diversity": 0.8744173412886854, "prop/vol_nhoc_mean": 0.6766877340411079, "prop/vol_nhoc_std": 0.16849975096213626, "prop/vol_nhoc_min": 0.04546942343090036, "prop/vol_nhoc_max": 0.9533393514143234, "prop/objective": 0.8007388293611188, "epoch": 75}
+[vol_nhoc]: [Mean: 0.677   STD: 0.168   MIN: 0.045   MAX: 0.953]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 76[22m / 100, G_STEP 1 / 1, PG_Loss: 163.306
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 97%|█████████▋| 152/156 [01:01<00:01,  2.41it/s]
+
+100%|██████████| 156/156 [01:02<00:00,  2.48it/s]
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9510    (95.26%)
+Uniqueness:   7178    (75.48%)
+Novelty:      6857    (95.53%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCCC1(CCC2C(C)C2CC)CC1C
+C1CCC(CCC2C3CC4(CC4)C23)C1
+CC12CCC(C1)C(C)(C)C1(CCCCC1)C2
+C1CCCC(C2(CC3CC3)CCCC2)CC1
+C1CCC2(CCCC2)CCC2CCC2C1
+[vol_nhoc]: [Mean: 0.683   STD: 0.165   MIN: 0.038   MAX: 0.958]
+********************************************************************************
+2025-08-17 23:33:24,597 INFO [eval] {"step": 75, "prop/validity": 0.9526194530702193, "prop/uniqueness": 0.7547844374342797, "prop/novelty": 0.9552800222903316, "prop/diversity": 0.8745153507561019, "prop/vol_nhoc_mean": 0.683480527442785, "prop/vol_nhoc_std": 0.16517610502621236, "prop/vol_nhoc_min": 0.03776265856678563, "prop/vol_nhoc_max": 0.9575971401542348, "prop/objective": 0.8059289935360803, "epoch": 76}
+Updating Discriminator...
+[1mEpoch 77[22m / 100, G_STEP 1 / 1, PG_Loss: 159.180
+  0%|          | 0/156 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.51it/s]
+Total Computational Time: [1m 24.37 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9461    (94.76%)
+Uniqueness:   7014    (74.14%)
+Novelty:      6674    (95.15%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCCC12CCC(C1)C1(CCCCC1)C2
+C1CCC2C3CCCCC4(CC3)C(CC1)C24
+CC12CCCC1(C)C1(CCCCCCC1)C2
+CC1CCCCC(C)(C)CCC1C1(C)CCC1
+CC1CCCCCCCCC2(CC1)CC2
+2025-08-17 23:53:03,044 INFO [eval] {"step": 76, "prop/validity": 0.9476161858974359, "prop/uniqueness": 0.7413592643483775, "prop/novelty": 0.9515255203877958, "prop/diversity": 0.8741581926230243, "prop/vol_nhoc_mean": 0.6840500032392294, "prop/vol_nhoc_std": 0.1684906305314074, "prop/vol_nhoc_min": 0.05072244421682264, "prop/vol_nhoc_max": 0.9559310281675567, "prop/objective": 0.8017201954224136, "epoch": 77}
+[vol_nhoc]: [Mean: 0.684   STD: 0.168   MIN: 0.051   MAX: 0.956]
+********************************************************************************
+Updating Discriminator...
+  0%|          | 0/156 [00:00<?, ?it/s]
+[1mEpoch 78[22m / 100, G_STEP 1 / 1, PG_Loss: 172.527
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:01<00:00,  2.55it/s]
+Total Computational Time: [1m 24.70 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9506    (95.22%)
+Uniqueness:   7028    (73.93%)
+Novelty:      6713    (95.52%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC1CCC(C)(CC)CC2CCCC2C1
+CCCCC12CCC3(CC3)CCC(CC)(CC1)C2
+CC1(C)CCC(C2(C)CC2)C1
+CCCC(C)CC(C)(C)CC1CC1
+CC1C2CC2C2(C)CCC3(CCCCC13)C2
+2025-08-18 00:12:51,883 INFO [eval] {"step": 77, "prop/validity": 0.9522187719122508, "prop/uniqueness": 0.7393225331369662, "prop/novelty": 0.9551792828685259, "prop/diversity": 0.8741744568210807, "prop/vol_nhoc_mean": 0.6878314863868323, "prop/vol_nhoc_std": 0.16528100087695619, "prop/vol_nhoc_min": 0.058482615604948336, "prop/vol_nhoc_max": 0.9461353118905463, "prop/objective": 0.8044767121382816, "epoch": 78}
+[vol_nhoc]: [Mean: 0.688   STD: 0.165   MIN: 0.058   MAX: 0.946]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 79[22m / 100, G_STEP 1 / 1, PG_Loss: 176.290
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.48it/s]
+Total Computational Time: [1m 25.02 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9557    (95.72%)
+Uniqueness:   7033    (73.59%)
+Novelty:      6728    (95.66%)
+Diversity:    0.87
+Samples of Novel SMILES:
+C1CCC2(CC3CCC(CC3)C2)C2(C1)CC2
+CCC12CC1C1CCC1(C)CCC21CC1
+CCCC12CCC(CC)CC1CC2
+C1CCC2(CCCC2)CCC2CCC2C1
+CC1(C)CCC(C2(C)CC2)C1
+[vol_nhoc]: [Mean: 0.688   STD: 0.163   MIN: 0.054   MAX: 0.956]
+********************************************************************************
+Updating Discriminator...
+2025-08-18 00:32:00,019 INFO [eval] {"step": 78, "prop/validity": 0.9572315705128205, "prop/uniqueness": 0.7359003871507795, "prop/novelty": 0.9566330157827385, "prop/diversity": 0.874819221419178, "prop/vol_nhoc_mean": 0.6875091115559029, "prop/vol_nhoc_std": 0.16265796644784083, "prop/vol_nhoc_min": 0.053592102762304604, "prop/vol_nhoc_max": 0.9559310281675567, "prop/objective": 0.8049566393116289, "epoch": 79}
+[1mEpoch 80[22m / 100, G_STEP 1 / 1, PG_Loss: 168.487
+  5%|▌         | 8/156 [00:03<00:56,  2.62it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.49it/s]
+Total Computational Time: [1m 25.36 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9476    (94.91%)
+Uniqueness:   7038    (74.27%)
+Novelty:      6727    (95.58%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC1(C2CCCCCCCC2)CCC1
+CC1CCCCC(CCCCC2CC2)CC1
+CCCC12CCC(C1)C1CCCC2(C)CC1
+CC1(C(CC2CC2)C2CC2)CC1
+CC1CCC12CCCC2
+2025-08-18 00:52:32,191 INFO [eval] {"step": 79, "prop/validity": 0.9491185897435898, "prop/uniqueness": 0.7427184466019418, "prop/novelty": 0.9558113100312589, "prop/diversity": 0.8742240728746229, "prop/vol_nhoc_mean": 0.6969839526722149, "prop/vol_nhoc_std": 0.16054634012736257, "prop/vol_nhoc_min": 0.04185994872063485, "prop/vol_nhoc_max": 0.9577102281579662, "prop/objective": 0.808323250344244, "epoch": 80}
+[vol_nhoc]: [Mean: 0.697   STD: 0.161   MIN: 0.042   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 81[22m / 100, G_STEP 1 / 1, PG_Loss: 159.831
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:03<00:00,  2.45it/s]
+Total Computational Time: [1m 25.70 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9511    (95.26%)
+Uniqueness:   6960    (73.18%)
+Novelty:      6655    (95.62%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC12CC1CCC1(C)CCC12C
+CC1CCC(C)(C)CCCC1CCC1(C)CC1
+CC1(C)CCC(C2(C)CC2)C1
+CCCC1CC(C)(C)C2C(C)CC2(CC)C1
+CC12CCCCC(C1)C21CCC1
+[vol_nhoc]: [Mean: 0.693   STD: 0.160   MIN: 0.029   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+2025-08-18 01:12:51,271 INFO [eval] {"step": 80, "prop/validity": 0.9526241987179487, "prop/uniqueness": 0.7317842498160025, "prop/novelty": 0.9561781609195402, "prop/diversity": 0.873870625885314, "prop/vol_nhoc_mean": 0.6932799172551425, "prop/vol_nhoc_std": 0.15995767719859547, "prop/vol_nhoc_min": 0.028821934374364484, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.8054292887927553, "epoch": 81}
+[1mEpoch 82[22m / 100, G_STEP 1 / 1, PG_Loss: 168.676
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.49it/s]
+Total Computational Time: [1m 26.03 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9508    (95.23%)
+Uniqueness:   6872    (72.28%)
+Novelty:      6586    (95.84%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CC12CCCCC3C4CC(C1C4)C32
+CCCC12CCCCC(CC)(CC1)CC2
+CC1CCCC2(CCC3(CCCC3)C2)C1
+CCCC1CCCC2(C)CCC(CC)(CC1)C2
+CCC1CCC1C1CC2CC21
+[vol_nhoc]: [Mean: 0.697   STD: 0.158   MIN: 0.050   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+2025-08-18 01:32:13,281 INFO [eval] {"step": 81, "prop/validity": 0.952323717948718, "prop/uniqueness": 0.7227597812368531, "prop/novelty": 0.9583818393480792, "prop/diversity": 0.8741709541089246, "prop/vol_nhoc_mean": 0.696833025202342, "prop/vol_nhoc_std": 0.15839796433440526, "prop/vol_nhoc_min": 0.050463564237196265, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.8054262777876668, "epoch": 82}
+  0%|          | 0/156 [00:00<?, ?it/s]
+[1mEpoch 83[22m / 100, G_STEP 1 / 1, PG_Loss: 177.768
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.50it/s]
+Total Computational Time: [1m 26.36 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9484    (95.00%)
+Uniqueness:   6914    (72.90%)
+Novelty:      6609    (95.59%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC1(C2CCCCCCCC2)CCC1
+CCC12CCCCC3CC(C)C1(C)CC3CC2
+CCC1(C)CC2CCC3(C)CC3CC21C
+CC1C2CC3CCCCC1C3C2
+CC1(C(CC2CC2)C2CC2)CC1
+2025-08-18 01:52:08,392 INFO [eval] {"step": 82, "prop/validity": 0.9500150255434239, "prop/uniqueness": 0.7290172922817376, "prop/novelty": 0.955886606884582, "prop/diversity": 0.8737205562373721, "prop/vol_nhoc_mean": 0.697101223905062, "prop/vol_nhoc_std": 0.15904049616113564, "prop/vol_nhoc_min": 0.04555742403911652, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.8058242745039736, "epoch": 83}
+[vol_nhoc]: [Mean: 0.697   STD: 0.159   MIN: 0.046   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 84[22m / 100, G_STEP 1 / 1, PG_Loss: 173.952
+  0%|          | 0/156 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:05<00:00,  2.40it/s]
+Total Computational Time: [1m 26.69 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9507    (95.22%)
+Uniqueness:   6987    (73.49%)
+Novelty:      6697    (95.85%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC12CC(CC3CCC1C3)C2
+CCCC1(CC)CCC(C)CC12CC2
+CC1CC2(C)CCC3(CCC3)C12C
+CC1CCCCCC23CCC(CC2)C13
+CCC1(C2CCCCCCCC2)CCC1
+[vol_nhoc]: [Mean: 0.699   STD: 0.157   MIN: 0.069   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+2025-08-18 02:12:27,426 INFO [eval] {"step": 83, "prop/validity": 0.9522235576923077, "prop/uniqueness": 0.7349321552540233, "prop/novelty": 0.958494346643767, "prop/diversity": 0.873530365778002, "prop/vol_nhoc_mean": 0.6994985979039289, "prop/vol_nhoc_std": 0.15735081371659054, "prop/vol_nhoc_min": 0.06934548967406112, "prop/vol_nhoc_max": 0.9577102281579662, "prop/objective": 0.8089294510795912, "epoch": 84}
+[1mEpoch 85[22m / 100, G_STEP 1 / 1, PG_Loss: 170.374
+  4%|▍         | 6/156 [00:03<01:06,  2.25it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.48it/s]
+Total Computational Time: [1m 27.02 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9484    (95.00%)
+Uniqueness:   6852    (72.25%)
+Novelty:      6565    (95.81%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CC1CCC2CCC3(CC3)C2C1
+CC1(C)CCC(C2(C)CC2)C1
+CC12CCCCC(C1)C21CCC1
+CC1(C(CC2CC2)C2CC2)CC1
+CCCCC1CCCC12CC2
+[vol_nhoc]: [Mean: 0.700   STD: 0.159   MIN: 0.034   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+2025-08-18 02:31:59,921 INFO [eval] {"step": 84, "prop/validity": 0.9500150255434239, "prop/uniqueness": 0.7224799662589625, "prop/novelty": 0.9581144191476941, "prop/diversity": 0.8734682018329357, "prop/vol_nhoc_mean": 0.6997338926257355, "prop/vol_nhoc_std": 0.15852287217197758, "prop/vol_nhoc_min": 0.03394069033137956, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.8060154392403104, "epoch": 85}
+[1mEpoch 86[22m / 100, G_STEP 1 / 1, PG_Loss: 162.743
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:05<00:00,  2.40it/s]
+Total Computational Time: [1m 27.36 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9516    (95.31%)
+Uniqueness:   6832    (71.79%)
+Novelty:      6546    (95.81%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CC1CCCCC(C)(CC2CC3CCC32C)C1
+CC1CC2(CCCCC23CC3C)C1
+C1CCC2(CCCC2)CCC2CCC2C1
+CC1(C2CC3CCCCCCC(C3)C2)CC1
+CC1CCCCC2(CCCC(C)(C)CC2)C1
+[vol_nhoc]: [Mean: 0.701   STD: 0.160   MIN: 0.034   MAX: 0.930]
+********************************************************************************
+Updating Discriminator...
+2025-08-18 02:52:19,293 INFO [eval] {"step": 85, "prop/validity": 0.953125, "prop/uniqueness": 0.717948717948718, "prop/novelty": 0.9581381733021077, "prop/diversity": 0.873189155016581, "prop/vol_nhoc_mean": 0.7008323988440311, "prop/vol_nhoc_std": 0.15981457550116096, "prop/vol_nhoc_min": 0.03418818341402178, "prop/vol_nhoc_max": 0.9303206932408816, "prop/objective": 0.8061753377877776, "epoch": 86}
+[1mEpoch 87[22m / 100, G_STEP 1 / 1, PG_Loss: 154.168
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.49it/s]
+Total Computational Time: [1m 27.70 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9492    (95.07%)
+Uniqueness:   6800    (71.64%)
+Novelty:      6511    (95.75%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCCCC1(C)CCC12CC2
+CC1CCCCCCCCC2(CC1)CC2
+C1CCC2(CC1)CCCC1CCCC12
+CC12CC3C(CCCC1C2)C3C1CCC1
+CC1CCC12CCCC2
+[vol_nhoc]: [Mean: 0.703   STD: 0.156   MIN: 0.047   MAX: 0.956]
+********************************************************************************
+Updating Discriminator...
+2025-08-18 03:12:18,421 INFO [eval] {"step": 86, "prop/validity": 0.9507211538461539, "prop/uniqueness": 0.7163927517909818, "prop/novelty": 0.9575, "prop/diversity": 0.8738109920422613, "prop/vol_nhoc_mean": 0.7029788175355592, "prop/vol_nhoc_std": 0.15617149576833972, "prop/vol_nhoc_min": 0.047012709143491024, "prop/vol_nhoc_max": 0.9559310281675567, "prop/objective": 0.8061143081416509, "epoch": 87}
+  2%|▏         | 3/156 [00:01<00:57,  2.68it/s]
+[1mEpoch 88[22m / 100, G_STEP 1 / 1, PG_Loss: 178.991
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:03<00:00,  2.46it/s]
+Total Computational Time: [1m 28.02 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9519    (95.34%)
+Uniqueness:   6828    (71.73%)
+Novelty:      6532    (95.66%)
+Diversity:    0.87
+Samples of Novel SMILES:
+C1CC2CCC(C1)C1CC1C1(CCC1)C2
+CC12CCC(CC3CC(C3)C1)C2
+CC1CCCC2CCCCC(C)(C)C(C)(C1)C2
+CC1(C)CCC(C2(C)CC2)C1
+CCC1(C)CC2CC2CC2(CCC2)C1
+2025-08-18 03:31:54,460 INFO [eval] {"step": 87, "prop/validity": 0.9534254807692307, "prop/uniqueness": 0.7173022376300031, "prop/novelty": 0.9566490919742238, "prop/diversity": 0.8732701037630658, "prop/vol_nhoc_mean": 0.7078444893340992, "prop/vol_nhoc_std": 0.1562120421235296, "prop/vol_nhoc_min": 0.028821934374364484, "prop/vol_nhoc_max": 0.9527941585355663, "prop/objective": 0.8086131578083312, "epoch": 88}
+[vol_nhoc]: [Mean: 0.708   STD: 0.156   MIN: 0.029   MAX: 0.953]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 89[22m / 100, G_STEP 1 / 1, PG_Loss: 152.513
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:00<00:00,  2.57it/s]
+Total Computational Time: [1m 28.35 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9529    (95.44%)
+Uniqueness:   6891    (72.32%)
+Novelty:      6603    (95.82%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CC1CCCCC1CCC12CCC1CC2
+CCC1(C)CC2(CC2)CC12CC2
+CC1CCCCC2CCC(C)(CCCC1)CC2
+CC(C)CC12CCCCC(C)C1CC2
+C1CCC2(CC1)CCCC1CCCC12
+[vol_nhoc]: [Mean: 0.708   STD: 0.155   MIN: 0.029   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+2025-08-18 03:51:42,636 INFO [eval] {"step": 88, "prop/validity": 0.9544270833333334, "prop/uniqueness": 0.7231608773218596, "prop/novelty": 0.9582063561166739, "prop/diversity": 0.873575694407894, "prop/vol_nhoc_mean": 0.7076425408528619, "prop/vol_nhoc_std": 0.15542969154674133, "prop/vol_nhoc_min": 0.028821934374364484, "prop/vol_nhoc_max": 0.9575971401542348, "prop/objective": 0.8102158796955181, "epoch": 89}
+[1mEpoch 90[22m / 100, G_STEP 1 / 1, PG_Loss: 166.805
+  5%|▌         | 8/156 [00:03<00:56,  2.61it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:04<00:00,  2.42it/s]
+Total Computational Time: [1m 28.69 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9515    (95.30%)
+Uniqueness:   6780    (71.26%)
+Novelty:      6493    (95.77%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CC1(C)CCC(C2(C)CC2)C1
+C1CCC2(CCCC2)CCC2CCC2C1
+CC1(C(CC2CC2)C2CC2)CC1
+CC1CCCC2CC1C1CCC21
+CCC12CCCC(C1)C2C1CC1
+2025-08-18 04:11:58,892 INFO [eval] {"step": 89, "prop/validity": 0.9530248397435898, "prop/uniqueness": 0.7125591171833946, "prop/novelty": 0.957669616519174, "prop/diversity": 0.8740195710974656, "prop/vol_nhoc_mean": 0.7087747581090061, "prop/vol_nhoc_std": 0.15266183441752273, "prop/vol_nhoc_min": 0.028821934374364484, "prop/vol_nhoc_max": 0.9405855467081058, "prop/objective": 0.8081606179328341, "epoch": 90}
+[vol_nhoc]: [Mean: 0.709   STD: 0.153   MIN: 0.029   MAX: 0.941]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 91[22m / 100, G_STEP 1 / 1, PG_Loss: 166.259
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:03<00:00,  2.47it/s]
+Total Computational Time: [1m 29.01 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9506    (95.21%)
+Uniqueness:   6820    (71.74%)
+Novelty:      6539    (95.88%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC1CCCCC(C)C12CC2
+CCC1CCCC(C)CC2(C)CCC1CC2
+C1CCC2(CCCC2)CCC2CCC2C1
+CC1CCCCCCCCC2(CC1)CC2
+CCC1(C23CCCCCCC2C3)CC1
+[vol_nhoc]: [Mean: 0.708   STD: 0.156   MIN: 0.080   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+2025-08-18 04:31:39,357 INFO [eval] {"step": 90, "prop/validity": 0.9521233974358975, "prop/uniqueness": 0.7174416158215864, "prop/novelty": 0.9587976539589442, "prop/diversity": 0.8736264746561981, "prop/vol_nhoc_mean": 0.70815008061636, "prop/vol_nhoc_std": 0.15638881880774402, "prop/vol_nhoc_min": 0.07963242936409304, "prop/vol_nhoc_max": 0.9577102281579662, "prop/objective": 0.8089325656898296, "epoch": 91}
+  0%|          | 0/156 [00:00<?, ?it/s]
+[1mEpoch 92[22m / 100, G_STEP 1 / 1, PG_Loss: 165.452
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.51it/s]
+Total Computational Time: [1m 29.34 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9494    (95.09%)
+Uniqueness:   6755    (71.15%)
+Novelty:      6491    (96.09%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC1(C)CCCC(C)(CC2CCCC2)CC1
+CC12CCCC(C1)CC(C)(CC13CC1C3)CC2
+CC12CCC(CC3CC(C3)C1)C2
+CCC1(C)CCCCCC2(CCCC23CCC3)C1
+CCCCC1CCCC12CC2
+[vol_nhoc]: [Mean: 0.716   STD: 0.150   MIN: 0.019   MAX: 0.958]
+********************************************************************************
+Updating Discriminator...
+2025-08-18 04:51:21,548 INFO [eval] {"step": 91, "prop/validity": 0.9509214743589743, "prop/uniqueness": 0.7115020012639561, "prop/novelty": 0.9609178386380459, "prop/diversity": 0.8739694920843374, "prop/vol_nhoc_mean": 0.7158152755543769, "prop/vol_nhoc_std": 0.15039134580431043, "prop/vol_nhoc_min": 0.019041635897908176, "prop/vol_nhoc_max": 0.9575971401542349, "prop/objective": 0.810994373073946, "epoch": 92}
+[1mEpoch 93[22m / 100, G_STEP 1 / 1, PG_Loss: 165.519
+  0%|          | 0/156 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:03<00:00,  2.46it/s]
+Total Computational Time: [1m 29.68 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9503    (95.18%)
+Uniqueness:   6741    (70.94%)
+Novelty:      6472    (96.01%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCCC1(CC)CCC(C)CC12CC2
+C1CCC(C2CCCC3CC32)C1
+CCC1CCCCCCCC12CCCCC2
+CC12CCCCC(C1)C21CCC1
+CC1(C(CC2CC2)C2CC2)CC1
+[vol_nhoc]: [Mean: 0.716   STD: 0.154   MIN: 0.078   MAX: 0.954]
+********************************************************************************
+Updating Discriminator...
+2025-08-18 05:11:44,716 INFO [eval] {"step": 92, "prop/validity": 0.9518229166666666, "prop/uniqueness": 0.7093549405450911, "prop/novelty": 0.9600949414033526, "prop/diversity": 0.8742745157783526, "prop/vol_nhoc_mean": 0.7163922221421906, "prop/vol_nhoc_std": 0.1543173224249283, "prop/vol_nhoc_min": 0.07791517338443202, "prop/vol_nhoc_max": 0.9543281116406644, "prop/objective": 0.8108114485798984, "epoch": 93}
+[1mEpoch 94[22m / 100, G_STEP 1 / 1, PG_Loss: 136.251
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:03<00:00,  2.47it/s]
+Total Computational Time: [1m 30.01 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9484    (94.99%)
+Uniqueness:   6707    (70.72%)
+Novelty:      6446    (96.11%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCCCCC1(CC)CCC2CC2C1
+CC12CCC(C3(C)CC3)(C1)C21CC1
+CC1(C)CC2CC3CCC(CCC21)C3
+CCC1(C2CCCC2)CCCC(C)(C)CCC1
+CCC1(C2CC3CCC2C3)CC1
+[vol_nhoc]: [Mean: 0.721   STD: 0.151   MIN: 0.044   MAX: 0.953]
+********************************************************************************
+Updating Discriminator...
+2025-08-18 05:31:08,359 INFO [eval] {"step": 93, "prop/validity": 0.9499198717948718, "prop/uniqueness": 0.7071910586250527, "prop/novelty": 0.9610854331295662, "prop/diversity": 0.8730621478858126, "prop/vol_nhoc_mean": 0.7207501278961278, "prop/vol_nhoc_std": 0.15059331125725345, "prop/vol_nhoc_min": 0.044042908608336026, "prop/vol_nhoc_max": 0.9533393514143234, "prop/objective": 0.8119393238683494, "epoch": 94}
+[1mEpoch 95[22m / 100, G_STEP 1 / 1, PG_Loss: 150.609
+  5%|▌         | 8/156 [00:03<00:59,  2.47it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:04<00:00,  2.42it/s]
+Total Computational Time: [1m 30.34 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9982
+Validity:     9490    (95.07%)
+Uniqueness:   6730    (70.92%)
+Novelty:      6491    (96.45%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC1(C2CCCCCCCC2)CCC1
+CCC(C)(CC)C1CCCCC12CC2
+CC1(C2C3(C)CC4CCC23C4)CCC1
+CC12CCCCC(C1)C21CCC1
+CCCCC1CCCC12CC2
+2025-08-18 05:50:58,674 INFO [eval] {"step": 94, "prop/validity": 0.9507112803045482, "prop/uniqueness": 0.7091675447839831, "prop/novelty": 0.9644873699851412, "prop/diversity": 0.8731228810435279, "prop/vol_nhoc_mean": 0.7220526862223926, "prop/vol_nhoc_std": 0.15082990484079545, "prop/vol_nhoc_min": 0.05680587427226381, "prop/vol_nhoc_max": 0.9574904072177173, "prop/objective": 0.8136943135036917, "epoch": 95}
+[vol_nhoc]: [Mean: 0.722   STD: 0.151   MIN: 0.057   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 96[22m / 100, G_STEP 1 / 1, PG_Loss: 153.066
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:02<00:00,  2.50it/s]
+Total Computational Time: [1m 30.68 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9983
+Validity:     9478    (94.94%)
+Uniqueness:   6694    (70.63%)
+Novelty:      6462    (96.53%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC(C)C1CC1(C)CC1CCCC1
+C1CCCC(C2(CC3CC3)CCCC2)CC1
+CC1(C)CCC(C2(C)CC2)C1
+CC1C2CCC13CCCC2(C)C3
+CCC1CCCCCCCC12CCCCC2
+2025-08-18 06:11:16,034 INFO [eval] {"step": 95, "prop/validity": 0.949414003806471, "prop/uniqueness": 0.7062671449672927, "prop/novelty": 0.9653420974006574, "prop/diversity": 0.8732584041550191, "prop/vol_nhoc_mean": 0.7206686192074948, "prop/vol_nhoc_std": 0.1508283595983629, "prop/vol_nhoc_min": 0.04835407937395625, "prop/vol_nhoc_max": 0.9543374475145548, "prop/objective": 0.8124720969178822, "epoch": 96}
+[vol_nhoc]: [Mean: 0.721   STD: 0.151   MIN: 0.048   MAX: 0.954]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 97[22m / 100, G_STEP 1 / 1, PG_Loss: 130.348
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:03<00:00,  2.45it/s]
+Total Computational Time: [1m 30.99 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9466    (94.81%)
+Uniqueness:   6677    (70.54%)
+Novelty:      6439    (96.44%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CC(CC1(C)CCC1)C1CCCCCCC1
+CC12CC3CCC1C1(CC1)C2C3
+CC12CCCCC(C1)C21CCC1
+CC(C)(C)C1(C)CCC12CCCC2
+C1CCC2(CC1)CCCC1CCCC12
+2025-08-18 06:30:21,190 INFO [eval] {"step": 96, "prop/validity": 0.9481169871794872, "prop/uniqueness": 0.7053665751109233, "prop/novelty": 0.9643552493634866, "prop/diversity": 0.8740748516529906, "prop/vol_nhoc_mean": 0.7230097078339297, "prop/vol_nhoc_std": 0.1498905152678651, "prop/vol_nhoc_min": 0.0631792671243929, "prop/vol_nhoc_max": 0.9533393514143234, "prop/objective": 0.8127716454643513, "epoch": 97}
+[vol_nhoc]: [Mean: 0.723   STD: 0.150   MIN: 0.063   MAX: 0.953]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 98[22m / 100, G_STEP 1 / 1, PG_Loss: 170.209
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:01<00:00,  2.54it/s]
+Total Computational Time: [1m 31.32 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9525    (95.40%)
+Uniqueness:   6633    (69.64%)
+Novelty:      6396    (96.43%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC1(C2CCCCCCCC2)CCC1
+CC12CCCCCCCC(C1)C1(C)CC2C1
+CC1CCC2CCC3(CC3)C2C1
+CC12CCCCC(C1)C21CCC1
+CC1(C(CC2CC2)C2CC2)CC1
+[vol_nhoc]: [Mean: 0.729   STD: 0.145   MIN: 0.057   MAX: 0.955]
+********************************************************************************
+Updating Discriminator...
+2025-08-18 06:49:58,833 INFO [eval] {"step": 97, "prop/validity": 0.9540264423076923, "prop/uniqueness": 0.6963779527559055, "prop/novelty": 0.9642695612844867, "prop/diversity": 0.8727624153642699, "prop/vol_nhoc_mean": 0.7292398127246607, "prop/vol_nhoc_std": 0.14504992013595427, "prop/vol_nhoc_min": 0.05651877356447019, "prop/vol_nhoc_max": 0.9546555503655761, "prop/objective": 0.8146307163594813, "epoch": 98}
+[1mEpoch 99[22m / 100, G_STEP 1 / 1, PG_Loss: 143.146
+Generating 10000 samples for evaluation...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:04<00:00,  2.41it/s]
+Total Computational Time: [1m 31.66 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9521    (95.36%)
+Uniqueness:   6652    (69.87%)
+Novelty:      6431    (96.68%)
+Diversity:    0.87
+Samples of Novel SMILES:
+CCC1CCCC(C)(C)C23CCC1C2C3
+CCC1(C)CC2(CC2)CC12CC2
+CC1(C)CCC(C2(C)CC2)C1
+CCC(C)(C)CC1CCCCC2(CC2)C1
+CC12CCCCC(C1)C21CCC1
+2025-08-18 07:10:18,805 INFO [eval] {"step": 98, "prop/validity": 0.9536258012820513, "prop/uniqueness": 0.6986661065014179, "prop/novelty": 0.9667769092002405, "prop/diversity": 0.8742358205785924, "prop/vol_nhoc_mean": 0.72687874443547, "prop/vol_nhoc_std": 0.1503483264524632, "prop/vol_nhoc_min": 0.028821934374364484, "prop/vol_nhoc_max": 0.9574579132807363, "prop/objective": 0.81456526117093, "epoch": 99}
+[vol_nhoc]: [Mean: 0.727   STD: 0.150   MIN: 0.029   MAX: 0.957]
+********************************************************************************
+Updating Discriminator...
+[1mEpoch 100[22m / 100, G_STEP 1 / 1, PG_Loss: 154.386
+  4%|▍         | 7/156 [00:03<01:11,  2.09it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%|██████████| 156/156 [01:03<00:00,  2.46it/s]
+Total Computational Time: [1m 31.99 [22m hours.
+Results Report:
+********************************************************************************
+Total Mols:   9984
+Validity:     9492    (95.07%)
+Uniqueness:   6550    (69.01%)
+Novelty:      6313    (96.38%)
+Diversity:    0.87
+Samples of Novel SMILES:
+C1CCCC2CC3CCCCCC3CC2CC1
+CCCC1CC12CCC2(C)CC
+CCC1CCCCC(C)C12CC2
+CC1CCCC2(CCC3(CCCC3)C2)C1
+CCCCCCCC1CCCCCC12CC2
+2025-08-18 07:29:50,360 INFO [eval] {"step": 99, "prop/validity": 0.9507211538461539, "prop/uniqueness": 0.690054782975137, "prop/novelty": 0.9638167938931298, "prop/diversity": 0.8723076366000184, "prop/vol_nhoc_mean": 0.7290526162496478, "prop/vol_nhoc_std": 0.1478274762067746, "prop/vol_nhoc_min": 0.06935783149322908, "prop/vol_nhoc_max": 0.9559310281675567, "prop/objective": 0.8125395926427432, "epoch": 100}
+[vol_nhoc]: [Mean: 0.729   STD: 0.148   MIN: 0.069   MAX: 0.956]
+********************************************************************************
+Updating Discriminator...
+Top-12 Molecules of [vol_nhoc]:
+C1C(C2(C3C4(CC2)CC4)C2(CC3)C1)C2 	 0.956
+C12(CCC1)C1(C3(C4CC4)CCC3)CC2C1 	 0.955
+C1C23CCCCC2(CCC1)C31CC1 	 0.930
+C1C2(C3(CC3)CC3(CCC3)CC2)C1 	 0.930
+C12(CCC1)C1(CCCC13CC3)CC2 	 0.930
+C1CC2(C3(CC3)C3(CCC3)CC2)C1 	 0.930
+C12(CC1)CCC1(CCC23CC3)CC1 	 0.930
+C12(CCCC13C1(CC1)CC3)CCC2 	 0.930
+C1CCC12C1(CCC13CC3)CCC2 	 0.930
+C12(CC1)C1(CCC1)CC1(CCCC1)C2 	 0.930
+C12(CCC1)C1(CC3(CC3)CC2)CCC1 	 0.930
+C12(CC1)C1(CC1)CC1(CCC1)C2 	 0.929
+********************************************************************************
+File names for drawing distributions: ['res/generated_smiles_combinedSet_10k.csv']
+Distributions are not generated.
+********************************************************************************

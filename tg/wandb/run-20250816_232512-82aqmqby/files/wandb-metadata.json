@@ -1,0 +1,245 @@
+{
+    "os": "Linux-3.10.0-1160.53.1.el7.x86_64-x86_64-with-redhat-7.9-Maipo",
+    "python": "3.6.10",
+    "heartbeatAt": "2025-08-16T22:25:12.935766",
+    "startedAt": "2025-08-16T22:25:12.309765",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--gen_pretrain",
+        "--gen_epochs",
+        "60",
+        "--dis_pretrain",
+        "--dis_epochs",
+        "15",
+        "--adversarial_train",
+        "--adv_epochs",
+        "100",
+        "--max_len",
+        "60",
+        "--dataset_name",
+        "combinedSet_10k",
+        "--gen_train_size",
+        "10000",
+        "--generated_num",
+        "10000",
+        "--properties",
+        "vol_nhoc",
+        "--adv_lr=7.72271426215273e-05",
+        "--batch_size=64",
+        "--dis_d_model=90",
+        "--dis_dropout=0.29747651660193947",
+        "--dis_feed_forward=160",
+        "--dis_lambda=0.1",
+        "--gen_d_model=160",
+        "--gen_dropout=0.0683326527482655",
+        "--gen_max_lr=0.00045220401770947066",
+        "--seed=27",
+        "--update_rate=0.7867940852689602"
+    ],
+    "state": "running",
+    "program": "main.py",
+    "codePathLocal": "main.py",
+    "codePath": "main.py",
+    "host": "node-d00a-113.myriad.ucl.ac.uk",
+    "username": "ucaqkin",
+    "executable": "/home/ucaqkin/.conda/envs/py36tf/bin/python",
+    "cpu_count": 36,
+    "cpu_count_logical": 36,
+    "cpu_freq": {
+        "current": 2600.0,
+        "min": 0.0,
+        "max": 0.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2600.0,
+            "min": 0.0,
+            "max": 0.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 9.718036651611328,
+            "used": 4.9946441650390625
+        }
+    },
+    "memory": {
+        "total": 188.40516662597656
+    }
+}
